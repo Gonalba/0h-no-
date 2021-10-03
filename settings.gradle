@@ -1,0 +1,6 @@
+rootProject.name = "0h no"
+include ':AndroidLauncher'
+include ':EngineInterface'
+include ':AndroidEngine'
+include ':PCEngine'
+include ':PCLauncher'
