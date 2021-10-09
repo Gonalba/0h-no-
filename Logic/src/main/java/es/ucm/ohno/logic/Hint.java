@@ -1,7 +1,10 @@
 package es.ucm.ohno.logic;
 
+
+
+/**Clase que contiene la informacion logica de una pista*/
 public class Hint {
     int id;
     String text;
-    int x, y; // Posicion de la casilla objetivo de la pista
+    int i, j; // Posicion de la casilla objetivo de la pista
 }
