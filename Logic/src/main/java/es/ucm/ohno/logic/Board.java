@@ -9,10 +9,10 @@ import java.util.Stack;
 public class Board {
 
     // Pool de casillas -> pila de casillas que no se usan
-    private Stack<Tile> _pool;
+    private final Stack<Tile> _pool;
 
     // Lista con todas las casillas logicas del tablero
-    private ArrayList<Tile> _board;
+    private final ArrayList<Tile> _board;
 
     // Dimension del tablero
     private int _dimension;
@@ -25,7 +25,7 @@ public class Board {
 
     /**
      * Metodo que redimensiona el tablero al tamaño pasado por parámetro
-     * */
+     */
     public void setBoard(int x) {
 
         _dimension = x;
@@ -33,12 +33,10 @@ public class Board {
         // Añadimos los Tile que faltan y los sacamos de la pool y si no hay creamos nuevos
         if (_dimension * _dimension > _board.size()) {
             for (int i = _board.size(); i < _dimension * _dimension; i++) {
-                if (!_pool.empty()) {
+                if (!_pool.empty())
                     _board.add(_pool.pop());
-                } else {
+                else
                     _board.add(new Tile());
-                }
-
             }
         }
         // Quitamos los Tile que sobran y los añadimos a la pool
@@ -51,7 +49,6 @@ public class Board {
 
         System.out.println("Longitud tablero: " + _board.size());
         System.out.println("Longitud pool: " + _pool.size());
-
     }
 
     /**
