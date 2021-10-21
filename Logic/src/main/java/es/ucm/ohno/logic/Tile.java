@@ -9,7 +9,6 @@ public class Tile {
      */
     public enum State {DOT, WALL, EMPTY}
 
-
     // atributo que determina si la casilla es interactuable o no
     private boolean _isLocked;
 
@@ -18,13 +17,6 @@ public class Tile {
 
     // estado en el que esta la casilla
     private State _currentState;
-
-    public void setValues(boolean isLocked, int number, State state) {
-        _isLocked = isLocked;
-        _number = number;
-        _currentState = state;
-    }
-
 
     /**
      * Metodo que cambia al siguiente estado
@@ -64,5 +56,17 @@ public class Tile {
 
     public boolean isLocked() {
         return _isLocked;
+    }
+
+    public void setNumber(int number) {
+        _number = number;
+    }
+
+    public void setState(State state) {
+        _currentState = state;
+    }
+
+    public void setLocked(boolean isLocked) {
+        _isLocked = isLocked;
     }
 }
