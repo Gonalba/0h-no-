@@ -1,6 +1,7 @@
 package es.ucm.ohno.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -46,9 +47,9 @@ public class Board {
                 _pool.add(_board.remove(_dimension * _dimension));
             }
         }
-
         System.out.println("Longitud tablero: " + _board.size());
         System.out.println("Longitud pool: " + _pool.size());
+
     }
 
     /**
@@ -56,5 +57,62 @@ public class Board {
      */
     public Tile getTile(int fila, int columna) {
         return _board.get((_dimension * fila) + columna);
+    }
+
+    private boolean validNumber(int x, int y, int valor){
+        int currentValor = 0;
+
+        // Compruebas en las 4 direcciones cuantas casillas adyacentes de tipo azul hay
+
+        return (valor == currentValor);
+    }
+
+    // metodo auxiliar para saber si en la direccion dir hay un muro
+    private boolean adjacentWalls(int x, int y, int dir){
+        return true;
+    }
+
+    // comprueba si hay algun tile de tipo IDLE en el tablero
+    // (un tablero no sera validado si hay alguna casilla de este tipo)
+    private boolean anyIdleTile(){
+        return true;
+    }
+
+    // Genera un numero valido para la casilla NUMERO teniendo en cuenta las dimensiones del tablero
+    private int giveValidNumber(){
+        Random rand = new Random();
+        int maxNumber = (_dimension * 2) - 2;
+        //generate random values from 0-maxNumber
+
+        // Si genera un 0, es una pared BLOQUEADA
+        return rand.nextInt(maxNumber);
+    }
+
+    // Metodo auxiliar para generacion de tablero, que aleatoriza el orden de tipo de casilla que devuelve
+    private Tile giveRandomTile(){
+
+        // puede devolver casilla numero con (giveValidNumber) o casilla WALL
+        return null;
+    }
+
+    // Usando backtracking que xd
+    // Genera un tablero solucion valido
+    private void generateBoard(){
+        /*
+        void backtracking(vector<T>& sol, int n, int k, ...) {
+	for(auto c : candidatos(k)) {
+		sol[k] = c;
+		if(esValida(sol, k, n, ...)) {
+			if(esSolucion(sol, k, n, ...))
+				tratarSolucion(sol);
+			else{
+				marcar(...);
+				backtracking(sol, n, k+1, ...);
+				desmarcar(...);
+			}
+		}
+	}
+}
+         */
     }
 }
