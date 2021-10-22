@@ -8,6 +8,8 @@ public class PCLauncher {
         b.setBoard(4);
         b.setBoard(2);
         b.setBoard(5);
-        System.out.println("hola mundo");
+
+        System.out.println(b.fullVision(0,0, 8));
+
     }
 }

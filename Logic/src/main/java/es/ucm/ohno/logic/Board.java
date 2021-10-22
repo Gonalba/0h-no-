@@ -1,9 +1,6 @@
 package es.ucm.ohno.logic;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -42,7 +39,7 @@ public class Board {
                     // Se genera un tablero entero de tipo DOT con valor dimension, que es el maximo que podria tener
                     Tile t = new Tile();
                     t.setState(Tile.State.DOT);
-                    t.setNumber(_dimension);
+                    t.setNumber((_dimension * 2) - 2);
                     _board.add(t);
                 }
             }
@@ -54,9 +51,6 @@ public class Board {
                 _pool.add(_board.remove(_dimension * _dimension));
             }
         }
-        System.out.println("Longitud tablero: " + _board.size());
-        System.out.println("Longitud pool: " + _pool.size());
-
     }
 
     // El tablero se genera con azules de maxValor = ((dimension*2) -2) y sin paredes
@@ -71,7 +65,7 @@ public class Board {
     // Comprueba que el tablero es coherente
     // Aprovechando que recorre el tablero completo :
     // Devuelve el mayor valor encontrado en el tablero
-    private int checkBoard(){
+    private int checkBoard() {
         // actualiza el numero de las casillas azules
         return 0;
     }
@@ -83,16 +77,76 @@ public class Board {
         return _board.get((_dimension * fila) + columna);
     }
 
+
     // PISTAS PARA NO COMETER ERRORES CON NUMEROS
 
     // Devuelve true si una casilla azul ve las VALOR casillas que tiene que ver
     // Devuelve false si no ve suficientes o demasiadas casillas azules
     // El VALOR es tile.number
-    private boolean fullVision(int valor) {
-        return true;
+    public boolean fullVision(int x, int y, int valor) {
+        int countVisibles = 0;
+
+        int currentX = x, currentY = y;
+
+        // MIRAR HACIA ARRIBA
+        // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se salga
+        // del tablero y sea un DOT
+        while (countVisibles <= valor && currentY + 1 < _dimension
+                && getTile(currentX, currentY + 1).getState() == Tile.State.DOT) {
+            currentY++;
+            countVisibles++;
+        }
+
+        if (countVisibles > valor)
+            return false;
+
+        // MIRAR HACIA ABAJO
+        currentX = x;
+        currentY = y;
+
+        // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se salga
+        // del tablero y sea un DOT
+        while (countVisibles <= valor && currentY - 1 > 0
+                && getTile(currentX, currentY - 1).getState() == Tile.State.DOT) {
+            currentY--;
+            countVisibles++;
+        }
+
+        if (countVisibles > valor)
+            return false;
+
+        // MIRAR HACIA IZQUIERDA
+        currentX = x;
+        currentY = y;
+
+        // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se salga
+        // del tablero y sea un DOT
+        while (countVisibles <= valor && currentX - 1 > 0
+                && getTile(currentX - 1, currentY).getState() == Tile.State.DOT) {
+            currentX--;
+            countVisibles++;
+        }
+
+        if (countVisibles > valor)
+            return false;
+
+        // MIRAR HACIA DERECHA
+        currentX = x;
+        currentY = y;
+
+        // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se salga
+        // del tablero y sea un DOT
+        while (countVisibles <= valor && currentX + 1 < _dimension
+                && getTile(currentX + 1, currentY).getState() == Tile.State.DOT) {
+            currentX++;
+            countVisibles++;
+        }
+
+        return countVisibles == valor;
     }
 
-    // El numero de casillas azules si sumamos esta casilla a las que ve CasillaAzulOriginal, sobrepasa el valor de CasillaAzulOriginal
+    // Si ponemos una casilla azul, por la disposicion de las demas casillas, se excede el numero de
+    // azules visibles, por lo que tiene que ser rojo
     private boolean tooMuchBlue() {
         return true;
     }
