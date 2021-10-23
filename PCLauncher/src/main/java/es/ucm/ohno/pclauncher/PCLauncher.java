@@ -5,11 +5,14 @@ import es.ucm.ohno.logic.Board;
 public class PCLauncher {
     public static void main(String[] args) {
         Board b = new Board();
-        b.setBoard(4);
-        b.setBoard(2);
-        b.setBoard(5);
+        b.setBoard(7);
 
-        System.out.println(b.fullVision(0,0, 8));
+        b.getTile(3,4).previousState();
+        b.getTile(3,2).previousState();
+        b.getTile(2,3).previousState();
+        b.getTile(4,3).previousState();
+
+        System.out.println(b.tooMuchBlue(3,3, 2));
 
     }
 }

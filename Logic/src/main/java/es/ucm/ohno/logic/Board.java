@@ -33,9 +33,12 @@ public class Board {
         // Añadimos los Tile que faltan y los sacamos de la pool y si no hay creamos nuevos
         if (_dimension * _dimension > _board.size()) {
             for (int i = _board.size(); i < _dimension * _dimension; i++) {
-                if (!_pool.empty())
-                    _board.add(_pool.pop());
-                else {
+                if (!_pool.empty()) {
+                    Tile t = _pool.pop();
+                    t.setNumber((_dimension * 2) - 2);
+                    t.setState(Tile.State.DOT);
+                    _board.add(t);
+                } else {
                     // Se genera un tablero entero de tipo DOT con valor dimension, que es el maximo que podria tener
                     Tile t = new Tile();
                     t.setState(Tile.State.DOT);
@@ -73,17 +76,22 @@ public class Board {
     /**
      * Metodo que devuelve la casilla en la posicion indicada
      */
-    public Tile getTile(int fila, int columna) {
-        return _board.get((_dimension * fila) + columna);
-    }
+    public Tile getTile(int x, int y) {
+        if (x >= _dimension || y >= _dimension)
+            return null;
 
+        return _board.get((_dimension * y) + x);
+    }
 
     // PISTAS PARA NO COMETER ERRORES CON NUMEROS
 
-    // Devuelve true si una casilla azul ve las VALOR casillas que tiene que ver
-    // Devuelve false si no ve suficientes o demasiadas casillas azules
+    enum Vision {FULL, EXCEEDED, NOTENOUGH}
+
+    // Devuelve FULL si una casilla azul ve las VALOR casillas que tiene que ver
+    // Devuelve EXCEEDED si ves demasiadas casillas azules
+    // Devuelve NOTENOUGH si no ve suficientes
     // El VALOR es tile.number
-    public boolean fullVision(int x, int y, int valor) {
+    public Vision fullVision(int x, int y, int valor) {
         int countVisibles = 0;
 
         int currentX = x, currentY = y;
@@ -98,7 +106,7 @@ public class Board {
         }
 
         if (countVisibles > valor)
-            return false;
+            return Vision.FULL;
 
         // MIRAR HACIA ABAJO
         currentX = x;
@@ -113,7 +121,7 @@ public class Board {
         }
 
         if (countVisibles > valor)
-            return false;
+            return Vision.FULL;
 
         // MIRAR HACIA IZQUIERDA
         currentX = x;
@@ -128,7 +136,7 @@ public class Board {
         }
 
         if (countVisibles > valor)
-            return false;
+            return Vision.FULL;
 
         // MIRAR HACIA DERECHA
         currentX = x;
@@ -142,13 +150,96 @@ public class Board {
             countVisibles++;
         }
 
-        return countVisibles == valor;
+        return countVisibles == valor ? Vision.FULL : countVisibles > valor ? Vision.EXCEEDED : Vision.NOTENOUGH;
     }
 
     // Si ponemos una casilla azul, por la disposicion de las demas casillas, se excede el numero de
     // azules visibles, por lo que tiene que ser rojo
-    private boolean tooMuchBlue() {
-        return true;
+    public boolean tooMuchBlue(int x, int y, int valor) {
+        if (fullVision(x, y, valor) != Vision.NOTENOUGH)
+            return false;
+
+        int countVisibles = 0;
+
+        int currentX = x, currentY = y;
+        int oneEmpty = 0;
+
+        // MIRAR HACIA ARRIBA
+        // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se salga
+        // del tablero y sea no sea un WALL
+        while (countVisibles <= valor && currentY + 1 < _dimension
+                && getTile(currentX, currentY + 1).getState() != Tile.State.WALL) {
+            currentY++;
+            countVisibles++;
+
+            if (getTile(currentX, currentY).getState() == Tile.State.EMPTY && ++oneEmpty > 1)
+                break;
+        }
+
+        if (countVisibles > valor && oneEmpty == 1)
+            return true;
+
+        // MIRAR HACIA ABAJO
+        currentX = x;
+        currentY = y;
+        oneEmpty = 0;
+        countVisibles = 0;
+
+        // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se salga
+        // del tablero y sea no sea un WALL
+        while (countVisibles <= valor && currentY - 1 > 0
+                && getTile(currentX, currentY - 1).getState() != Tile.State.WALL) {
+            currentY--;
+            countVisibles++;
+
+            if (getTile(currentX, currentY).getState() == Tile.State.EMPTY && ++oneEmpty > 1)
+                break;
+        }
+
+        if (countVisibles > valor && oneEmpty == 1)
+            return true;
+
+        // MIRAR HACIA IZQUIERDA
+        currentX = x;
+        currentY = y;
+        oneEmpty = 0;
+        countVisibles = 0;
+
+        // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se salga
+        // del tablero y sea no sea un WALL
+        while (countVisibles <= valor && currentX - 1 > 0
+                && getTile(currentX - 1, currentY).getState() != Tile.State.WALL) {
+            currentX--;
+            countVisibles++;
+
+            if (getTile(currentX, currentY).getState() == Tile.State.EMPTY && ++oneEmpty > 1)
+                break;
+        }
+
+        if (countVisibles > valor && oneEmpty == 1)
+            return true;
+
+        // MIRAR HACIA DERECHA
+        currentX = x;
+        currentY = y;
+        oneEmpty = 0;
+        countVisibles = 0;
+
+        // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se salga
+        // del tablero y sea no sea un WALL
+        while (countVisibles <= valor && currentX + 1 < _dimension
+                && getTile(currentX + 1, currentY).getState() != Tile.State.WALL) {
+            currentX++;
+            countVisibles++;
+
+            if (getTile(currentX, currentY).getState() == Tile.State.EMPTY && ++oneEmpty > 1)
+                break;
+        }
+
+        if (countVisibles > valor && oneEmpty == 1)
+            return true;
+
+        return false;
     }
 
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que en otra direccion haya al menos una casilla azul
