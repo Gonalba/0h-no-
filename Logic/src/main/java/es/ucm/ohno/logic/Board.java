@@ -77,7 +77,7 @@ public class Board {
      * Metodo que devuelve la casilla en la posicion indicada
      */
     public Tile getTile(int x, int y) {
-        if (x >= _dimension || y >= _dimension)
+        if (x >= _dimension || y >= _dimension || x < 0 || y < 0)
             return null;
 
         return _board.get((_dimension * y) + x);
@@ -112,9 +112,7 @@ public class Board {
     // Devuelve FULL si una casilla azul ve las VALOR casillas que tiene que ver
     // Devuelve EXCEEDED si ves demasiadas casillas azules
     // Devuelve NOTENOUGH si no ve suficientes
-    // El VALOR es tile.number
-    public Vision fullVision(int x, int y, int valor) {
-
+    private Vision vision(int x, int y, int valor) {
         int countVisibles = 0;
 
         int currentX, currentY;
@@ -141,10 +139,16 @@ public class Board {
         return countVisibles == valor ? Vision.FULL : countVisibles > valor ? Vision.EXCEEDED : Vision.NOTENOUGH;
     }
 
+    // Devuelve TRUE si una casilla azul ve las VALOR casillas que tiene que ver en caso contrerio FALSE
+    // El VALOR es tile.number
+    public boolean fullVision(int x, int y, int valor) {
+        return vision(x, y, valor) == Vision.FULL;
+    }
+
     // Si ponemos una casilla azul, por la disposicion de las demas casillas, se excede el numero de
     // azules visibles, por lo que tiene que ser rojo
     public boolean tooMuchBlue(int x, int y, int valor) {
-        if (fullVision(x, y, valor) != Vision.NOTENOUGH)
+        if (vision(x, y, valor) != Vision.NOTENOUGH)
             return false;
 
 
@@ -181,7 +185,7 @@ public class Board {
 
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que en otra direccion haya al menos una casilla azul
     public boolean forcedBlue(int x, int y, int valor) {
-        if (fullVision(x, y, valor) != Vision.NOTENOUGH)
+        if (vision(x, y, valor) != Vision.NOTENOUGH)
             return false;
         // para ver si en una direccion hay una casilla que es obligatoria ponerla,
         // la suma en el resto de direcciones debe ser inferior a VALOR
@@ -241,14 +245,35 @@ public class Board {
     // PISTAS SOBRE ERRORES YA COMETIDOS CON NUMEROS
 
     // El recuento de los valores de azules y del total de azules que ve una casilla, no coincide, hay mas casillas que tile.valor
-    private boolean totalBlueTiles() {
-        // obviamente hara falta un metodo que devuelva cuantas azules ve realmente una casilla
-        // para compararlas con las que DEBERIA ver, que es su valor
-        return true;
+    private boolean totalBlueTiles(int x, int y, int valor) {
+        return vision(x, y, valor) == Vision.EXCEEDED;
     }
 
     // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero necesita mas azules
-    private boolean tooMuchRed() {
+    public boolean tooMuchRed(int x, int y, int valor) {
+        if (vision(x, y, valor) != Vision.NOTENOUGH)
+            return false;
+
+        // contar si esta cerrada en todas las direcciones
+        int currentX, currentY;
+
+        // MIRAR HACIA LAS CUATRO DIRECCIONES
+        for (int i = 0; i < _directions.length; i++) {
+            currentX = x;
+            currentY = y;
+            // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
+            // salga del tablero y sea un DOT
+            while (currentY + _directions[i].y < _dimension && currentY + _directions[i].y >= 0 &&
+                    currentX + _directions[i].x < _dimension && currentX + _directions[i].x >= 0)
+            {
+                currentY += _directions[i].y;
+                currentX += _directions[i].x;
+
+                if (getTile(currentX, currentY).getState() == Tile.State.EMPTY) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -303,15 +328,14 @@ public class Board {
 
     // Una casilla IDLE está rodeada por PAREDES
     // Por lo tanto tiene que ser PARED
-    private boolean aisledIdle(int x, int y){
-        boolean rodeada = aisled(x,y);
-        Tile actual = getTile(x,y);
+    private boolean aisledIdle(int x, int y) {
+        boolean rodeada = aisled(x, y);
+        Tile actual = getTile(x, y);
         //si alrededor son muros, si es IDLE y si no tiene numero
-        if(rodeada && actual.getState() == Tile.State.EMPTY
-                && actual.getNumber() == 0){
+        if (rodeada && actual.getState() == Tile.State.EMPTY
+                && actual.getNumber() == 0) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -319,14 +343,13 @@ public class Board {
     // Una casilla AZUL DEL USUARIO (sin numero para el jugador) está rodeada por PAREDES
     // Por lo tanto tiene que ser PARED
     private boolean aisledBlue(int x, int y) {
-        boolean rodeada = aisled(x,y);
-        Tile actual = getTile(x,y);
+        boolean rodeada = aisled(x, y);
+        Tile actual = getTile(x, y);
         //si alrededor son muros, si es AZUL y si no tiene numero
-        if(rodeada && actual.getState() == Tile.State.DOT
-                && actual.getNumber() == 0){
+        if (rodeada && actual.getState() == Tile.State.DOT
+                && actual.getNumber() == 0) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -363,12 +386,12 @@ public class Board {
     // (un tablero no sera validado si hay alguna casilla de este tipo)
     private boolean anyIdleTile() {
         boolean hayIdle = false;
-        int x=0;
-        int y=0;
-        while(!hayIdle && x<_dimension){
-            while(!hayIdle && y<_dimension){
-                if(getTile(x,y).getState() ==Tile.State.EMPTY){
-                    hayIdle=true;
+        int x = 0;
+        int y = 0;
+        while (!hayIdle && x < _dimension) {
+            while (!hayIdle && y < _dimension) {
+                if (getTile(x, y).getState() == Tile.State.EMPTY) {
+                    hayIdle = true;
                 }
             }
         }
