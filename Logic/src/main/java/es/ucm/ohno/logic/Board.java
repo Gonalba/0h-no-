@@ -344,6 +344,7 @@ public class Board {
 
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que en SU UNICA OTRA direccion POSIBLE haya al menos una casilla azul
     private boolean forcedBlueUniqueDirection() {
+
         return true;
     }
 
@@ -370,7 +371,17 @@ public class Board {
     // comprueba si hay algun tile de tipo IDLE en el tablero
     // (un tablero no sera validado si hay alguna casilla de este tipo)
     private boolean anyIdleTile() {
-        return true;
+        boolean hayIdle = false;
+        int x=0;
+        int y=0;
+        while(!hayIdle && x<_dimension){
+            while(!hayIdle && y<_dimension){
+                if(getTile(x,y).getState() ==Tile.State.EMPTY){
+                    hayIdle=true;
+                }
+            }
+        }
+        return hayIdle;
     }
 
     //----------------------------------------------------------
