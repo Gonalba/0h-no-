@@ -254,22 +254,88 @@ public class Board {
 
     // PISTA SOBRE CASILLAS SIN NUMERO
 
+    ///Metodo auxiliar para pista 6 y 7
+    private boolean aisled(int x, int y) {
+        //No esta contemplado que la casilla proporcionada este fuera del tablero
+
+        int posible = 0;
+        int walls = 0;
+        ///para recoger si la casilla esta en un limite
+        Tile der = getTile(x + 1, y);
+        Tile izq = getTile(x - 1, y);
+        Tile arr = getTile(x, y - 1);
+        Tile abj = getTile(x, y + 1);
+        //Si la casilla esta dentro del tablero es posible que tenga muro
+        if (der != null) {
+            posible++;
+            if (der.getState() == Tile.State.WALL) {
+                //Tiene muro
+                walls++;
+            }
+        }
+        if (izq != null) {
+            posible++;
+            if (izq.getState() == Tile.State.WALL) {
+                walls++;
+            }
+        }
+        if (arr != null) {
+            posible++;
+            if (arr.getState() == Tile.State.WALL) {
+                walls++;
+            }
+        }
+        if (abj != null) {
+            posible++;
+            if (abj.getState() == Tile.State.WALL) {
+                walls++;
+            }
+        }
+        //Si todas las casillas cercanas que estan dentro del tablero son muros
+        //se devuelve true, si no, es que NO esta aislada
+        if (posible == walls) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     // Una casilla IDLE está rodeada por PAREDES
     // Por lo tanto tiene que ser PARED
-    private boolean aisledIdle() {
-        return true;
+    private boolean aisledIdle(int x, int y){
+        boolean rodeada = aisled(x,y);
+        Tile actual = getTile(x,y);
+        //si alrededor son muros, si es IDLE y si no tiene numero
+        if(rodeada && actual.getState() == Tile.State.EMPTY
+                && actual.getNumber() == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     // Una casilla AZUL DEL USUARIO (sin numero para el jugador) está rodeada por PAREDES
     // Por lo tanto tiene que ser PARED
-    private boolean aisledBlue() {
-        return true;
+    private boolean aisledBlue(int x, int y) {
+        boolean rodeada = aisled(x,y);
+        Tile actual = getTile(x,y);
+        //si alrededor son muros, si es AZUL y si no tiene numero
+        if(rodeada && actual.getState() == Tile.State.DOT
+                && actual.getNumber() == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     // OTRAS PISTAS
 
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que en SU UNICA OTRA direccion POSIBLE haya al menos una casilla azul
     private boolean forcedBlueUniqueDirection() {
+
         return true;
     }
 
@@ -296,7 +362,17 @@ public class Board {
     // comprueba si hay algun tile de tipo IDLE en el tablero
     // (un tablero no sera validado si hay alguna casilla de este tipo)
     private boolean anyIdleTile() {
-        return true;
+        boolean hayIdle = false;
+        int x=0;
+        int y=0;
+        while(!hayIdle && x<_dimension){
+            while(!hayIdle && y<_dimension){
+                if(getTile(x,y).getState() ==Tile.State.EMPTY){
+                    hayIdle=true;
+                }
+            }
+        }
+        return hayIdle;
     }
 
     //----------------------------------------------------------
