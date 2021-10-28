@@ -424,7 +424,7 @@ public class Board {
 
     //8
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que en SU UNICA OTRA direccion POSIBLE haya al menos una casilla azul
-    public boolean forcedBlueUniqueDirection(int x, int y, int valor) {
+    private boolean forcedBlueUniqueDirection(int x, int y, int valor) {
         if (vision(x, y) >= valor) {
             return false;
         }
@@ -457,9 +457,9 @@ public class Board {
 
     //9
     // La suma total de las casillas vacias en TODAS las direcciones dan el total necesario
-    private boolean forcedBlueSolved(int x, int y, int valor) {
-        int emptyOnSight = 0;
+    public boolean forcedBlueSolved(int x, int y, int valor) {
 
+        int fullOnSight = 0;
         int currentX;
         int currentY;
 
@@ -470,14 +470,12 @@ public class Board {
             while (currentY + _directions[i].y < _dimension && currentX + _directions[i].x < _dimension
                     && currentY + _directions[i].y >= 0 && currentX + _directions[i].x >= 0
                     && getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() != Tile.State.WALL) {
-                if (getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.EMPTY) {
-                    emptyOnSight++;
-                }
+                fullOnSight++;
                 currentY += _directions[i].y;
                 currentX += _directions[i].x;
             }
         }
-        return true;//(valor - vision(x, y) == emptyOnSight);
+        return (valor == fullOnSight);
     }
         //10
         // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero va a necesitar mas azules aunque completes el IDLE con esta nueva AZUL
