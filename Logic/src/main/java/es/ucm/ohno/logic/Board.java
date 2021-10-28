@@ -83,8 +83,9 @@ public class Board {
 
                 // TODO: Estaria mejor si se restasen los que son exactamente?
                 // Si ve de mas, su numero se disminuye
-                if (vision(i, j) > getTile(i, j).getNumber()) {
-                    getTile(i, j).setNumber(getTile(i, j).getNumber() - 1);
+                int blueV = vision(i, j);
+                if (blueV > getTile(i, j).getNumber()) {
+                    getTile(i, j).setNumber(getTile(i, j).getNumber() - blueV);
                 }
             }
         }
@@ -219,7 +220,7 @@ public class Board {
         for (int i = 0; i < _directions.length; i++) {
             currentX = x;
             currentY = y;
-            countVisibles = initVision;
+            countVisibles = 0;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
             while (countVisibles <= valor &&
@@ -272,10 +273,9 @@ public class Board {
     //5
     // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero necesita mas azules
     public boolean tooMuchRed(int x, int y, int valor) {
-//        if (vision(x, y, valor) != Vision.NOTENOUGH)
-//            return false;
+        if (vision(x, y) >= valor)
+            return false;
 
-        // contar si esta cerrada en todas las direcciones
         int currentX, currentY;
 
         // MIRAR HACIA LAS CUATRO DIRECCIONES
@@ -428,7 +428,7 @@ public class Board {
         if (vision(x, y) >= valor) {
             return false;
         }
-        
+
         int currentX;
         int currentY;
         int closedPath = 0;
@@ -448,8 +448,7 @@ public class Board {
                     || currentY + _directions[i].y < 0 || currentX + _directions[i].x < 0
                     || getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.WALL) {
                 closedPath++;
-            }
-            else if (getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.EMPTY) {
+            } else if (getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.EMPTY) {
                 openPath++;
             }
         }
@@ -468,15 +467,6 @@ public class Board {
     private boolean tooMuchRedOpen() {
         return true;
     }
-
-    //-------------------------------------------------------
-    // METODO AUXILIAR A (probablemente) TODAS LAS PISTAS
-    // Devuelve el numero de casillas (azules) que se ven desde la posicion x,y
-    private int blueVisibles(int x, int y) {
-        return 0;
-    }
-
-    //------------------------------------------------------
 
     // comprueba si hay algun tile de tipo IDLE en el tablero
     // (un tablero no sera validado si hay alguna casilla de este tipo)

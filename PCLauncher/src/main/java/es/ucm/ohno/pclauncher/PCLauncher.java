@@ -7,10 +7,11 @@ public class PCLauncher {
     public static void main(String[] args) {
         Board b = new Board();
         b.setBoard(7);
-        //b.getTile(6,5).setState(Tile.State.WALL);
-        b.getTile(2,6).setState(Tile.State.EMPTY);
 
-        //System.out.println(b.tooMuchRed(3,3, 13));
-        System.out.println(b.forcedBlueUniqueDirection(2,2,12));
+        b.getTile(1,2).change();
+        b.getTile(0,0).change();
+        b.getTile(2,0).change();
+
+        System.out.println(b.tooMuchRed(1,0,2));
     }
 }
