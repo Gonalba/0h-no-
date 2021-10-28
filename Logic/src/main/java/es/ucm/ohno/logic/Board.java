@@ -1,6 +1,7 @@
 package es.ucm.ohno.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -56,21 +57,39 @@ public class Board {
         }
     }
 
-    // El tablero se genera con azules de maxValor = ((dimension*2) -2) y sin paredes
-    // Se genera el tablero mientras exista un valor superior a DIMENSION
-    // Se llama a check para que llegue a esa condicion
-    // Esta funcion coloca una casilla PARED de manera aleatoria hasta que se cumpla la condicion
+    // Generar un tablero se basa en la condicion de los valores maximos de las casillas
     private void generateBoard() {
-        // while( checkBoard() > DIMENSION)
-        // añadir punto rojo;
+        Random rand = new Random();
+
+        // Se genera el tablero mientras exista un valor superior a _dimension
+        while (checkBoard() > _dimension) {
+            // Coloca una casilla pared en un lugar x,y aleatorio del tablero
+            int x = rand.nextInt(_dimension + 1); // rnd(0<=n<dimension+1)
+            int y = rand.nextInt(_dimension + 1); // rnd(0<=n<dimension+1)
+            getTile(x, y).setState(Tile.State.WALL);
+        }
     }
 
     // Comprueba que el tablero es coherente
-    // Aprovechando que recorre el tablero completo :
     // Devuelve el mayor valor encontrado en el tablero
     private int checkBoard() {
-        // actualiza el numero de las casillas azules
-        return 0;
+        int maxValor = 0;
+        for (int i = 0; i < _dimension; i++) {
+            for (int j = 0; j < _dimension; j++) {
+
+                // Comprueba el mayor valor
+                if (getTile(i, j).getNumber() > maxValor)
+                    maxValor = getTile(i, j).getNumber();
+
+                // TODO: Estaria mejor si se restasen los que son exactamente?
+                // Si ve de mas, su numero se disminuye
+                if(vision(i,j,getTile(i,j).getNumber()) == Vision.EXCEEDED){
+                    getTile(i,j).setNumber(getTile(i,j).getNumber() - 1);
+                }
+            }
+        }
+
+        return maxValor;
     }
 
     /**
