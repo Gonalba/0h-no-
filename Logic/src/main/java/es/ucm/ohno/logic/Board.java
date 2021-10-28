@@ -1,6 +1,7 @@
 package es.ucm.ohno.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Stack;
 
 /**
@@ -56,21 +57,38 @@ public class Board {
         }
     }
 
-    // El tablero se genera con azules de maxValor = ((dimension*2) -2) y sin paredes
-    // Se genera el tablero mientras exista un valor superior a DIMENSION
     // Se llama a check para que llegue a esa condicion
     // Esta funcion coloca una casilla PARED de manera aleatoria hasta que se cumpla la condicion
     private void generateBoard() {
-        // while( checkBoard() > DIMENSION)
-        // añadir punto rojo;
+        Random rand = new Random();
+
+
+        // Se genera el tablero mientras exista un valor superior a _dimension
+        while (checkBoard() > _dimension) {
+            // Coloca una casilla pared en un lugar x,y aleatorio del tablero
+            int x = rand.nextInt(_dimension + 1); // rnd(0<=n<dimension+1)
+            int y = rand.nextInt(_dimension + 1); // rnd(0<=n<dimension+1)
+            getTile(x, y).setState(Tile.State.WALL);
+        }
     }
 
     // Comprueba que el tablero es coherente
-    // Aprovechando que recorre el tablero completo :
     // Devuelve el mayor valor encontrado en el tablero
     private int checkBoard() {
+        int maxValor = 0;
+        for (int i = 0; i < _dimension; i++) {
+            for (int j = 0; j < _dimension; j++) {
+
+                // Comprueba el mayor valor
+                if (getTile(i, j).getNumber() > maxValor)
+                    maxValor = getTile(i, j).getNumber();
+
+
+            }
+        }
         // actualiza el numero de las casillas azules
-        return 0;
+
+        return maxValor;
     }
 
     /**
@@ -264,8 +282,7 @@ public class Board {
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
             while (currentY + _directions[i].y < _dimension && currentY + _directions[i].y >= 0 &&
-                    currentX + _directions[i].x < _dimension && currentX + _directions[i].x >= 0)
-            {
+                    currentX + _directions[i].x < _dimension && currentX + _directions[i].x >= 0) {
                 currentY += _directions[i].y;
                 currentX += _directions[i].x;
 
