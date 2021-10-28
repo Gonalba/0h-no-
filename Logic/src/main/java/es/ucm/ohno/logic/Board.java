@@ -103,10 +103,10 @@ public class Board {
     }
 
     Direction[] _directions = new Direction[]{
-            new Direction(0, 1),
-            new Direction(0, -1),
-            new Direction(1, 0),
-            new Direction(-1, 0)
+            new Direction(0, 1), //down
+            new Direction(0, -1),//up
+            new Direction(1, 0), //right
+            new Direction(-1, 0) //left
     };
 
     // Devuelve FULL si una casilla azul ve las VALOR casillas que tiene que ver
@@ -140,11 +140,13 @@ public class Board {
     }
 
     // Devuelve TRUE si una casilla azul ve las VALOR casillas que tiene que ver en caso contrerio FALSE
+    //1
     // El VALOR es tile.number
     public boolean fullVision(int x, int y, int valor) {
         return vision(x, y, valor) == Vision.FULL;
     }
 
+    //2
     // Si ponemos una casilla azul, por la disposicion de las demas casillas, se excede el numero de
     // azules visibles, por lo que tiene que ser rojo
     public boolean tooMuchBlue(int x, int y, int valor) {
@@ -183,7 +185,9 @@ public class Board {
         return false;
     }
 
-    // Por la suma total de las casillas vacias en una direccion, es obligatorio que en otra direccion haya al menos una casilla azul
+    //3
+    // Por la suma total de las casillas vacias en una direccion, es obligatorio que
+    // en otra direccion haya al menos una casilla azul
     public boolean forcedBlue(int x, int y, int valor) {
         if (vision(x, y, valor) != Vision.NOTENOUGH)
             return false;
@@ -200,8 +204,8 @@ public class Board {
             currentX = x;
             currentY = y;
             countVisibles = 0;
-            // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
-            // salga del tablero y sea un DOT
+            // mientras la cuenta de casillas visibles no supere VALOR,
+            // la siguiente casilla no se salga del tablero y sea un DOT
             while (countVisibles <= valor &&
                     currentY + _directions[i].y < _dimension && currentY + _directions[i].y >= 0 &&
                     currentX + _directions[i].x < _dimension && currentX + _directions[i].x >= 0 &&
@@ -243,12 +247,13 @@ public class Board {
     }
 
     // PISTAS SOBRE ERRORES YA COMETIDOS CON NUMEROS
-
+    //4
     // El recuento de los valores de azules y del total de azules que ve una casilla, no coincide, hay mas casillas que tile.valor
     private boolean totalBlueTiles(int x, int y, int valor) {
         return vision(x, y, valor) == Vision.EXCEEDED;
     }
 
+    //5
     // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero necesita mas azules
     public boolean tooMuchRed(int x, int y, int valor) {
         if (vision(x, y, valor) != Vision.NOTENOUGH)
@@ -264,8 +269,7 @@ public class Board {
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
             while (currentY + _directions[i].y < _dimension && currentY + _directions[i].y >= 0 &&
-                    currentX + _directions[i].x < _dimension && currentX + _directions[i].x >= 0)
-            {
+                    currentX + _directions[i].x < _dimension && currentX + _directions[i].x >= 0) {
                 currentY += _directions[i].y;
                 currentX += _directions[i].x;
 
@@ -326,28 +330,28 @@ public class Board {
 
     }
 
+    //6
     // Una casilla IDLE está rodeada por PAREDES
     // Por lo tanto tiene que ser PARED
     private boolean aisledIdle(int x, int y) {
         boolean rodeada = aisled(x, y);
         Tile actual = getTile(x, y);
         //si alrededor son muros, si es IDLE y si no tiene numero
-        if (rodeada && actual.getState() == Tile.State.EMPTY
-                && actual.getNumber() == 0) {
+        if (rodeada && actual.getState() == Tile.State.EMPTY) {
             return true;
         } else {
             return false;
         }
     }
 
+    //7
     // Una casilla AZUL DEL USUARIO (sin numero para el jugador) está rodeada por PAREDES
     // Por lo tanto tiene que ser PARED
     private boolean aisledBlue(int x, int y) {
         boolean rodeada = aisled(x, y);
         Tile actual = getTile(x, y);
         //si alrededor son muros, si es AZUL y si no tiene numero
-        if (rodeada && actual.getState() == Tile.State.DOT
-                && actual.getNumber() == 0) {
+        if (rodeada && actual.getState() == Tile.State.DOT) {
             return true;
         } else {
             return false;
@@ -356,17 +360,92 @@ public class Board {
 
     // OTRAS PISTAS
 
-    // Por la suma total de las casillas vacias en una direccion, es obligatorio que en SU UNICA OTRA direccion POSIBLE haya al menos una casilla azul
-    private boolean forcedBlueUniqueDirection() {
-
-        return true;
+    // Metodo auxiliar que cuenta visibles en cada dir y lo devuelve
+    private int[] CountVisibles(int x, int y, int valor, boolWalls wall) {
+        int[] countVisibles = {0, 0, 0, 0};//down up right left
+        //boolean [] wall = {false,false,false,false};
+        int currentX, currentY;
+        for (int i = 0; i < _directions.length; i++) {
+            currentX = x;
+            currentY = y;
+            while (countVisibles[i] <= valor
+                    && currentY + _directions[i].y < _dimension
+                    && currentY + _directions[i].y >= 0
+                    && currentX + _directions[i].x < _dimension
+                    && currentX + _directions[i].x >= 0
+                    && getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.DOT) {
+                currentY += _directions[i].y;
+                currentX += _directions[i].x;
+                countVisibles[i]++;
+            }
+            if (getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.WALL) {
+                wall.setWall(i, true);
+            }
+        }
+        return countVisibles;
     }
 
+    //Clase auxiliar porque java no acepta & en los tipos
+    class boolWalls {
+        public boolean[] walls;
+
+        boolWalls() {
+            walls = new boolean[]{false, false, false, false};//down up right left
+        }
+
+        void setWall(int pos, boolean tf) {
+            walls[pos] = tf;
+        }
+
+        boolean askWall(int pos) {
+            return walls[pos];
+        }
+
+        int size() {
+            return 4;
+        }
+    }
+
+    //8
+    // Por la suma total de las casillas vacias en una direccion, es obligatorio que en SU UNICA OTRA direccion POSIBLE haya al menos una casilla azul
+    public boolean forcedBlueUniqueDirection(int x, int y, int valor) {
+        if (vision(x, y, valor) != Vision.NOTENOUGH) {
+            return false;
+        }
+        int currentX;
+        int currentY;
+        int closedPath = 0;
+        int openPath = 0;
+        // MIRAR HACIA LAS CUATRO DIRECCIONES
+        for (int i = 0; i < _directions.length && openPath < 2; i++) {
+            currentX = x;
+            currentY = y;
+
+            while (currentY + _directions[i].y < _dimension && currentX + _directions[i].x < _dimension
+                    && currentY + _directions[i].y >= 0 && currentX + _directions[i].x >= 0
+                    && getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.DOT) {
+                currentY += _directions[i].y;
+                currentX += _directions[i].x;
+            }
+            if (currentY + _directions[i].y >= _dimension || currentX + _directions[i].x >= _dimension
+                    || currentY + _directions[i].y < 0 || currentX + _directions[i].x < 0
+                    || getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.WALL) {
+                closedPath++;
+            }
+            else if (getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.EMPTY) {
+                openPath++;
+            }
+        }
+        return closedPath == 3;
+    }
+
+    //9
     // La suma total de las casillas vacias en TODAS las direcciones dan el total necesario
     private boolean forcedBlueSolved() {
         return true;
     }
 
+    //10
     // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero va a necesitar mas azules aunque completes el IDLE con esta nueva AZUL
     // CurrentAzules +1 sigue siendo menor que tiled.Valor
     private boolean tooMuchRedOpen() {
@@ -393,7 +472,9 @@ public class Board {
                 if (getTile(x, y).getState() == Tile.State.EMPTY) {
                     hayIdle = true;
                 }
+                y++;
             }
+            x++;
         }
         return hayIdle;
     }
