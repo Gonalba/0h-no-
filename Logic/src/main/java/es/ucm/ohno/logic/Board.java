@@ -376,55 +376,9 @@ public class Board {
 
     // OTRAS PISTAS
 
-    // Metodo auxiliar que cuenta visibles en cada dir y lo devuelve
-    private int[] CountVisibles(int x, int y, int valor, boolWalls wall) {
-        int[] countVisibles = {0, 0, 0, 0};//down up right left
-        //boolean [] wall = {false,false,false,false};
-        int currentX, currentY;
-        for (int i = 0; i < _directions.length; i++) {
-            currentX = x;
-            currentY = y;
-            while (countVisibles[i] <= valor
-                    && currentY + _directions[i].y < _dimension
-                    && currentY + _directions[i].y >= 0
-                    && currentX + _directions[i].x < _dimension
-                    && currentX + _directions[i].x >= 0
-                    && getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.DOT) {
-                currentY += _directions[i].y;
-                currentX += _directions[i].x;
-                countVisibles[i]++;
-            }
-            if (getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.WALL) {
-                wall.setWall(i, true);
-            }
-        }
-        return countVisibles;
-    }
-
-    //Clase auxiliar porque java no acepta & en los tipos
-    class boolWalls {
-        public boolean[] walls;
-
-        boolWalls() {
-            walls = new boolean[]{false, false, false, false};//down up right left
-        }
-
-        void setWall(int pos, boolean tf) {
-            walls[pos] = tf;
-        }
-
-        boolean askWall(int pos) {
-            return walls[pos];
-        }
-
-        int size() {
-            return 4;
-        }
-    }
-
     //8
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que en SU UNICA OTRA direccion POSIBLE haya al menos una casilla azul
-    public boolean forcedBlueUniqueDirection(int x, int y, int valor) {
+    private boolean forcedBlueUniqueDirection(int x, int y, int valor) {
         if (vision(x, y) >= valor) {
             return false;
         }
@@ -455,17 +409,40 @@ public class Board {
         return closedPath == 3;
     }
 
+
+    //Metodo auxiliar para pistas 9 y 10
+    //Cuenta azules y vacias alcanzables desde la posicion x,y
+    private int OnSight(int x, int y) {
+        int fullOnSight = 0;
+        int currentX;
+        int currentY;
+
+        for (int i = 0; i < _directions.length; i++) {
+            currentX = x;
+            currentY = y;
+
+            while (currentY + _directions[i].y < _dimension && currentX + _directions[i].x < _dimension
+                    && currentY + _directions[i].y >= 0 && currentX + _directions[i].x >= 0
+                    && getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() != Tile.State.WALL) {
+                fullOnSight++;
+                currentY += _directions[i].y;
+                currentX += _directions[i].x;
+            }
+        }
+        return fullOnSight;
+    }
+
     //9
     // La suma total de las casillas vacias en TODAS las direcciones dan el total necesario
-    private boolean forcedBlueSolved() {
-        return true;
+    private boolean forcedBlueSolved(int x, int y, int valor) {
+        return (valor == OnSight(x, y));
     }
 
     //10
     // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero va a necesitar mas azules aunque completes el IDLE con esta nueva AZUL
     // CurrentAzules +1 sigue siendo menor que tiled.Valor
-    private boolean tooMuchRedOpen() {
-        return true;
+    private boolean tooMuchRedOpen(int x, int y, int valor) {
+        return (valor > OnSight(x,y));
     }
 
     // comprueba si hay algun tile de tipo IDLE en el tablero
