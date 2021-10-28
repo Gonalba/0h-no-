@@ -83,8 +83,8 @@ public class Board {
 
                 // TODO: Estaria mejor si se restasen los que son exactamente?
                 // Si ve de mas, su numero se disminuye
-                if(vision(i,j,getTile(i,j).getNumber()) == Vision.EXCEEDED){
-                    getTile(i,j).setNumber(getTile(i,j).getNumber() - 1);
+                if (vision(i, j, getTile(i, j).getNumber()) == Vision.EXCEEDED) {
+                    getTile(i, j).setNumber(getTile(i, j).getNumber() - 1);
                 }
             }
         }
@@ -450,8 +450,7 @@ public class Board {
                     || currentY + _directions[i].y < 0 || currentX + _directions[i].x < 0
                     || getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.WALL) {
                 closedPath++;
-            }
-            else if (getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.EMPTY) {
+            } else if (getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.EMPTY) {
                 openPath++;
             }
         }
@@ -460,44 +459,62 @@ public class Board {
 
     //9
     // La suma total de las casillas vacias en TODAS las direcciones dan el total necesario
-    private boolean forcedBlueSolved() {
-        return true;
-    }
+    private boolean forcedBlueSolved(int x, int y, int valor) {
+        int emptyOnSight = 0;
 
-    //10
-    // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero va a necesitar mas azules aunque completes el IDLE con esta nueva AZUL
-    // CurrentAzules +1 sigue siendo menor que tiled.Valor
-    private boolean tooMuchRedOpen() {
-        return true;
-    }
+        int currentX;
+        int currentY;
 
-    //-------------------------------------------------------
-    // METODO AUXILIAR A (probablemente) TODAS LAS PISTAS
-    // Devuelve el numero de casillas (azules) que se ven desde la posicion x,y
-    private int blueVisibles(int x, int y) {
-        return 0;
-    }
+        for (int i = 0; i < _directions.length; i++) {
+            currentX = x;
+            currentY = y;
 
-    //------------------------------------------------------
-
-    // comprueba si hay algun tile de tipo IDLE en el tablero
-    // (un tablero no sera validado si hay alguna casilla de este tipo)
-    private boolean anyIdleTile() {
-        boolean hayIdle = false;
-        int x = 0;
-        int y = 0;
-        while (!hayIdle && x < _dimension) {
-            while (!hayIdle && y < _dimension) {
-                if (getTile(x, y).getState() == Tile.State.EMPTY) {
-                    hayIdle = true;
+            while (currentY + _directions[i].y < _dimension && currentX + _directions[i].x < _dimension
+                    && currentY + _directions[i].y >= 0 && currentX + _directions[i].x >= 0
+                    && getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() != Tile.State.WALL) {
+                if (getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.EMPTY) {
+                    emptyOnSight++;
                 }
-                y++;
+                currentY += _directions[i].y;
+                currentX += _directions[i].x;
             }
-            x++;
         }
-        return hayIdle;
+        return true;//(valor - vision(x, y) == emptyOnSight);
     }
+        //10
+        // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero va a necesitar mas azules aunque completes el IDLE con esta nueva AZUL
+        // CurrentAzules +1 sigue siendo menor que tiled.Valor
+        private boolean tooMuchRedOpen () {
+            return true;
+        }
 
-    //----------------------------------------------------------
+        //-------------------------------------------------------
+        // METODO AUXILIAR A (probablemente) TODAS LAS PISTAS
+        // Devuelve el numero de casillas (azules) que se ven desde la posicion x,y
+        private int blueVisibles ( int x, int y){
+            return 0;
+        }
 
-}
+        //------------------------------------------------------
+
+        // comprueba si hay algun tile de tipo IDLE en el tablero
+        // (un tablero no sera validado si hay alguna casilla de este tipo)
+        private boolean anyIdleTile () {
+            boolean hayIdle = false;
+            int x = 0;
+            int y = 0;
+            while (!hayIdle && x < _dimension) {
+                while (!hayIdle && y < _dimension) {
+                    if (getTile(x, y).getState() == Tile.State.EMPTY) {
+                        hayIdle = true;
+                    }
+                    y++;
+                }
+                x++;
+            }
+            return hayIdle;
+        }
+
+        //----------------------------------------------------------
+
+    }
