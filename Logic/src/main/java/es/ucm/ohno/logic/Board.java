@@ -83,8 +83,8 @@ public class Board {
 
                 // TODO: Estaria mejor si se restasen los que son exactamente?
                 // Si ve de mas, su numero se disminuye
-                if(vision(i,j,getTile(i,j).getNumber()) == Vision.EXCEEDED){
-                    getTile(i,j).setNumber(getTile(i,j).getNumber() - 1);
+                if (vision(i, j) > getTile(i, j).getNumber()) {
+                    getTile(i, j).setNumber(getTile(i, j).getNumber() - 1);
                 }
             }
         }
@@ -103,8 +103,6 @@ public class Board {
     }
 
     // PISTAS PARA NO COMETER ERRORES CON NUMEROS
-
-    enum Vision {FULL, EXCEEDED, NOTENOUGH}
 
     class Direction {
         Direction() {
@@ -131,7 +129,7 @@ public class Board {
     // Devuelve FULL si una casilla azul ve las VALOR casillas que tiene que ver
     // Devuelve EXCEEDED si ves demasiadas casillas azules
     // Devuelve NOTENOUGH si no ve suficientes
-    private Vision vision(int x, int y, int valor) {
+    private int vision(int x, int y) {
         int countVisibles = 0;
 
         int currentX, currentY;
@@ -142,44 +140,40 @@ public class Board {
             currentY = y;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
-            while (countVisibles <= valor &&
-                    currentY + _directions[i].y < _dimension && currentY + _directions[i].y >= 0 &&
+            while (currentY + _directions[i].y < _dimension && currentY + _directions[i].y >= 0 &&
                     currentX + _directions[i].x < _dimension && currentX + _directions[i].x >= 0 &&
                     getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() == Tile.State.DOT) {
                 currentY += _directions[i].y;
                 currentX += _directions[i].x;
                 countVisibles++;
             }
-
-            if (countVisibles > valor)
-                return Vision.EXCEEDED;
         }
 
-        return countVisibles == valor ? Vision.FULL : countVisibles > valor ? Vision.EXCEEDED : Vision.NOTENOUGH;
+        return countVisibles;
     }
 
     // Devuelve TRUE si una casilla azul ve las VALOR casillas que tiene que ver en caso contrerio FALSE
     // El VALOR es tile.number
     public boolean fullVision(int x, int y, int valor) {
-        return vision(x, y, valor) == Vision.FULL;
+        return vision(x, y) == valor;
     }
 
     // Si ponemos una casilla azul, por la disposicion de las demas casillas, se excede el numero de
     // azules visibles, por lo que tiene que ser rojo
     public boolean tooMuchBlue(int x, int y, int valor) {
-        if (vision(x, y, valor) != Vision.NOTENOUGH)
+        int initVision = vision(x, y);
+        if (initVision >= valor)
             return false;
 
-
         int currentX, currentY;
-        int countVisibles = 0;
-        int oneEmpty = 0;
+        int countVisibles;
+        int oneEmpty;
 
         // MIRAR HACIA LAS CUATRO DIRECCIONES
         for (int i = 0; i < _directions.length; i++) {
             currentX = x;
             currentY = y;
-            countVisibles = 0;
+            countVisibles = initVision;
             oneEmpty = 0;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
@@ -189,10 +183,13 @@ public class Board {
                     getTile(currentX + _directions[i].x, currentY + _directions[i].y).getState() != Tile.State.WALL) {
                 currentY += _directions[i].y;
                 currentX += _directions[i].x;
-                countVisibles++;
 
                 if (getTile(currentX, currentY).getState() == Tile.State.EMPTY && ++oneEmpty > 1)
                     break;
+
+                if (oneEmpty == 1 && getTile(currentX, currentY).getState() == Tile.State.DOT ||
+                        getTile(currentX, currentY).getState() == Tile.State.EMPTY)
+                    countVisibles++;
             }
 
             if (countVisibles > valor && oneEmpty == 1)
@@ -204,21 +201,21 @@ public class Board {
 
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que en otra direccion haya al menos una casilla azul
     public boolean forcedBlue(int x, int y, int valor) {
-        if (vision(x, y, valor) != Vision.NOTENOUGH)
+        int initVision = vision(x, y);
+        if (initVision >= valor)
             return false;
         // para ver si en una direccion hay una casilla que es obligatoria ponerla,
         // la suma en el resto de direcciones debe ser inferior a VALOR
 
-        int countVisibles = 0;
-
-        int currentX = x, currentY = y;
+        int countVisibles;
+        int currentX, currentY;
 
 
         // MIRAR HACIA LAS CUATRO DIRECCIONES
         for (int i = 0; i < _directions.length; i++) {
             currentX = x;
             currentY = y;
-            countVisibles = 0;
+            countVisibles = initVision;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
             while (countVisibles <= valor &&
@@ -265,13 +262,13 @@ public class Board {
 
     // El recuento de los valores de azules y del total de azules que ve una casilla, no coincide, hay mas casillas que tile.valor
     private boolean totalBlueTiles(int x, int y, int valor) {
-        return vision(x, y, valor) == Vision.EXCEEDED;
+        return vision(x, y) > valor;
     }
 
     // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero necesita mas azules
     public boolean tooMuchRed(int x, int y, int valor) {
-        if (vision(x, y, valor) != Vision.NOTENOUGH)
-            return false;
+//        if (vision(x, y, valor) != Vision.NOTENOUGH)
+//            return false;
 
         // contar si esta cerrada en todas las direcciones
         int currentX, currentY;
@@ -375,7 +372,10 @@ public class Board {
     // OTRAS PISTAS
 
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que en SU UNICA OTRA direccion POSIBLE haya al menos una casilla azul
-    private boolean forcedBlueUniqueDirection() {
+    private boolean forcedBlueUniqueDirection(int x, int y, int valor) {
+//        if (vision(x, y, valor) != Vision.NOTENOUGH)
+//            return false;
+
 
         return true;
     }
