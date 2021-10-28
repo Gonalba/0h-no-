@@ -15,6 +15,6 @@ public class PCLauncher {
         b.getTile(2,4).setState(Tile.State.EMPTY);
 
         //System.out.println(b.tooMuchRed(3,3, 13));
-        System.out.println(b.forcedBlueSolved(2,2,5));
+        //System.out.println(b.forcedBlueSolved(2,2,5));
     }
 }
