@@ -57,11 +57,9 @@ public class Board {
         }
     }
 
-    // Se llama a check para que llegue a esa condicion
-    // Esta funcion coloca una casilla PARED de manera aleatoria hasta que se cumpla la condicion
+    // Generar un tablero se basa en la condicion de los valores maximos de las casillas
     private void generateBoard() {
         Random rand = new Random();
-
 
         // Se genera el tablero mientras exista un valor superior a _dimension
         while (checkBoard() > _dimension) {
@@ -83,10 +81,13 @@ public class Board {
                 if (getTile(i, j).getNumber() > maxValor)
                     maxValor = getTile(i, j).getNumber();
 
-
+                // TODO: Estaria mejor si se restasen los que son exactamente?
+                // Si ve de mas, su numero se disminuye
+                if(vision(i,j,getTile(i,j).getNumber()) == Vision.EXCEEDED){
+                    getTile(i,j).setNumber(getTile(i,j).getNumber() - 1);
+                }
             }
         }
-        // actualiza el numero de las casillas azules
 
         return maxValor;
     }
