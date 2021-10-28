@@ -24,6 +24,31 @@ public class Board {
         _board = new ArrayList<>();
     }
 
+    public void renderBoard() {
+        for (int i = 0; i < _dimension; i++) {
+            for (int j = 0; j < _dimension; j++) {
+                if (getTile(i, j).getState() == Tile.State.DOT)
+                    System.out.print(getTile(i, j).getNumber() + " ");
+                else if (getTile(i, j).getState() == Tile.State.WALL)
+                    System.out.print("# ");
+                else if (getTile(i, j).getState() == Tile.State.EMPTY)
+                    System.out.print("- ");
+            }
+            System.out.println(" ");
+        }
+        System.out.println(" ");
+    }
+
+    /**
+     * Metodo que devuelve la casilla en la posicion indicada
+     */
+    public Tile getTile(int x, int y) {
+        if (x >= _dimension || y >= _dimension || x < 0 || y < 0)
+            return null;
+
+        return _board.get((_dimension * y) + x);
+    }
+
     /**
      * Metodo que redimensiona el tablero al tamaño pasado por parámetro
      */
@@ -54,19 +79,28 @@ public class Board {
             for (int i = _dimension * _dimension; i < length; i++) {
                 _pool.add(_board.remove(_dimension * _dimension));
             }
+
+            for (int i = 0; i < _board.size(); i++) {
+                _board.get(i).setNumber((_dimension * 2) - 2);
+                _board.get(i).setState(Tile.State.DOT);
+            }
         }
+
+        initBoard();
     }
 
     // Generar un tablero se basa en la condicion de los valores maximos de las casillas
-    private void generateBoard() {
+    private void initBoard() {
         Random rand = new Random();
 
         // Se genera el tablero mientras exista un valor superior a _dimension
         while (checkBoard() > _dimension) {
             // Coloca una casilla pared en un lugar x,y aleatorio del tablero
-            int x = rand.nextInt(_dimension + 1); // rnd(0<=n<dimension+1)
-            int y = rand.nextInt(_dimension + 1); // rnd(0<=n<dimension+1)
+            int x = rand.nextInt(_dimension); // rnd(0<=n<dimension+1)
+            int y = rand.nextInt(_dimension); // rnd(0<=n<dimension+1)
+
             getTile(x, y).setState(Tile.State.WALL);
+            renderBoard();
         }
     }
 
@@ -76,31 +110,17 @@ public class Board {
         int maxValor = 0;
         for (int i = 0; i < _dimension; i++) {
             for (int j = 0; j < _dimension; j++) {
-
+                // Si ve de mas, su numero se disminuye
+                getTile(i, j).setNumber(blueVisibles(i, j));
                 // Comprueba el mayor valor
                 if (getTile(i, j).getNumber() > maxValor)
                     maxValor = getTile(i, j).getNumber();
-
-                // TODO: Estaria mejor si se restasen los que son exactamente?
-                // Si ve de mas, su numero se disminuye
-                int blueV = vision(i, j);
-                if (blueV > getTile(i, j).getNumber()) {
-                    getTile(i, j).setNumber(getTile(i, j).getNumber() - blueV);
-                }
+                if (getTile(i, j).getNumber() == 0)
+                    getTile(i, j).setState(Tile.State.WALL);
             }
         }
 
         return maxValor;
-    }
-
-    /**
-     * Metodo que devuelve la casilla en la posicion indicada
-     */
-    public Tile getTile(int x, int y) {
-        if (x >= _dimension || y >= _dimension || x < 0 || y < 0)
-            return null;
-
-        return _board.get((_dimension * y) + x);
     }
 
     // PISTAS PARA NO COMETER ERRORES CON NUMEROS
@@ -130,7 +150,7 @@ public class Board {
     // Devuelve FULL si una casilla azul ve las VALOR casillas que tiene que ver
     // Devuelve EXCEEDED si ves demasiadas casillas azules
     // Devuelve NOTENOUGH si no ve suficientes
-    private int vision(int x, int y) {
+    private int blueVisibles(int x, int y) {
         int countVisibles = 0;
 
         int currentX, currentY;
@@ -156,15 +176,15 @@ public class Board {
     // Devuelve TRUE si una casilla azul ve las VALOR casillas que tiene que ver en caso contrerio FALSE
     //1
     // El VALOR es tile.number
-    public boolean fullVision(int x, int y, int valor) {
-        return vision(x, y) == valor;
+    private boolean fullVision(int x, int y, int valor) {
+        return blueVisibles(x, y) == valor;
     }
 
     //2
     // Si ponemos una casilla azul, por la disposicion de las demas casillas, se excede el numero de
     // azules visibles, por lo que tiene que ser rojo
-    public boolean tooMuchBlue(int x, int y, int valor) {
-        int initVision = vision(x, y);
+    private boolean tooMuchBlue(int x, int y, int valor) {
+        int initVision = blueVisibles(x, y);
         if (initVision >= valor)
             return false;
 
@@ -205,8 +225,8 @@ public class Board {
     //3
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que
     // en otra direccion haya al menos una casilla azul
-    public boolean forcedBlue(int x, int y, int valor) {
-        int initVision = vision(x, y);
+    private boolean forcedBlue(int x, int y, int valor) {
+        int initVision = blueVisibles(x, y);
         if (initVision >= valor)
             return false;
         // para ver si en una direccion hay una casilla que es obligatoria ponerla,
@@ -267,13 +287,13 @@ public class Board {
     //4
     // El recuento de los valores de azules y del total de azules que ve una casilla, no coincide, hay mas casillas que tile.valor
     private boolean totalBlueTiles(int x, int y, int valor) {
-        return vision(x, y) > valor;
+        return blueVisibles(x, y) > valor;
     }
 
     //5
     // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero necesita mas azules
-    public boolean tooMuchRed(int x, int y, int valor) {
-        if (vision(x, y) >= valor)
+    private boolean tooMuchRed(int x, int y, int valor) {
+        if (blueVisibles(x, y) >= valor)
             return false;
 
         int currentX, currentY;
@@ -379,7 +399,7 @@ public class Board {
     //8
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que en SU UNICA OTRA direccion POSIBLE haya al menos una casilla azul
     private boolean forcedBlueUniqueDirection(int x, int y, int valor) {
-        if (vision(x, y) >= valor) {
+        if (blueVisibles(x, y) >= valor) {
             return false;
         }
 
@@ -442,7 +462,7 @@ public class Board {
     // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero va a necesitar mas azules aunque completes el IDLE con esta nueva AZUL
     // CurrentAzules +1 sigue siendo menor que tiled.Valor
     private boolean tooMuchRedOpen(int x, int y, int valor) {
-        return (valor > OnSight(x,y));
+        return (valor > OnSight(x, y));
     }
 
     // comprueba si hay algun tile de tipo IDLE en el tablero
