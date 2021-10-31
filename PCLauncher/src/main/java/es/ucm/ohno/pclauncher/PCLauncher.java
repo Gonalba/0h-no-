@@ -6,9 +6,7 @@ import es.ucm.ohno.logic.Tile;
 public class PCLauncher {
     public static void main(String[] args) {
         Board b = new Board();
-        b.setBoard(10);
-
-        b.renderBoard();
+        b.setBoard(4);
 
 //        b.getTile(1,2).change();
 //        b.getTile(0,0).change();
