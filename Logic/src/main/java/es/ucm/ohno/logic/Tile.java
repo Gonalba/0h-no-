@@ -18,6 +18,14 @@ public class Tile {
     // estado en el que esta la casilla
     private State _currentState;
 
+    public Tile() {}
+
+    public Tile(Tile another) {
+        this._isLocked = another._isLocked;
+        this._number = another._number;
+        this._currentState = another._currentState;
+    }
+
     /**
      * Metodo que cambia al siguiente estado
      */

@@ -1,7 +1,6 @@
 package es.ucm.ohno.logic;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
@@ -35,11 +34,11 @@ public class Board {
     private void renderBoard() {
         for (int i = 0; i < _dimension; i++) {
             for (int j = 0; j < _dimension; j++) {
-                if (getTile(i, j).getState() == Tile.State.DOT)
-                    System.out.print(getTile(i, j).getNumber() + " ");
-                else if (getTile(i, j).getState() == Tile.State.WALL)
+                if (getTile(j, i).getState() == Tile.State.DOT)
+                    System.out.print(getTile(j, i).getNumber() + " ");
+                else if (getTile(j, i).getState() == Tile.State.WALL)
                     System.out.print("# ");
-                else if (getTile(i, j).getState() == Tile.State.EMPTY)
+                else if (getTile(j, i).getState() == Tile.State.EMPTY)
                     System.out.print("- ");
             }
             System.out.println(" ");
@@ -58,11 +57,19 @@ public class Board {
     }
 
     /**
+     * Metodo que devuelve el array de Tiles
+     */
+    public ArrayList<Tile> getBoard() {
+        return _board;
+    }
+
+    /**
      * Metodo que redimensiona el tablero al tamaño pasado por parámetro
      */
     public void setBoard(int x) {
 
         _dimension = x;
+        _hintsManager.setDimension(x);
 
         // Añadimos los Tile que faltan y los sacamos de la pool y si no hay creamos nuevos
         if (_dimension * _dimension > _board.size()) {
@@ -96,7 +103,8 @@ public class Board {
 
         initBoard();
     }
-// TODO: No genera bien ni el tablero ni el puzzle, revisar todo
+
+    // TODO: No genera bien ni el tablero ni el puzzle, revisar todo
     // Generar un tablero se basa en la condicion de los valores maximos de las casillas
     private void initBoard() {
         Random rand = new Random();
@@ -108,6 +116,7 @@ public class Board {
             int y = rand.nextInt(_dimension); // rnd(0<=n<dimension+1)
 
             getTile(x, y).setState(Tile.State.WALL);
+            getTile(x, y).setNumber(0);
         }
 
         renderBoard();
@@ -122,8 +131,12 @@ public class Board {
         for (int i = 0; i < _dimension; i++) {
             for (int j = 0; j < _dimension; j++) {
                 // Si ve de mas, su numero se disminuye
-                getTile(i, j).setNumber(_hintsManager.blueVisibles(i, j));
-                if (getTile(i, j).getNumber() == 0) getTile(i, j).setState(Tile.State.WALL);
+                if (getTile(i, j).getState() == Tile.State.DOT) {
+                    int number = _hintsManager.blueVisibles(i, j, _board);
+                    getTile(i, j).setNumber(number);
+                }
+                if (getTile(i, j).getNumber() == 0)
+                    getTile(i, j).setState(Tile.State.WALL);
                 // Comprueba el mayor valor
                 if (getTile(i, j).getNumber() > maxValor)
                     maxValor = getTile(i, j).getNumber();
@@ -144,12 +157,12 @@ public class Board {
         int dim = _dimension * _dimension;
 
         do {
-            int randPos = rand.nextInt(dim); // rnd(0<=n<dimension+1)
+            int randPos = rand.nextInt(dim);
             t = _board.get(randPos);
 
             lastState = t.getState();
             t.setState(Tile.State.EMPTY);
-        } while (_hintsManager.checkHints());
+        } while (_hintsManager.resolvePuzzle());
 
         t.setState(lastState);
     }

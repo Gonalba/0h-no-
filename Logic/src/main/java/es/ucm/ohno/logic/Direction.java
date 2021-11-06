@@ -11,6 +11,12 @@ public class Direction {
         this.y = y;
     }
 
-    public final int x;
-    public final int y;
+    public Direction set(int xp, int yp){
+        x = xp;
+        y = yp;
+        return this;
+    }
+
+    public int x;
+    public int y;
 }
