@@ -9,9 +9,6 @@ import java.util.Random;
  * Clase que se encarga de gestionar las pistas
  */
 public class HintsManager {
-    // Nos guardamos nuestro propio tablero para poder ejecutal el resolutos te puzzles sobre el y no sobre el original
-    private Board _boardObject;
-
     // Usamos un objeto direction para guardar las coordenadas de las casillas.
     // Este atributo de clase sirve para que cuando las pistas devuelvan una direccion, no tengan que hacer NEWs.
     // Sobreescriben los valores en este atributo y lo devuelven. Otra forma de evitar hacer NEWs es usando el patron PULL sobre la clase DIRECTION
@@ -21,7 +18,6 @@ public class HintsManager {
     private int _dimension;
 
     HintsManager(Board board) {
-        _boardObject = board;
         _pointToreturn = new Direction();
     }
 
@@ -41,31 +37,31 @@ public class HintsManager {
     private boolean ApplyHintsInPosition(int x, int y, ArrayList<Tile> board) {
         Direction t = fullVisionOpen(x, y, board);
         if (t != null) {
-            board.get((_boardObject.getDimension() * t.y) + t.x).setState(Tile.State.WALL);
+            board.get((_dimension * t.y) + t.x).setState(Tile.State.WALL);
             return true;
         }
 
         t = tooMuchBlue(x, y, board);
         if (t != null) {
-            board.get((_boardObject.getDimension() * t.y) + t.x).setState(Tile.State.WALL);
+            board.get((_dimension * t.y) + t.x).setState(Tile.State.WALL);
             return true;
         }
 
         t = forcedBlue(x, y, board);
         if (t != null) {
-            board.get((_boardObject.getDimension() * t.y) + t.x).setState(Tile.State.DOT);
+            board.get((_dimension * t.y) + t.x).setState(Tile.State.DOT);
             return true;
         }
 
         t = aisledIdle(x, y, board);
         if (t != null) {
-            board.get((_boardObject.getDimension() * t.y) + t.x).setState(Tile.State.WALL);
+            board.get((_dimension * t.y) + t.x).setState(Tile.State.WALL);
             return true;
         }
 //
 //        t = aisledBlue(x, y);
 //        if (t != null) {
-//            _board.get((_boardObject.getDimension() * t.y) + t.x).setState(Tile.State.WALL);
+//            _board.get((_dimension * t.y) + t.x).setState(Tile.State.WALL);
 //            return true;
 //        }
 
@@ -73,22 +69,22 @@ public class HintsManager {
     }
 
     // recorre el tablero para dar pistas sobre casillas
-    boolean resolvePuzzle() {
+    boolean resolvePuzzle(ArrayList<Tile> b) {
         ArrayList<Tile> board = new ArrayList<>();
 
-        for (Tile t : _boardObject.getBoard()) {
+        for (Tile t : b) {
             board.add(new Tile(t));
         }
 
-        int length = _boardObject.getDimension() * _boardObject.getDimension();
+        int length = _dimension * _dimension;
         int i = 0;
-        boolean applyHint = false, isHint = false;
+        boolean isHint;
         int count = 0;
 
-        while (countEmpty(board) != 0 && count < length) {
+        while (count < length) {
             i %= length;
-            int x = i % _boardObject.getDimension();
-            int y = i / _boardObject.getDimension();
+            int x = i % _dimension;
+            int y = i / _dimension;
 
             isHint = ApplyHintsInPosition(x, y, board);
 
@@ -127,8 +123,8 @@ public class HintsManager {
             currentY = y;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
-            while (currentY + direction.y < _boardObject.getDimension() && currentY + direction.y >= 0 &&
-                    currentX + direction.x < _boardObject.getDimension() && currentX + direction.x >= 0 &&
+            while (currentY + direction.y < _dimension && currentY + direction.y >= 0 &&
+                    currentX + direction.x < _dimension && currentX + direction.x >= 0 &&
                     board.get((_dimension * (currentY + direction.y)) + currentX + direction.x).getState() == Tile.State.DOT) {
                 currentY += direction.y;
                 currentX += direction.x;
@@ -138,8 +134,8 @@ public class HintsManager {
                 }
             }
 
-            if (currentY + direction.y < _boardObject.getDimension() && currentY + direction.y >= 0 &&
-                    currentX + direction.x < _boardObject.getDimension() && currentX + direction.x >= 0 &&
+            if (currentY + direction.y < _dimension && currentY + direction.y >= 0 &&
+                    currentX + direction.x < _dimension && currentX + direction.x >= 0 &&
                     board.get((_dimension * (currentY + direction.y)) + currentX + direction.x).getState() == Tile.State.EMPTY) {
                 return _pointToreturn.set(currentX + direction.x, currentY + direction.y);
             }
@@ -175,8 +171,8 @@ public class HintsManager {
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
             while (countVisibles <= board.get((_dimension * y) + x).getNumber() &&
-                    currentY + direction.y < _boardObject.getDimension() && currentY + direction.y >= 0 &&
-                    currentX + direction.x < _boardObject.getDimension() && currentX + direction.x >= 0 &&
+                    currentY + direction.y < _dimension && currentY + direction.y >= 0 &&
+                    currentX + direction.x < _dimension && currentX + direction.x >= 0 &&
                     board.get((_dimension * (currentY + direction.y)) + currentX + direction.x).getState() != Tile.State.WALL) {
                 currentY += direction.y;
                 currentX += direction.x;
@@ -226,16 +222,16 @@ public class HintsManager {
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
             while (countVisibles <= board.get((_dimension * y) + x).getNumber() &&
-                    currentY + _directions[i].y < _boardObject.getDimension() && currentY + _directions[i].y >= 0 &&
-                    currentX + _directions[i].x < _boardObject.getDimension() && currentX + _directions[i].x >= 0 &&
+                    currentY + _directions[i].y < _dimension && currentY + _directions[i].y >= 0 &&
+                    currentX + _directions[i].x < _dimension && currentX + _directions[i].x >= 0 &&
                     board.get((_dimension * (currentY + _directions[i].y)) + currentX + _directions[i].x).getState() == Tile.State.DOT) {
                 currentY += _directions[i].y;
                 currentX += _directions[i].x;
                 countVisibles++;
             }
 
-            if (currentY + _directions[i].y < _boardObject.getDimension() && currentY + _directions[i].y >= 0 &&
-                    currentX + _directions[i].x < _boardObject.getDimension() && currentX + _directions[i].x >= 0 &&
+            if (currentY + _directions[i].y < _dimension && currentY + _directions[i].y >= 0 &&
+                    currentX + _directions[i].x < _dimension && currentX + _directions[i].x >= 0 &&
                     board.get((_dimension * (currentY + _directions[i].y)) + currentX + _directions[i].x).getState() == Tile.State.EMPTY) {
                 hintX = currentX + _directions[i].x;
                 hintY = currentY + _directions[i].y;
@@ -250,8 +246,8 @@ public class HintsManager {
                     // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
                     // salga del tablero y sea un DOT
                     while (countVisibles <= board.get((_dimension * y) + x).getNumber() &&
-                            currentY + _directions[j].y < _boardObject.getDimension() && currentY + _directions[j].y >= 0 &&
-                            currentX + _directions[j].x < _boardObject.getDimension() && currentX + _directions[j].x >= 0 &&
+                            currentY + _directions[j].y < _dimension && currentY + _directions[j].y >= 0 &&
+                            currentX + _directions[j].x < _dimension && currentX + _directions[j].x >= 0 &&
                             board.get((_dimension * (currentY + _directions[j].y)) + currentX + _directions[j].x).getState() != Tile.State.WALL) {
                         currentY += _directions[j].y;
                         currentX += _directions[j].x;
@@ -289,8 +285,8 @@ public class HintsManager {
             currentY = y;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
-            while (currentY + direction.y < _boardObject.getDimension() && currentY + direction.y >= 0 &&
-                    currentX + direction.x < _boardObject.getDimension() && currentX + direction.x >= 0) {
+            while (currentY + direction.y < _dimension && currentY + direction.y >= 0 &&
+                    currentX + direction.x < _dimension && currentX + direction.x >= 0) {
                 currentY += direction.y;
                 currentX += direction.x;
 
@@ -345,13 +341,13 @@ public class HintsManager {
             currentX = x;
             currentY = y;
 
-            while (currentY + direction.y < _boardObject.getDimension() && currentX + direction.x < _boardObject.getDimension()
+            while (currentY + direction.y < _dimension && currentX + direction.x < _dimension
                     && currentY + direction.y >= 0 && currentX + direction.x >= 0
                     && board.get((_dimension * (currentY + direction.y)) + currentX + direction.x).getState() == Tile.State.DOT) {
                 currentY += direction.y;
                 currentX += direction.x;
             }
-            if (currentY + direction.y >= _boardObject.getDimension() || currentX + direction.x >= _boardObject.getDimension()
+            if (currentY + direction.y >= _dimension || currentX + direction.x >= _dimension
                     || currentY + direction.y < 0 || currentX + direction.x < 0
                     || board.get((_dimension * (currentY + direction.y)) + currentX + direction.x).getState() == Tile.State.WALL) {
                 closedPath++;
@@ -387,7 +383,7 @@ public class HintsManager {
 
     // devuelve el numero de casillas vacias del tablero
     private int countEmpty(ArrayList<Tile> board) {
-        int length = _boardObject.getDimension() * _boardObject.getDimension();
+        int length = _dimension * _dimension;
         int count = 0;
 
         for (int i = 0; i < length; i++) {
@@ -412,8 +408,8 @@ public class HintsManager {
             currentY = y;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
             // salga del tablero y sea un DOT
-            while (currentY + direction.y < _boardObject.getDimension() && currentY + direction.y >= 0 &&
-                    currentX + direction.x < _boardObject.getDimension() && currentX + direction.x >= 0 &&
+            while (currentY + direction.y < _dimension && currentY + direction.y >= 0 &&
+                    currentX + direction.x < _dimension && currentX + direction.x >= 0 &&
                     board.get((_dimension * (currentY + direction.y)) + currentX + direction.x).getState() == Tile.State.DOT) {
                 currentY += direction.y;
                 currentX += direction.x;
@@ -432,8 +428,8 @@ public class HintsManager {
         int walls = 0;
 
         for (Direction d : _directions) {
-            if (y + d.y < _boardObject.getDimension() && y + d.y >= 0 &&
-                    x + d.x < _boardObject.getDimension() && x + d.x >= 0) {
+            if (y + d.y < _dimension && y + d.y >= 0 &&
+                    x + d.x < _dimension && x + d.x >= 0) {
                 posible++;
                 Tile t = board.get((_dimension * (y + d.y)) + x + d.x);
                 if (t.getState() == Tile.State.WALL)
@@ -457,7 +453,7 @@ public class HintsManager {
             currentX = x;
             currentY = y;
 
-            while (currentY + direction.y < _boardObject.getDimension() && currentX + direction.x < _boardObject.getDimension()
+            while (currentY + direction.y < _dimension && currentX + direction.x < _dimension
                     && currentY + direction.y >= 0 && currentX + direction.x >= 0
                     && board.get((_dimension * (currentY + direction.y)) + currentX + direction.x).getState() != Tile.State.WALL) {
                 fullOnSight++;

@@ -162,7 +162,7 @@ public class Board {
 
             lastState = t.getState();
             t.setState(Tile.State.EMPTY);
-        } while (_hintsManager.resolvePuzzle());
+        } while (_hintsManager.resolvePuzzle(_board));
 
         t.setState(lastState);
     }
