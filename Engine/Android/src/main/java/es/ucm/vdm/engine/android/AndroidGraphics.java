@@ -64,8 +64,8 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public void clear(int color) {
-        _canvas.drawRGB((color & 0xff0000) >> 16,
-                (color & 0xff00) >> 8,
+        _canvas.drawRGB((color & 0xffffff) >> 16,
+                (color & 0xffff) >> 8,
                 (color & 0xff));
     }
 
@@ -108,7 +108,7 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public void fillCircle(int cx, int cy, int r) {
-
+        _canvas.drawCircle(cx, cy, r, _paint);
     }
 
     @Override
@@ -130,12 +130,12 @@ public class AndroidGraphics extends AbstractGraphics {
     }
 
     /**
-     * Clase que pinta unas bandas negras a los lados debido al reescalado de la pantalla
+     * Clase que pinta unas bandas a los lados debido al reescalado de la pantalla
      * Lo sobreescribimos para poder llamarlo desde La clase MainLoop
      */
     @Override
-    protected void renderBlackBars() {
-        super.renderBlackBars();
+    protected void renderBars() {
+        super.renderBars();
     }
 
     /**

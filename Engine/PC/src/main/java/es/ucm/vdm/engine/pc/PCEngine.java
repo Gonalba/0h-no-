@@ -91,7 +91,7 @@ public class PCEngine implements Engine {
                     _graphics.setScaleFactor(_ventana.getSize().width, _ventana.getSize().height);
                     try {
                         _state.render(_graphics);
-                        _graphics.renderBlackBars();
+                        _graphics.renderBars();
                     } finally {
                         _graphics.dispose();
                     }

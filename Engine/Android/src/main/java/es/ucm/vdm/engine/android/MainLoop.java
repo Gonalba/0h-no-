@@ -118,7 +118,7 @@ public class MainLoop implements Runnable{
 
             _engine.getState().render(_engine.getGraphics());
 
-            _engine.getGraphics().renderBlackBars();
+            _engine.getGraphics().renderBars();
             _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
 
         } // while

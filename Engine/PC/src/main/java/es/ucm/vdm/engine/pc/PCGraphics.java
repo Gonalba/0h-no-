@@ -26,14 +26,12 @@ public class PCGraphics extends AbstractGraphics {
      * -------------------------------------- MÉTODOS PUBLICOS -------------------------------------- *
      * ---------------------------------------------------------------------------------------------- */
 
-    public void setGraphics(java.awt.Graphics2D graphics)
-    {
+    public void setGraphics(java.awt.Graphics2D graphics) {
         _graphics = graphics;
-        translate(0,hightBarOffset);
+        translate(0, hightBarOffset);
     }
 
-    public void dispose()
-    {
+    public void dispose() {
         _graphics.dispose();
     }
 
@@ -106,7 +104,7 @@ public class PCGraphics extends AbstractGraphics {
 
     @Override
     public void fillCircle(int cx, int cy, int r) {
-        //fill oval
+        _graphics.fillOval(cx, cy, r * 2, r * 2);
     }
 
     @Override
@@ -118,16 +116,14 @@ public class PCGraphics extends AbstractGraphics {
     public void drawText(String text, int x, int y) {
         if (_graphics.getFont() != null) {
             _graphics.drawString(text, x, y);
-        }
-        else {
+        } else {
             System.out.println("Establece una fuente con el método setFont(Font f)");
         }
     }
 
-
     @Override
-    protected void renderBlackBars() {
-        super.renderBlackBars();
+    protected void renderBars() {
+        super.renderBars();
     }
 
     @Override
