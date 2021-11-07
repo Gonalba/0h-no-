@@ -5,25 +5,25 @@ import java.util.List;
 /**Clase que proporciona funcionalidades de entrada basicas*/
 public interface Input {
 
-    enum Type { press, release, displace }
+    enum Type {PRESS, RELEASE, MOVED}
 
     /**Clase que representa la información de un toque sobre la pantalla (o evento de ratón).
      * Indicará el tipo (pulsación, liberación, desplazamiento), la posición y el identificador
      * del "dedo" (o boton)*/
-    class TouchEvent {
+    class MyEvent {
 
         public Type _type;
         public int _x, _y;
-        public int _fingerId;
+        public int _id;
 
-        public TouchEvent(Type t, int x, int y, int fingerId){
+        public MyEvent(Type t, int x, int y, int id){
             _type = t;
             _x = x;
             _y = y;
-            _fingerId = fingerId;
+            _id = id;
         }
     }
 
     /**Devuelve la lista de eventos recibidos desde la ultima invocacion*/
-    List<TouchEvent> getTouchEvents();
+    List<MyEvent> getMyEvents();
 }

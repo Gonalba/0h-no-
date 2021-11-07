@@ -32,7 +32,7 @@ public class AndroidInput extends AbstractInput {
             int y = (int)((event.getY() - _graphics.getHeightBlackBar()) / _graphics.getScaleFactor());
             int fingerId = event.getActionIndex();
 
-            addEvent(new Input.TouchEvent(type, x, y, fingerId));
+            addEvent(new MyEvent(type, x, y, fingerId));
 
             return true;
         }
@@ -45,11 +45,11 @@ public class AndroidInput extends AbstractInput {
 
             switch (action){
                 case MotionEvent.ACTION_DOWN:
-                    return Input.Type.press;
+                    return Input.Type.PRESS;
                 case MotionEvent.ACTION_UP:
-                    return Input.Type.release;
+                    return Input.Type.RELEASE;
                 case MotionEvent.ACTION_MOVE:
-                    return Input.Type.displace;
+                    return Input.Type.MOVED;
             }
 
             return null;

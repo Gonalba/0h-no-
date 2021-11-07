@@ -5,25 +5,25 @@ import java.util.List;
 
 public abstract class AbstractInput implements Input {
 
-    protected List<TouchEvent> _listTouchEvents = null;
+    protected List<MyEvent> _listMyEvents = null;
 
     protected AbstractInput(){
-        _listTouchEvents = new ArrayList();
+        _listMyEvents = new ArrayList();
     }
 
     /**Devuelve la lista de eventos recibidos desde la ultima invocacion*/
     @Override
-    synchronized public List<TouchEvent> getTouchEvents() {
-        if (_listTouchEvents.isEmpty())
+    synchronized public List<MyEvent> getMyEvents() {
+        if (_listMyEvents.isEmpty())
             return null;
 
-        List<TouchEvent> touchEvents = new ArrayList<TouchEvent>(_listTouchEvents);
-        _listTouchEvents.clear();
+        List<MyEvent> myEvents = new ArrayList<MyEvent>(_listMyEvents);
+        _listMyEvents.clear();
 
-        return touchEvents;
+        return myEvents;
     }
 
-    synchronized protected void addEvent(TouchEvent e){
-        _listTouchEvents.add(e);
+    synchronized protected void addEvent(MyEvent e){
+        _listMyEvents.add(e);
     }
 }

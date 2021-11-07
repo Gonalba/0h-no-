@@ -18,6 +18,10 @@ public class Logic implements State {
 
     @Override
     public void render(Graphics g) {
+        g.setColor(0xFF1CC4E4);
+        g.fillCircle(50,50,50);
 
+        g.setColor(0xFFFF384B);
+        g.fillCircle(200,200,50);
     }
 }

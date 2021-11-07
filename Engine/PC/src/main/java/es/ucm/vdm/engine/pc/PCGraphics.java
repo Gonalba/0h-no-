@@ -14,7 +14,7 @@ public class PCGraphics extends AbstractGraphics {
     private java.awt.Graphics2D _graphics;
     private Queue<AffineTransform> _transformQueue;
     private PCEngine _engine;
-    int hightBarOffset = 58;
+    int hightBarOffset = 23;
 
 
     public PCGraphics(PCEngine engine) {
@@ -36,13 +36,13 @@ public class PCGraphics extends AbstractGraphics {
     }
 
     @Override
-    public Image newImage(String name) {
+    public PCImage newImage(String name) {
         return null;
     }
 
     @Override
-    public Font newFont(String filename, int size, boolean isBold) {
-        Font f = null;
+    public PCFont newFont(String filename, int size, boolean isBold) {
+        PCFont f = null;
 
         try {
             f = new PCFont(filename, size, isBold, _engine);
