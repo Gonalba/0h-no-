@@ -16,7 +16,7 @@
             <option value="$PROJECT_DIR$/Engine/PC" />
             <option value="$PROJECT_DIR$/Launcher" />
             <option value="$PROJECT_DIR$/Launcher/Android" />
-            <option value="$PROJECT_DIR$/Launcher/pc" />
+            <option value="$PROJECT_DIR$/Launcher/PC" />
             <option value="$PROJECT_DIR$/Logic" />
           </set>
         </option>
