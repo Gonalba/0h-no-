@@ -3,7 +3,8 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
       <module name="OhNo.AndroidLauncher" target="11" />
-      <module name="OhNo.Engine.AndroidEngine" target="11" />
+      <module name="OhNo.Engine.Android" target="11" />
+      <module name="OhNo.Launcher.Android" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
