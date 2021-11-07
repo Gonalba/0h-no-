@@ -49,10 +49,10 @@ public abstract class AbstractGraphics implements Graphics{
      * -------------------------------------- MÉTODOS PRIVADOS -------------------------------------- *
      * ---------------------------------------------------------------------------------------------- */
 
-    /**Renderiza las barras negras para que la pantalla quede en el centro*/
-    protected void renderBlackBars() {
+    /**Renderiza las barras para que la pantalla quede en el centro*/
+    protected void renderBars() {
         if (save()) {
-            setColor(0xFF000000);
+            setColor(0xFFFFFFFF);
             scale(1 / scaleFactor, 1 / scaleFactor);
             translate(-widthBlackBar, -heightBlackBar);
 
