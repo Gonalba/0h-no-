@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import es.ucm.vdm.engine.android.AndroidEngine;
-import es.ucm.vdm.logic.Logic;
+import es.ucm.vdm.logic.GameState;
 
 public class MainActivity extends AppCompatActivity {
     private AndroidEngine _engine;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         _engine = new AndroidEngine(this);
-        Logic l = new Logic();
+        GameState l = new GameState();
         _engine.setState(l);
         setContentView(_engine.getSurfaceView());
     }

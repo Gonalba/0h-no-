@@ -1,13 +1,13 @@
 package es.ucm.vdm.launcher.pc;
 
 import es.ucm.vdm.engine.pc.PCEngine;
-import es.ucm.vdm.logic.Logic;
 import es.ucm.vdm.logic.Board;
+import es.ucm.vdm.logic.GameState;
 
 public class PCLauncher {
     public static void main(String[] args) {
 
-        Logic l = new Logic();
+        GameState l = new GameState();
         PCEngine e = new PCEngine();
         e.createWindow("0h n0", 600, 400);
         e.setState(l);
