@@ -23,8 +23,8 @@ public class GameState implements State {
         b = new Board();
         b.setBoard(5);
 
-        i = engine.getGraphics().newImage("meme.jpeg");
-        f = engine.getGraphics().newFont("Molle-Regular.ttf", 30, true);
+        i = engine.getGraphics().newImage("close.png");
+        //f = engine.getGraphics().newFont("Molle-Regular.ttf", 30, true);
 
         return true;
     }
@@ -41,7 +41,7 @@ public class GameState implements State {
         b.render(g);
         g.drawImage(i, 300, 300, 50, 50);
         g.setColor(0xFFFFcd00);
-        g.setFont(f);
-        g.drawText("Hola k tal xikuelxs", 20, 100);
+        //g.setFont(f);
+        //g.drawText("Hola k tal xikuelxs", 20, 100);
     }
 }

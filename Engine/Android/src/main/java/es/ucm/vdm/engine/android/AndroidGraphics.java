@@ -3,6 +3,7 @@ package es.ucm.vdm.engine.android;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Image;
@@ -41,7 +42,7 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public Image newImage(String name) {
-        return null;
+        return new AndroidImage(_assetManager, name);
     }
 
     @Override
@@ -98,6 +99,7 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public void drawImage(Image image, int x, int y, int w, int h) {
+        _canvas.drawBitmap(((AndroidImage) image).getBitmap(), null, new Rect(x, y, x + w, y + h), _paint);
     }
 
     @Override

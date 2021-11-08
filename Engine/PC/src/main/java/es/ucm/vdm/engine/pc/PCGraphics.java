@@ -38,7 +38,7 @@ public class PCGraphics extends AbstractGraphics {
     @Override
     public PCImage newImage(String name) {
 
-        return new PCImage(name);
+        return new PCImage("Data/" + name);
     }
 
     @Override

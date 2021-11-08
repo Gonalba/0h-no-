@@ -9,11 +9,11 @@ public class PCImage implements Image {
 
     PCImage(String name) {
         try {
-            _image = javax.imageio.ImageIO.read(new java.io.File("meme.jpeg"));
+            _image = javax.imageio.ImageIO.read(new java.io.File(name));
             _width = _image.getWidth(null);
             _height = _image.getHeight(null);
         } catch (Exception e) {
-            System.err.println("Crash en la carga de la imagen: " + e);
+            System.err.println("Crash en la carga de la imagen " + name + ": " + e);
         }
     }
 
