@@ -37,7 +37,8 @@ public class PCGraphics extends AbstractGraphics {
 
     @Override
     public PCImage newImage(String name) {
-        return null;
+
+        return new PCImage(name);
     }
 
     @Override
@@ -92,8 +93,8 @@ public class PCGraphics extends AbstractGraphics {
     }
 
     @Override
-    public void drawImage(Image image) {
-
+    public void drawImage(Image image, int x, int y, int w, int h) {
+        _graphics.drawImage(((PCImage) image).getImage(), x, y, w, h, null);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class PCGraphics extends AbstractGraphics {
 
     @Override
     public void fillCircle(int cx, int cy, int r) {
-        _graphics.fillOval(cx, cy, r * 2, r * 2);
+        _graphics.fillOval(cx - r, cy - r, r * 2, r * 2);
     }
 
     @Override

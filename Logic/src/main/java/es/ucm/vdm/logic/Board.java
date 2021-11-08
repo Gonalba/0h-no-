@@ -28,12 +28,13 @@ public class Board extends GameObject {
         _pool = new Stack<>();
         _board = new ArrayList<>();
         _hintsManager = new HintsManager(this);
-        setPosition(0, 0);
+        setPosition(50, 50);
     }
 
     @Override
     public void update(double delta) {
-
+        for (Tile t : _board)
+            t.update(delta);
     }
 
     @Override

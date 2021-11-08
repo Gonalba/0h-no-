@@ -97,8 +97,7 @@ public class AndroidGraphics extends AbstractGraphics {
     }
 
     @Override
-    public void drawImage(Image image) {
-
+    public void drawImage(Image image, int x, int y, int w, int h) {
     }
 
     @Override

@@ -11,7 +11,7 @@ public class Tile extends GameObject {
     // colores del juego
     private final int blueColor = 0xFF1CC4E4;
     private final int redColor = 0xFFFF384B;
-    private final int grayColor = 0xFFAAAAAA;
+    private final int grayColor = 0xFFEEEEEE;
 
     /**
      * Diferentes estados en lo que puede estar una casilla

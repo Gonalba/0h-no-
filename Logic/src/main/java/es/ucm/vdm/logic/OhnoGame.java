@@ -25,8 +25,8 @@ public class OhnoGame {
             return false;
 
         _gameState = new GameState(this);
-        if (!_gameState.init(_engine))
-            return false;
+//        if (!_gameState.init(_engine))
+//            return false;
 
         return true;
     }

@@ -29,7 +29,7 @@ public interface Graphics {
     /**recibe una imagen y la muestra en la pantalla. Se pueden necesitar diferentes versiones
      * de este método dependiendo de si se permite o no escalar la imagen, si se permite elegir
      * qué porción de la imagen original se muestra*/
-    void drawImage(Image image);
+    void drawImage(Image image, int x, int y, int w, int h);
 
     /**Establece el coloe a utilizar en las operaciones de dibujado*/
     void setColor(int color);
