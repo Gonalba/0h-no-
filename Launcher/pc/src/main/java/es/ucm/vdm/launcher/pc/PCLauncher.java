@@ -14,7 +14,7 @@ public class PCLauncher {
         OhnoGame ohnoGame = new OhnoGame(e);
         if (!ohnoGame.init())
             return;
-        e.setState(ohnoGame.getGameState());
+        e.setState(ohnoGame.getTitleState());
         e.run();
 
     }
