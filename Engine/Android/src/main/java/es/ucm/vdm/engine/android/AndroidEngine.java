@@ -89,6 +89,5 @@ public class AndroidEngine implements Engine {
     @Override
     public void setState(State s) {
         _state = s;
-        _mainLoop._initLogic = true;
     }
 }

@@ -2,6 +2,8 @@ package es.ucm.vdm.logic;
 
 import java.util.ArrayList;
 
+import es.ucm.vdm.logic.engine.Position;
+
 /**
  * Clase que se encarga de gestionar las pistas
  */
@@ -9,13 +11,13 @@ public class HintsManager {
     // Usamos un objeto direction para guardar las coordenadas de las casillas.
     // Este atributo de clase sirve para que cuando las pistas devuelvan una direccion, no tengan que hacer NEWs.
     // Sobreescriben los valores en este atributo y lo devuelven. Otra forma de evitar hacer NEWs es usando el patron PULL sobre la clase DIRECTION
-    private Direction _pointToreturn;
+    private Position _pointToreturn;
 
     // dimension del tablero para poder acceder a las casillas [(dimension * y) + x]
     private int _dimension;
 
     HintsManager(Board board) {
-        _pointToreturn = new Direction();
+        _pointToreturn = new Position();
     }
 
     public void setDimension(int dim) {
@@ -24,15 +26,15 @@ public class HintsManager {
 
 // PISTAS PARA NO COMETER ERRORES CON NUMEROS
 
-    private Direction[] _directions = new Direction[]{
-            new Direction(0, 1), //down
-            new Direction(0, -1),//up
-            new Direction(1, 0), //right
-            new Direction(-1, 0) //left
+    private Position[] _directions = new Position[]{
+            new Position(0, 1), //down
+            new Position(0, -1),//up
+            new Position(1, 0), //right
+            new Position(-1, 0) //left
     };
 
     private boolean ApplyHintsInPosition(int x, int y, ArrayList<Tile> board) {
-        Direction t = fullVisionOpen(x, y, board);
+        Position t = fullVisionOpen(x, y, board);
         if (t != null) {
             board.get((_dimension * t.y) + t.x).setState(Tile.State.WALL);
             return true;
@@ -106,7 +108,7 @@ public class HintsManager {
     // y que la casilla no esta limitada por las paredes en caso contrario FALSE
     //1
     // El VALOR es tile.number
-    private Direction fullVisionOpen(int x, int y, ArrayList<Tile> board) {
+    private Position fullVisionOpen(int x, int y, ArrayList<Tile> board) {
         boolean b = board.get((_dimension * y) + x).getState() == Tile.State.DOT &&
                 blueVisibles(x, y, board) == board.get((_dimension * y) + x).getNumber();
 
@@ -115,7 +117,7 @@ public class HintsManager {
 
         int currentX, currentY;
 
-        for (Direction direction : _directions) {
+        for (Position direction : _directions) {
             currentX = x;
             currentY = y;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
@@ -145,7 +147,7 @@ public class HintsManager {
     //2
     // Si ponemos una casilla azul, por la disposicion de las demas casillas, se excede el numero de
     // azules visibles, por lo que tiene que ser rojo
-    private Direction tooMuchBlue(int x, int y, ArrayList<Tile> board) {
+    private Position tooMuchBlue(int x, int y, ArrayList<Tile> board) {
         if (board.get((_dimension * y) + x).getState() != Tile.State.DOT)
             return null;
 
@@ -160,7 +162,7 @@ public class HintsManager {
         int hintY = 0, hintX = 0;
 
         // MIRAR HACIA LAS CUATRO DIRECCIONES
-        for (Direction direction : _directions) {
+        for (Position direction : _directions) {
             currentX = x;
             currentY = y;
             countVisibles = initVision;
@@ -196,7 +198,7 @@ public class HintsManager {
     //3
     // Por la suma total de las casillas vacias en una direccion, es obligatorio que
     // en otra direccion haya al menos una casilla azul
-    private Direction forcedBlue(int x, int y, ArrayList<Tile> board) {
+    private Position forcedBlue(int x, int y, ArrayList<Tile> board) {
         if (board.get((_dimension * y) + x).getState() != Tile.State.DOT)
             return null;
 
@@ -277,7 +279,7 @@ public class HintsManager {
         int currentX, currentY;
 
         // MIRAR HACIA LAS CUATRO DIRECCIONES
-        for (Direction direction : _directions) {
+        for (Position direction : _directions) {
             currentX = x;
             currentY = y;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
@@ -300,7 +302,7 @@ public class HintsManager {
     //6
     // Una casilla IDLE está rodeada por PAREDES
     // Por lo tanto tiene que ser PARED
-    private Direction aisledIdle(int x, int y, ArrayList<Tile> board) {
+    private Position aisledIdle(int x, int y, ArrayList<Tile> board) {
         boolean rodeada = aisled(x, y, board);
         Tile actual = board.get((_dimension * y) + x);
         //si alrededor son muros, si es IDLE y si no tiene numero
@@ -310,7 +312,7 @@ public class HintsManager {
     //7
     // Una casilla AZUL DEL USUARIO (sin numero para el jugador) está rodeada por PAREDES
     // Por lo tanto tiene que ser PARED
-    private Direction aisledBlue(int x, int y, ArrayList<Tile> board) {
+    private Position aisledBlue(int x, int y, ArrayList<Tile> board) {
         boolean rodeada = aisled(x, y, board);
         Tile actual = board.get((_dimension * y) + x);
         //si alrededor son muros, si es AZUL y si no tiene numero
@@ -334,7 +336,7 @@ public class HintsManager {
         int closedPath = 0;
         int openPath = 0;
         // MIRAR HACIA LAS CUATRO DIRECCIONES
-        for (Direction direction : _directions) {
+        for (Position direction : _directions) {
             currentX = x;
             currentY = y;
 
@@ -400,7 +402,7 @@ public class HintsManager {
         int currentX, currentY;
 
         // MIRAR HACIA LAS CUATRO DIRECCIONES
-        for (Direction direction : _directions) {
+        for (Position direction : _directions) {
             currentX = x;
             currentY = y;
             // mientras la cuenta de casillas visibles no supere VALOR, la siguiente casilla no se
@@ -424,7 +426,7 @@ public class HintsManager {
         int posible = 0;
         int walls = 0;
 
-        for (Direction d : _directions) {
+        for (Position d : _directions) {
             if (y + d.y < _dimension && y + d.y >= 0 &&
                     x + d.x < _dimension && x + d.x >= 0) {
                 posible++;
@@ -446,7 +448,7 @@ public class HintsManager {
         int currentX;
         int currentY;
 
-        for (Direction direction : _directions) {
+        for (Position direction : _directions) {
             currentX = x;
             currentY = y;
 

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
+import es.ucm.vdm.engine.common.Graphics;
+import es.ucm.vdm.logic.engine.GameObject;
+
 /**
  * Clase que contiene la representacion logica del tablero
  */
-public class Board {
+public class Board extends GameObject {
 
     // Pool de casillas -> pila de casillas que no se usan
     private final Stack<Tile> _pool;
@@ -25,6 +28,18 @@ public class Board {
         _pool = new Stack<>();
         _board = new ArrayList<>();
         _hintsManager = new HintsManager(this);
+        setPosition(0, 0);
+    }
+
+    @Override
+    public void update(double delta) {
+
+    }
+
+    @Override
+    public void render(Graphics g) {
+        for (Tile t : _board)
+            t.render(g);
     }
 
     protected int getDimension() {
@@ -74,18 +89,21 @@ public class Board {
         // Añadimos los Tile que faltan y los sacamos de la pool y si no hay creamos nuevos
         if (_dimension * _dimension > _board.size()) {
             for (int i = _board.size(); i < _dimension * _dimension; i++) {
+                Tile t;
                 if (!_pool.empty()) {
-                    Tile t = _pool.pop();
+                    t = _pool.pop();
                     t.setNumber((_dimension * 2) - 2);
                     t.setState(Tile.State.DOT);
                     _board.add(t);
                 } else {
                     // Se genera un tablero entero de tipo DOT con valor dimension, que es el maximo que podria tener
-                    Tile t = new Tile();
+                    t = new Tile();
                     t.setState(Tile.State.DOT);
                     t.setNumber((_dimension * 2) - 2);
                     _board.add(t);
                 }
+                t.setPosition(((i % _dimension) * t.getDiameter()) + _position.x,
+                              ((i / _dimension) * t.getDiameter()) + _position.y);
             }
         }
         // Quitamos los Tile que sobran y los añadimos a la pool

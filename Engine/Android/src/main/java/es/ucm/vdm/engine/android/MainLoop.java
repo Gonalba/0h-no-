@@ -1,10 +1,9 @@
 package es.ucm.vdm.engine.android;
 
-public class MainLoop implements Runnable{
+public class MainLoop implements Runnable {
     private boolean _running;
     private Thread _renderThread;
     private AndroidEngine _engine;
-    boolean _initLogic = false;
 
     MainLoop(AndroidEngine engine) {
         _engine = engine;
@@ -39,7 +38,7 @@ public class MainLoop implements Runnable{
      * Método llamado cuando el active rendering debe ser detenido.
      * Puede tardar un pequeño instante en volver, porque espera a que
      * se termine de generar el frame en curso.
-     *
+     * <p>
      * Se hace así intencionadamente, para bloquear la hebra de UI
      * temporalmente y evitar potenciales situaciones de carrera (como
      * por ejemplo que Android llame a resume() antes de que el último
@@ -76,7 +75,7 @@ public class MainLoop implements Runnable{
         // Antes de saltar a la simulación, confirmamos que tenemos
         // un tamaño mayor que 0. Si la hebra se pone en marcha
         // muy rápido, la vista podría todavía no estar inicializada.
-        while(_running && _engine.getSurfaceView().getWidth() == 0)
+        while (_running && _engine.getSurfaceView().getWidth() == 0)
             // Espera activa. Sería más elegante al menos dormir un poco.
             ;
 
@@ -92,17 +91,13 @@ public class MainLoop implements Runnable{
         _engine.getGraphics().setScaleFactor(_engine.getSurfaceView().getWidth(), _engine.getSurfaceView().getHeight());
         _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
 
-
+        if (!_engine.getState().init(_engine)) {
+            System.err.println("****Init de la lógica ha devuelto false****");
+            return;
+        }
 
         // Bucle principal.
-        while(_running) {
-            if(_initLogic){
-                _initLogic = false;
-                if(!_engine.getState().init(_engine)) {
-                    System.err.println("****Init de la lógica ha devuelto false****");
-                    return;
-                }
-            }
+        while (_running) {
 
             long currentTime = System.nanoTime();
             long nanoElapsedTime = currentTime - lastFrameTime;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import es.ucm.vdm.engine.android.AndroidEngine;
 import es.ucm.vdm.logic.GameState;
+import es.ucm.vdm.logic.OhnoGame;
 
 public class MainActivity extends AppCompatActivity {
     private AndroidEngine _engine;
@@ -24,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         _engine = new AndroidEngine(this);
-        GameState l = new GameState();
-        _engine.setState(l);
+        OhnoGame ohnoGame = new OhnoGame(_engine);
+        _engine.setState(ohnoGame);
         setContentView(_engine.getSurfaceView());
     }
 

@@ -17,7 +17,6 @@ public class PCEngine implements Engine {
     private PCInput _input;
     private JFrame _ventana;
     private State _state;
-    private boolean _initState = false;
 
     /**
      * Método que crea la ventana e inicializa el Graphics del Engine
@@ -68,14 +67,12 @@ public class PCEngine implements Engine {
 
         _graphics.setGraphics((Graphics2D) strategy.getDrawGraphics());
 
+        if (!_state.init(this)) {
+            System.err.println("****Init del estado ha devuelto false****");
+            return;
+        }
+
         while (true) {
-            if (_initState) {
-                _initState = false;
-                if (!_state.init(this)) {
-                    System.err.println("****Init de la lógica ha devuelto false****");
-                    return;
-                }
-            }
             long currentTime = System.nanoTime();
             long nanoDelta = currentTime - lastFrameTime;
             lastFrameTime = currentTime;
@@ -114,7 +111,6 @@ public class PCEngine implements Engine {
     @Override
     public void setState(State s) {
         _state = s;
-        _initState = true;
     }
 
     @Override

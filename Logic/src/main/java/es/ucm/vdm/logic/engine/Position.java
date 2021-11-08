@@ -1,17 +1,17 @@
-package es.ucm.vdm.logic;
+package es.ucm.vdm.logic.engine;
 
-public class Direction {
-    Direction() {
+public class Position {
+    public Position() {
         x = 0;
         y = 0;
     }
 
-    Direction(int x, int y) {
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public Direction set(int xp, int yp){
+    public Position set(int xp, int yp){
         x = xp;
         y = yp;
         return this;

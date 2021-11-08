@@ -2,7 +2,7 @@ package es.ucm.vdm.engine.common;
 
 public abstract class AbstractGraphics implements Graphics{
 
-    private int _height = 680, _width = 640;
+    private int _height = 600, _width = 400;
 
     // valor que indica el factor de escala con el que rescalaremos la pantalla
     protected double scaleFactor;
