@@ -17,7 +17,7 @@ public class GameState implements State {
     public boolean init(Engine engine) {
         _engine = engine;
         b = new Board();
-        b.setBoard(3);
+        b.setBoard(5);
 
         return true;
     }

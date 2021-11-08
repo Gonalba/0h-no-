@@ -9,9 +9,13 @@ public class PCLauncher {
     public static void main(String[] args) {
 
         PCEngine e = new PCEngine();
-        OhnoGame ohnoGame = new OhnoGame(e);
         e.createWindow("0h n0", 400, 600);
-        e.setState(ohnoGame);
+
+        OhnoGame ohnoGame = new OhnoGame(e);
+        if (!ohnoGame.init())
+            return;
+        e.setState(ohnoGame.getGameState());
         e.run();
+
     }
 }

@@ -16,7 +16,6 @@ public class AndroidEngine implements Engine {
     private AndroidGraphics _graphics;
     private AndroidInput _input;
     private AssetManager _assetManager;
-    private State _state;
 
     /**
      * Constructor.
@@ -37,7 +36,7 @@ public class AndroidEngine implements Engine {
      * ---------------------------------------------------------------------------------------------- */
 
     protected State getState() {
-        return _state;
+        return _mainLoop.getState();
     }
 
     /* ---------------------------------------------------------------------------------------------- *
@@ -88,6 +87,6 @@ public class AndroidEngine implements Engine {
 
     @Override
     public void setState(State s) {
-        _state = s;
+        _mainLoop.setState(s);
     }
 }

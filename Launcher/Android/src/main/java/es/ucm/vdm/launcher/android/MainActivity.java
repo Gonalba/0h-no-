@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         _engine = new AndroidEngine(this);
         OhnoGame ohnoGame = new OhnoGame(_engine);
-        _engine.setState(ohnoGame);
+        if(!ohnoGame.init())
+            return;
+        _engine.setState(ohnoGame.getGameState());
         setContentView(_engine.getSurfaceView());
     }
 

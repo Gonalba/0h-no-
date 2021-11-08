@@ -16,7 +16,8 @@ public class PCEngine implements Engine {
     private PCGraphics _graphics;
     private PCInput _input;
     private JFrame _ventana;
-    private State _state;
+    private State _state = null;
+    private State _nextState = null;
 
     /**
      * Método que crea la ventana e inicializa el Graphics del Engine
@@ -68,7 +69,7 @@ public class PCEngine implements Engine {
         _graphics.setGraphics((Graphics2D) strategy.getDrawGraphics());
 
         if (!_state.init(this)) {
-            System.err.println("****Init del estado ha devuelto false****");
+            System.err.println("****Inicializacion del estado ha fallado****");
             return;
         }
 
@@ -95,6 +96,11 @@ public class PCEngine implements Engine {
                 } while (strategy.contentsRestored());
                 strategy.show();
             } while (strategy.contentsLost());
+
+            if (_nextState != null) {
+                _state = _nextState;
+                _nextState = null;
+            }
         }// while
     } // run
 
@@ -110,7 +116,10 @@ public class PCEngine implements Engine {
 
     @Override
     public void setState(State s) {
-        _state = s;
+        if (_state == null)
+            _state = s;
+        else
+            _nextState = s;
     }
 
     @Override

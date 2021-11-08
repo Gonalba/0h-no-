@@ -1,9 +1,14 @@
 package es.ucm.vdm.engine.android;
 
+import es.ucm.vdm.engine.common.State;
+
 public class MainLoop implements Runnable {
     private boolean _running;
     private Thread _renderThread;
     private AndroidEngine _engine;
+    private State _state = null;
+    private State _nextState = null;
+
 
     MainLoop(AndroidEngine engine) {
         _engine = engine;
@@ -13,6 +18,17 @@ public class MainLoop implements Runnable {
     /* ---------------------------------------------------------------------------------------------- *
      * -------------------------------------- MÉTODOS PÚBLICOS -------------------------------------- *
      * ---------------------------------------------------------------------------------------------- */
+
+    State getState() {
+        return _state;
+    }
+
+    void setState(State s) {
+        if (_state == null)
+            _state = s;
+        else
+            _nextState = s;
+    }
 
     /**
      * Método llamado para solicitar que se continue con el
@@ -104,17 +120,22 @@ public class MainLoop implements Runnable {
             lastFrameTime = currentTime;
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
 
-            _engine.getState().update(elapsedTime);
+            _state.update(elapsedTime);
 
             // Pintamos el frame
             while (!_engine.getSurfaceView().getHolder().getSurface().isValid())
                 ;
             _engine.getGraphics().setCanvas(_engine.getSurfaceView().getHolder().lockCanvas());
 
-            _engine.getState().render(_engine.getGraphics());
+            _state.render(_engine.getGraphics());
 
             _engine.getGraphics().renderBars();
             _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
+
+            if(_nextState != null){
+                _state = _nextState;
+                _nextState = null;
+            }
 
         } // while
 
