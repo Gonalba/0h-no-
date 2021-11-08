@@ -20,7 +20,7 @@ public class GameState implements State {
     @Override
     public boolean init(Engine engine) {
         _engine = engine;
-        b = new Board();
+        b = new Board(engine.getGraphics());
         b.setBoard(5);
 
         i = engine.getGraphics().newImage("close.png");

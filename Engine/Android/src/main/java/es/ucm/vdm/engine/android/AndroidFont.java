@@ -29,4 +29,6 @@ public class AndroidFont implements Font {
     public int getSize() { return _size; }
 
     public boolean isBold() { return _isBold; }
+
+    //public void setSize(int _size){ }
 }

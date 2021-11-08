@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
+import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.logic.engine.GameObject;
 
@@ -23,7 +24,12 @@ public class Board extends GameObject {
 
     private HintsManager _hintsManager;
 
-    public Board() {
+    private Graphics _g;
+    private Font _font;
+
+    public Board(Graphics g) {
+        _g=g;
+        _font = g.newFont("JosefinSans-Bold.ttf",40,true);
         _dimension = 0;
         _pool = new Stack<>();
         _board = new ArrayList<>();
@@ -98,7 +104,7 @@ public class Board extends GameObject {
                     _board.add(t);
                 } else {
                     // Se genera un tablero entero de tipo DOT con valor dimension, que es el maximo que podria tener
-                    t = new Tile();
+                    t = new Tile(_font);
                     t.setState(Tile.State.DOT);
                     t.setNumber((_dimension * 2) - 2);
                     _board.add(t);

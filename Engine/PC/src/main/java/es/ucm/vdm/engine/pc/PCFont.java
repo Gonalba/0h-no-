@@ -10,9 +10,10 @@ import es.ucm.vdm.engine.common.Font;
 public class PCFont implements Font {
 
     private java.awt.Font _font;
+    public int _size;
 
     PCFont(String filename, int size, boolean isBold, PCEngine engine) throws FileNotFoundException {
-
+        _size=size;
         java.awt.Font baseFont = null;
         InputStream is = engine.openInputStream(filename);
 
@@ -37,4 +38,6 @@ public class PCFont implements Font {
      * ---------------------------------------------------------------------------------------------- */
 
     public java.awt.Font getFont() { return _font; }
+    public int getSize(){ return _size; }
+    //public void setSize(int size){ }
 }

@@ -1,5 +1,7 @@
 package es.ucm.vdm.logic;
 
+
+import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.logic.engine.GameObject;
 
@@ -33,7 +35,11 @@ public class Tile extends GameObject {
     // collor actual de la casilla
     private int _currentColor;
 
-    public Tile() {
+
+    private Font _numFont;
+
+    public Tile(Font f) {
+        _numFont = f;
         _currentColor = grayColor;
     }
 
@@ -54,6 +60,11 @@ public class Tile extends GameObject {
             g.translate(_position.x, _position.y);
             g.setColor(_currentColor);
             g.fillCircle(0, 0, _radius);
+            if (_currentState == State.DOT) {
+                g.setColor(0xFF000000);
+                g.setFont(_numFont);
+                g.drawText(String.valueOf(_number), -_numFont.getSize()/4, _numFont.getSize()/4);
+            }
         }
         g.restore();
 
