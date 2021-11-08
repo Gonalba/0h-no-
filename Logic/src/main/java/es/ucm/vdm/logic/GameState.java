@@ -11,6 +11,10 @@ public class GameState implements State {
     OhnoGame _game;
     Engine _engine;
     Image i;
+    Image close;
+    Image eye;
+    Image history;
+    Image lock;
     Font f;
 
     public GameState(OhnoGame game) {

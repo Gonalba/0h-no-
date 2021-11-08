@@ -8,7 +8,7 @@ public class OhnoGame {
     Engine _engine;
     MenuState _menuState;
     GameState _gameState;
-
+    TitleState _titleState;
 
     public OhnoGame(Engine e) {
         _engine = e;
@@ -19,6 +19,10 @@ public class OhnoGame {
         //TODO: hacer carga de recursos aqui
         // igual es bueno hacer un pequeño gestor de recursos
         // porque hay imagenes que se usan en todos los estados
+
+        _titleState = new TitleState(this);
+//        if (!_titleState.init(_engine))
+//            return false;
 
         _menuState = new MenuState(this);
         if (!_menuState.init(_engine))
@@ -38,5 +42,7 @@ public class OhnoGame {
     public GameState getGameState() {
         return _gameState;
     }
+
+    public TitleState getTitleState() {return  _titleState;}
 
 }
