@@ -7,6 +7,7 @@ import java.util.Stack;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.logic.engine.GameObject;
+import es.ucm.vdm.logic.states.GameState;
 
 /**
  * Clase que contiene la representacion logica del tablero
@@ -28,13 +29,13 @@ public class Board extends GameObject {
     private Font _font;
 
     public Board(Graphics g) {
-        _g=g;
-        _font = g.newFont("JosefinSans-Bold.ttf",40,true);
+        _g = g;
+        _font = g.newFont("JosefinSans-Bold.ttf", 40, true);
         _dimension = 0;
         _pool = new Stack<>();
         _board = new ArrayList<>();
         _hintsManager = new HintsManager(this);
-        setPosition(50, 50);
+        setPosition(0, 0);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class Board extends GameObject {
             t.render(g);
     }
 
-    protected int getDimension() {
+    public int getDimension() {
         return _dimension;
     }
 
@@ -88,10 +89,12 @@ public class Board extends GameObject {
     /**
      * Metodo que redimensiona el tablero al tamaño pasado por parámetro
      */
-    public void setBoard(int x) {
+    public void setBoard(int dimension, int tileRadius) {
 
-        _dimension = x;
-        _hintsManager.setDimension(x);
+        _dimension = dimension;
+        _hintsManager.setDimension(dimension);
+
+//        int tileDimension = _g.getHeight() / (dimension*2);
 
         // Añadimos los Tile que faltan y los sacamos de la pool y si no hay creamos nuevos
         if (_dimension * _dimension > _board.size()) {
@@ -104,13 +107,13 @@ public class Board extends GameObject {
                     _board.add(t);
                 } else {
                     // Se genera un tablero entero de tipo DOT con valor dimension, que es el maximo que podria tener
-                    t = new Tile(_font);
+                    t = new Tile(_font, tileRadius);
                     t.setState(Tile.State.DOT);
                     t.setNumber((_dimension * 2) - 2);
                     _board.add(t);
                 }
                 t.setPosition(((i % _dimension) * t.getDiameter()) + _position.x,
-                              ((i / _dimension) * t.getDiameter()) + _position.y);
+                        ((i / _dimension) * t.getDiameter()) + _position.y);
             }
         }
         // Quitamos los Tile que sobran y los añadimos a la pool

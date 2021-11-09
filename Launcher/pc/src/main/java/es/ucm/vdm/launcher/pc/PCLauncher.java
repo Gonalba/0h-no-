@@ -1,9 +1,7 @@
 package es.ucm.vdm.launcher.pc;
 
 import es.ucm.vdm.engine.pc.PCEngine;
-import es.ucm.vdm.logic.Board;
-import es.ucm.vdm.logic.GameState;
-import es.ucm.vdm.logic.OhnoGame;
+import es.ucm.vdm.logic.states.OhnoGame;
 
 public class PCLauncher {
     public static void main(String[] args) {
@@ -14,7 +12,7 @@ public class PCLauncher {
         OhnoGame ohnoGame = new OhnoGame(e);
         if (!ohnoGame.init())
             return;
-        e.setState(ohnoGame.getTitleState());
+        e.setState(ohnoGame.getGameState());
         e.run();
 
     }

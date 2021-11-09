@@ -11,7 +11,7 @@ public class Position {
         this.y = y;
     }
 
-    public Position set(int xp, int yp){
+    public Position set(int xp, int yp) {
         x = xp;
         y = yp;
         return this;

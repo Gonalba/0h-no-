@@ -38,10 +38,18 @@ public class Tile extends GameObject {
 
     private Font _numFont;
 
-    public Tile(Font f) {
+    public Tile(Font f, int radius) {
         _numFont = f;
         _currentColor = grayColor;
+        _radius = radius;
     }
+
+    public Tile(Tile another) {
+        this._isLocked = another._isLocked;
+        this._number = another._number;
+        this._currentState = another._currentState;
+    }
+
 
     @Override
     public void update(double delta) {
@@ -59,21 +67,17 @@ public class Tile extends GameObject {
         if (g.save()) {
             g.translate(_position.x, _position.y);
             g.setColor(_currentColor);
-            g.fillCircle(0, 0, _radius);
+            g.fillCircle(0, 0, _radius - 2);
+
             if (_currentState == State.DOT) {
                 g.setColor(0xFF000000);
                 g.setFont(_numFont);
-                g.drawText(String.valueOf(_number), -_numFont.getSize()/4, _numFont.getSize()/4);
+                g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
+//                g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
             }
         }
         g.restore();
 
-    }
-
-    public Tile(Tile another) {
-        this._isLocked = another._isLocked;
-        this._number = another._number;
-        this._currentState = another._currentState;
     }
 
     /**
@@ -81,6 +85,11 @@ public class Tile extends GameObject {
      */
     public int getRadius() {
         return _radius;
+    }
+
+
+    public void setRadius(int r) {
+        _radius = r;
     }
 
     /**

@@ -118,11 +118,6 @@ public class AndroidGraphics extends AbstractGraphics {
     }
 
     @Override
-    public int getWidth() {
-        return 0;
-    }
-
-    @Override
     public void fillRect(int x1, int y1, int x2, int y2) {
         float g = _paint.getStrokeWidth();
         _paint.setStrokeWidth(0);

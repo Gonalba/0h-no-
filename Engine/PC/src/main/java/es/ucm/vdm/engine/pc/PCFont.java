@@ -13,7 +13,7 @@ public class PCFont implements Font {
     public int _size;
 
     PCFont(String filename, int size, boolean isBold, PCEngine engine) throws FileNotFoundException {
-        _size=size;
+        _size = size;
         java.awt.Font baseFont = null;
         InputStream is = engine.openInputStream(filename);
 
@@ -28,7 +28,7 @@ public class PCFont implements Font {
         // baseFont contiene el tipo de letra base en tamaño 1. La
         // usamos como punto de partida para crear la nuestra, más
         // grande y en negrita.
-        if(isBold) _font = baseFont.deriveFont(java.awt.Font.BOLD, size);
+        if (isBold) _font = baseFont.deriveFont(java.awt.Font.BOLD, size);
         else _font = baseFont.deriveFont(java.awt.Font.PLAIN, size);
 
     }
@@ -37,7 +37,12 @@ public class PCFont implements Font {
      * -------------------------------------- MÉTODOS PÚBLICOS -------------------------------------- *
      * ---------------------------------------------------------------------------------------------- */
 
-    public java.awt.Font getFont() { return _font; }
-    public int getSize(){ return _size; }
+    public java.awt.Font getFont() {
+        return _font;
+    }
+
+    public int getSize() {
+        return _size;
+    }
     //public void setSize(int size){ }
 }

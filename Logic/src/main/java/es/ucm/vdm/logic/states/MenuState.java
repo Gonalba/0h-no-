@@ -1,8 +1,7 @@
-package es.ucm.vdm.logic;
+package es.ucm.vdm.logic.states;
 
 import es.ucm.vdm.engine.common.Engine;
 import es.ucm.vdm.engine.common.Graphics;
-import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
 
 public class MenuState implements State {

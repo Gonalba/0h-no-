@@ -57,12 +57,6 @@ public class HintsManager {
             board.get((_dimension * t.y) + t.x).setState(Tile.State.WALL);
             return true;
         }
-//
-//        t = aisledBlue(x, y);
-//        if (t != null) {
-//            _board.get((_dimension * t.y) + t.x).setState(Tile.State.WALL);
-//            return true;
-//        }
 
         return false;
     }

@@ -1,12 +1,11 @@
-package es.ucm.vdm.logic;
-
-import org.graalvm.compiler.hotspot.nodes.PluginFactory_JumpToExceptionHandlerInCallerNode;
+package es.ucm.vdm.logic.states;
 
 import es.ucm.vdm.engine.common.Engine;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
+import es.ucm.vdm.logic.Button;
 
 public class TitleState implements State {
     OhnoGame _game;
@@ -40,7 +39,7 @@ public class TitleState implements State {
     public void render(Graphics g) {
         int w = _q42.getWidth() / 20;
         int h = _q42.getHeight() / 20;
-        g.drawImage(_q42, g.getWidth() / 2 - w / 2, g.getHeight() - g.getHeight() / 5, w, h);
+        g.drawImage(_q42, (g.getWidth() / 2) - (w / 2), g.getHeight() - (g.getHeight() / 5), w, h);
 
         g.setColor(0xFF333333);
         g.setFont(_title);

@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import es.ucm.vdm.engine.android.AndroidEngine;
-import es.ucm.vdm.logic.GameState;
-import es.ucm.vdm.logic.OhnoGame;
+import es.ucm.vdm.logic.states.OhnoGame;
 
 public class MainActivity extends AppCompatActivity {
     private AndroidEngine _engine;

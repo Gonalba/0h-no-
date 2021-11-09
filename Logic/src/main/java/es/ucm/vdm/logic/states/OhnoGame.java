@@ -1,8 +1,9 @@
-package es.ucm.vdm.logic;
+package es.ucm.vdm.logic.states;
 
 import es.ucm.vdm.engine.common.Engine;
-import es.ucm.vdm.engine.common.Graphics;
-import es.ucm.vdm.engine.common.State;
+import es.ucm.vdm.logic.states.GameState;
+import es.ucm.vdm.logic.states.MenuState;
+import es.ucm.vdm.logic.states.TitleState;
 
 public class OhnoGame {
     Engine _engine;
