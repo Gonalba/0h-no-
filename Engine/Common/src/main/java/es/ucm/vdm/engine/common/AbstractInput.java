@@ -15,7 +15,7 @@ public abstract class AbstractInput implements Input {
     @Override
     synchronized public List<MyEvent> getMyEvents() {
         if (_listMyEvents.isEmpty())
-            return null;
+            return _listMyEvents;
 
         List<MyEvent> myEvents = new ArrayList<MyEvent>(_listMyEvents);
         _listMyEvents.clear();

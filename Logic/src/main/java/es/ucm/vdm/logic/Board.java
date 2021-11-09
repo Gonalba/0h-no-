@@ -30,7 +30,7 @@ public class Board extends GameObject {
 
     public Board(Graphics g) {
         _g = g;
-        _font = g.newFont("JosefinSans-Bold.ttf", 40, true);
+        _font = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TILE_NUMBER);
         _dimension = 0;
         _pool = new Stack<>();
         _board = new ArrayList<>();

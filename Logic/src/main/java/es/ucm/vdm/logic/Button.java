@@ -11,9 +11,9 @@ public class Button extends GameObject {
     private Engine _engine;
     String _text;
 
-    public Button(int x, int y, String text, String fontFile, int size, boolean isBold) {
+    public Button(int x, int y, String text, ResourcesManager.FontsID id) {
         super(new Position(x,y));
-        _font = _engine.getGraphics().newFont(fontFile, size, isBold);
+        _font = ResourcesManager.getInstance().getFont(id);
         _text = text;
     }
 

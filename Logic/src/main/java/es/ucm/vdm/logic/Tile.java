@@ -1,14 +1,19 @@
 package es.ucm.vdm.logic;
 
 
+import java.util.List;
+
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
+import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.engine.GameObject;
+import es.ucm.vdm.logic.engine.InputManager;
+import es.ucm.vdm.logic.engine.InteractiveObject;
 
 /**
  * Esta clase contiene la representacion logica de una casilla
  */
-public class Tile extends GameObject {
+public class Tile extends GameObject implements InteractiveObject {
 
     // colores del juego
     private final int blueColor = 0xFF1CC4E4;
@@ -42,14 +47,34 @@ public class Tile extends GameObject {
         _numFont = f;
         _currentColor = grayColor;
         _radius = radius;
+
+        InputManager.getInstance().addInteractObject(this);
     }
 
     public Tile(Tile another) {
         this._isLocked = another._isLocked;
         this._number = another._number;
         this._currentState = another._currentState;
+        this._radius = another._radius;
+        this._numFont = another._numFont;
+        this._currentColor = another._currentColor;
+
+        InputManager.getInstance().addInteractObject(this);
     }
 
+    @Override
+    public void recivesEvents(List<Input.MyEvent> events) {
+        for (Input.MyEvent e : events) {
+            if (e._type == Input.Type.PRESS && inChoords(e._x, e._y)) {
+                change();
+            }
+        }
+    }
+
+    private boolean inChoords(int x, int y) {
+        return x > (_position.x - _radius) && x < (_position.x + _radius) &&
+                y > (_position.y - _radius) && y < (_position.y + _radius);
+    }
 
     @Override
     public void update(double delta) {

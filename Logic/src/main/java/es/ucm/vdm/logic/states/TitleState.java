@@ -6,10 +6,10 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.Button;
+import es.ucm.vdm.logic.ResourcesManager;
 
 public class TitleState implements State {
     OhnoGame _game;
-    Engine _engine;
     Image _q42;
     Font _title;
     Font _text;
@@ -21,12 +21,11 @@ public class TitleState implements State {
 
     @Override
     public boolean init(Engine engine) {
-        _engine = engine;
 
-        _q42 = engine.getGraphics().newImage("q42.png");
-        _title = engine.getGraphics().newFont("Molle-Regular.ttf", 130, false);
-        _text = engine.getGraphics().newFont("JosefinSans-Bold.ttf", 27, false);
-        //_playButton = new Button(0, engine.getGraphics().getHeight() / 2, "Jugar", "JosefinSans-Bold.ttf", 80, true);
+        _q42 = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.Q42);
+        _title = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TITLE);
+        _text = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TITLE_DESCRIPTION);
+        _playButton = new Button(0, engine.getGraphics().getHeight() / 2, "Jugar", ResourcesManager.FontsID.PLAY_BUTTON);
         return true;
     }
 

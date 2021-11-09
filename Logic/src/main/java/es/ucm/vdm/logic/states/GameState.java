@@ -6,12 +6,13 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.Board;
+import es.ucm.vdm.logic.ResourcesManager;
+import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.Position;
 
 public class GameState implements State {
     Board board;
     OhnoGame _game;
-    Engine _engine;
 
     Image close;
     Image eye;
@@ -40,12 +41,11 @@ public class GameState implements State {
 
     @Override
     public boolean init(Engine engine) {
-        _engine = engine;
         int dimension = 9;
 
         topRegion = new Position(0, 0);
-        centralRegion = new Position(0, _engine.getGraphics().getHeight() / linesScene);
-        bottomRegion = new Position(0, 4 * _engine.getGraphics().getHeight() / linesScene);
+        centralRegion = new Position(0, engine.getGraphics().getHeight() / linesScene);
+        bottomRegion = new Position(0, 4 * engine.getGraphics().getHeight() / linesScene);
 
         int tileRadius = ((bottomRegion.y - centralRegion.y) / (dimension)) / 2;
 
@@ -53,23 +53,25 @@ public class GameState implements State {
         // sumamos el radio del circulo de la casilla
         // restamos lo que ocupa el tablero al ancho de la pantalla y
         // lo dividimos entre dos para centrar el tablero.
-        board.setPosition(tileRadius + ((_engine.getGraphics().getWidth() - (tileRadius * 2 * dimension)) / 2), centralRegion.y);
+        board.setPosition(tileRadius + ((engine.getGraphics().getWidth() - (tileRadius * 2 * dimension)) / 2), centralRegion.y);
         board.setBoard(dimension, tileRadius);
 
-        close = engine.getGraphics().newImage("close.png");
-        eye = engine.getGraphics().newImage("eye.png");
-        history = engine.getGraphics().newImage("history.png");
-        lock = engine.getGraphics().newImage("lock.png");
+        close = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.CLOSE);
+        eye = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.EYE);
+        history = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.HISTORY);
+        lock = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.LOCK);
 
 
-        dimensionFont = engine.getGraphics().newFont("JosefinSans-Bold.ttf", 60, true);
-        hintFont = engine.getGraphics().newFont("JosefinSans-Bold.ttf", 30, true);
+        dimensionFont = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.DIMENSION_TITLE);
+        hintFont = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION);
 
         return true;
     }
 
     @Override
     public void update(double deltaTime) {
+        InputManager.getInstance().checkEvents();
+
 
         board.update(deltaTime);
     }
