@@ -5,15 +5,17 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
-import es.ucm.vdm.logic.Button;
+import es.ucm.vdm.logic.ChangeStateBehaviour;
+import es.ucm.vdm.logic.TextButton;
 import es.ucm.vdm.logic.ResourcesManager;
+import es.ucm.vdm.logic.engine.InputManager;
 
 public class TitleState implements State {
     OhnoGame _game;
     Image _q42;
     Font _title;
     Font _text;
-    Button _playButton;
+    TextButton _playButton;
 
     public TitleState(OhnoGame game) {
         _game = game;
@@ -25,17 +27,22 @@ public class TitleState implements State {
         _q42 = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.Q42);
         _title = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TITLE);
         _text = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TITLE_DESCRIPTION);
-        _playButton = new Button(0, engine.getGraphics().getHeight() / 2, "Jugar", ResourcesManager.FontsID.PLAY_BUTTON);
+
+        _playButton = new TextButton("Jugar", ResourcesManager.FontsID.PLAY_BUTTON);
+        _playButton.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
+        _playButton.setPosition(0, engine.getGraphics().getHeight() / 2);
         return true;
     }
 
     @Override
     public void update(double deltaTime) {
-
+        InputManager.getInstance().checkEvents();
     }
 
     @Override
     public void render(Graphics g) {
+        g.clear(0xFFFFFFFF);
+
         int w = _q42.getWidth() / 20;
         int h = _q42.getHeight() / 20;
         g.drawImage(_q42, (g.getWidth() / 2) - (w / 2), g.getHeight() - (g.getHeight() / 5), w, h);
@@ -53,6 +60,6 @@ public class TitleState implements State {
         g.drawText("Creado por Martin Kool", w, g.getHeight() - g.getHeight() / 3 + 30);
 
 
-        //_playButton.render(g);
+        _playButton.render(g);
     }
 }

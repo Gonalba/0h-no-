@@ -65,6 +65,8 @@ public class Tile extends GameObject implements InteractiveObject {
     @Override
     public void recivesEvents(List<Input.MyEvent> events) {
         for (Input.MyEvent e : events) {
+            if(e._type == null)
+                System.out.println("null");
             if (e._type == Input.Type.PRESS && inChoords(e._x, e._y)) {
                 change();
             }

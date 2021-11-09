@@ -25,6 +25,8 @@ public class MenuState implements State {
 
     @Override
     public void render(Graphics g) {
+        g.clear(0xFFFFFFFF);
+        
         g.setColor(0xFF1CC4E4);
         g.fillCircle(100, 100, 100);
     }

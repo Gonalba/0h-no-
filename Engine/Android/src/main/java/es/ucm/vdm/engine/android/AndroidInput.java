@@ -32,7 +32,9 @@ public class AndroidInput extends AbstractInput {
             int y = (int)((event.getY() - _graphics.getHeightBlackBar()) / _graphics.getScaleFactor());
             int fingerId = event.getActionIndex();
 
-            addEvent(new MyEvent(type, x, y, fingerId));
+            synchronized (this) {
+                addEvent(new MyEvent(type, x, y, fingerId));
+            }
 
             return true;
         }

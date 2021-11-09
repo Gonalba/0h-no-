@@ -147,9 +147,7 @@ public class Board extends GameObject {
             getTile(x, y).setNumber(0);
         }
 
-        renderBoard();
         setPuzzle();
-        renderBoard();
     }
 
     // Comprueba que el tablero es coherente

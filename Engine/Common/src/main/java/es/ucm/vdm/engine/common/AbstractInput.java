@@ -13,7 +13,7 @@ public abstract class AbstractInput implements Input {
 
     /**Devuelve la lista de eventos recibidos desde la ultima invocacion*/
     @Override
-    synchronized public List<MyEvent> getMyEvents() {
+    public List<MyEvent> getMyEvents() {
         if (_listMyEvents.isEmpty())
             return _listMyEvents;
 

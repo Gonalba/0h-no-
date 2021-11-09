@@ -1,6 +1,7 @@
 package es.ucm.vdm.logic.states;
 
 import es.ucm.vdm.engine.common.Engine;
+import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.states.GameState;
@@ -37,6 +38,10 @@ public class OhnoGame {
         return true;
     }
 
+    public void setState(State s) {
+        _engine.setState(s);
+    }
+
     public MenuState getMenuState() {
         return _menuState;
     }
@@ -45,6 +50,8 @@ public class OhnoGame {
         return _gameState;
     }
 
-    public TitleState getTitleState() {return  _titleState;}
+    public TitleState getTitleState() {
+        return _titleState;
+    }
 
 }
