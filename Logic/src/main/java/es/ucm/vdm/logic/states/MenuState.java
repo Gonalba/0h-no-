@@ -54,4 +54,9 @@ public class MenuState implements State {
         _grid4.render(g);
 
     }
+
+    @Override
+    public void exit() {
+        InputManager.getInstance().removeInteractObject(_grid4);
+    }
 }

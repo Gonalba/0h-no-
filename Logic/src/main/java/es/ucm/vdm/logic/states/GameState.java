@@ -9,6 +9,7 @@ import es.ucm.vdm.logic.Board;
 import es.ucm.vdm.logic.ChangeStateBehaviour;
 import es.ucm.vdm.logic.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
+import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.Position;
 
@@ -26,7 +27,7 @@ public class GameState implements State {
     Font dimensionFont;
     Font hintFont;
 
-    int _dimension;
+    int _dimension = 4;
 
     // dividimos la pantalla en 5 lineas
     // el tablero ocupa 3 y los menus superior e inferior 1 respectivamente
@@ -72,7 +73,7 @@ public class GameState implements State {
         close.setPosition(colPos, bottomRegion.y + (centralRegion.y / 4));
         close.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
 
-        eye = new ImageButton("", ResourcesManager.ImagesID.HISTORY);
+        eye = new ImageButton("", ResourcesManager.ImagesID.EYE);
         eye.setPosition(colPos * 2, bottomRegion.y + (centralRegion.y / 4));
         //eye.setBehaviour();
 
@@ -117,5 +118,16 @@ public class GameState implements State {
 //        g.drawImage(lock, (colPos / 2) + (colPos * 3), bottomRegion.y + (centralRegion.y / 2), size, size);
 
 
+    }
+
+    @Override
+    public void exit() {
+
+        for(Tile t : board.getBoard())
+            InputManager.getInstance().removeInteractObject(t);
+
+        InputManager.getInstance().removeInteractObject(close);
+        InputManager.getInstance().removeInteractObject(eye);
+        InputManager.getInstance().removeInteractObject(history);
     }
 }

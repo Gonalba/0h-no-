@@ -46,8 +46,8 @@ public class InputManager {
     }
 
     public void removeInteractObject(InteractiveObject o) {
-        if (!_interactiveObjects.contains(o))
-            _removeInteractiveObjects.remove(o);
+        if (_interactiveObjects.contains(o))
+            _removeInteractiveObjects.add(o);
     }
 
     public void checkEvents() {

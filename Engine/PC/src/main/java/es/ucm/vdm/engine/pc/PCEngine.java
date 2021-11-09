@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.engine.common.Engine;
+import sun.util.resources.cldr.ext.CurrencyNames_en_IM;
 
 public class PCEngine implements Engine {
 
@@ -98,6 +99,8 @@ public class PCEngine implements Engine {
             } while (strategy.contentsLost());
 
             if (_nextState != null) {
+                _state.exit();
+                _nextState.init(this);
                 _state = _nextState;
                 _nextState = null;
             }
@@ -116,12 +119,12 @@ public class PCEngine implements Engine {
 
     @Override
     public void setState(State s) {
-        if (_state == null)
+        if (_state == null){
             _state = s;
+            _state.init(this);
+        }
         else
             _nextState = s;
-        
-        s.init(this);
     }
 
     @Override

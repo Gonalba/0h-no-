@@ -62,4 +62,9 @@ public class TitleState implements State {
 
         _playButton.render(g);
     }
+
+    @Override
+    public void exit() {
+        InputManager.getInstance().removeInteractObject(_playButton);
+    }
 }

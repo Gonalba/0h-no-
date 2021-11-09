@@ -24,8 +24,10 @@ public class MainLoop implements Runnable {
     }
 
     void setState(State s) {
-        if (_state == null)
+        if (_state == null) {
             _state = s;
+            _state.init(_engine);
+        }
         else
             _nextState = s;
     }
@@ -107,11 +109,6 @@ public class MainLoop implements Runnable {
         _engine.getGraphics().setScaleFactor(_engine.getSurfaceView().getWidth(), _engine.getSurfaceView().getHeight());
         _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
 
-        if (!_engine.getState().init(_engine)) {
-            System.err.println("****Init de la lógica ha devuelto false****");
-            return;
-        }
-
         // Bucle principal.
         while (_running) {
 
@@ -133,6 +130,8 @@ public class MainLoop implements Runnable {
             _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
 
             if(_nextState != null){
+                _state.exit();
+                _nextState.init(_engine);
                 _state = _nextState;
                 _nextState = null;
             }

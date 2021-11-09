@@ -15,4 +15,9 @@ public interface State {
      *
      * */
     void render(Graphics g);
+
+    /**
+     *
+     * */
+    void exit();
 }
