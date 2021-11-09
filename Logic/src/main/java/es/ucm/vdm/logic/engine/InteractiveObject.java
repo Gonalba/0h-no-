@@ -10,5 +10,5 @@ public interface InteractiveObject {
     /**
      * Metodo que recive la lista de eventos
      * */
-    void recivesEvents(List<Input.MyEvent> e);
+    void receivesEvents(List<Input.MyEvent> e);
 }

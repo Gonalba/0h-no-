@@ -7,13 +7,15 @@ public abstract class AbstractInput implements Input {
 
     protected List<MyEvent> _listMyEvents = null;
 
-    protected AbstractInput(){
+    protected AbstractInput() {
         _listMyEvents = new ArrayList();
     }
 
-    /**Devuelve la lista de eventos recibidos desde la ultima invocacion*/
+    /**
+     * Devuelve la lista de eventos recibidos desde la ultima invocacion
+     */
     @Override
-    public List<MyEvent> getMyEvents() {
+    synchronized public List<MyEvent> getMyEvents() {
         if (_listMyEvents.isEmpty())
             return _listMyEvents;
 
@@ -23,7 +25,7 @@ public abstract class AbstractInput implements Input {
         return myEvents;
     }
 
-    synchronized protected void addEvent(MyEvent e){
+    synchronized protected void addEvent(MyEvent e) {
         _listMyEvents.add(e);
     }
 }

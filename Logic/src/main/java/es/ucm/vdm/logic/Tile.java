@@ -63,7 +63,7 @@ public class Tile extends GameObject implements InteractiveObject {
     }
 
     @Override
-    public void recivesEvents(List<Input.MyEvent> events) {
+    public void receivesEvents(List<Input.MyEvent> events) {
         for (Input.MyEvent e : events) {
             if(e._type == null)
                 System.out.println("null");

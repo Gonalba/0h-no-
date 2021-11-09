@@ -13,7 +13,7 @@ public class PCInput extends AbstractInput {
     private MotionEvents _motionEvents;
     private PCGraphics _graphics;
 
-    PCInput(JFrame jFrame, PCGraphics e){
+    PCInput(JFrame jFrame, PCGraphics e) {
 
         _clickEvents = new ClickEvents();
         _motionEvents = new MotionEvents();
@@ -29,16 +29,16 @@ public class PCInput extends AbstractInput {
          * Arrastrar el ratón con el botón pulsado
          */
         @Override
-        synchronized public void mouseDragged(MouseEvent mouseEvent) {
-            addEvent(new MyEvent(PCInput.Type.MOVED, (int)((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
-                    (int)((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
+        public void mouseDragged(MouseEvent mouseEvent) {
+            addEvent(new MyEvent(PCInput.Type.MOVED, (int) ((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
+                    (int) ((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
         }
 
         /**
          * Evento que salta cuando el raton se mueve
-         * */
+         */
         @Override
-        synchronized public void mouseMoved(MouseEvent mouseEvent) {
+        public void mouseMoved(MouseEvent mouseEvent) {
 
         }
     }
@@ -47,44 +47,44 @@ public class PCInput extends AbstractInput {
 
         /**
          * Si pulsas un botón, arrastras fuera del botón y sueltas no se ejecutara el click()
-         * */
+         */
         @Override
-        synchronized public void mouseClicked(MouseEvent mouseEvent) {
+        public void mouseClicked(MouseEvent mouseEvent) {
 
         }
 
         /**
          * mouseEvent.getButton() => NOBUTTON (0) - sin pulsación, BUTTON1 (1) - derecho,
-         *                           BUTTON2 (2) - centro, BUTTON3 (3) - izquierdo
-         * */
+         * BUTTON2 (2) - centro, BUTTON3 (3) - izquierdo
+         */
         @Override
-        synchronized public void mousePressed(MouseEvent mouseEvent) {
-            addEvent(new MyEvent(PCInput.Type.PRESS, (int)((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
-                    (int)((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
+        public void mousePressed(MouseEvent mouseEvent) {
+            addEvent(new MyEvent(PCInput.Type.PRESS, (int) ((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
+                    (int) ((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
         }
 
         /**
          * La acción de pulsar se ejecuta al sontar
          */
         @Override
-        synchronized public void mouseReleased(MouseEvent mouseEvent) {
-            addEvent(new MyEvent(PCInput.Type.RELEASE, (int)((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
-                    (int)((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
+        public void mouseReleased(MouseEvent mouseEvent) {
+            addEvent(new MyEvent(PCInput.Type.RELEASE, (int) ((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
+                    (int) ((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
         }
 
         /**
          * Evento que se lanza cuando el raton pasa por encima
-         * */
+         */
         @Override
-        synchronized public void mouseEntered(MouseEvent mouseEvent) {
+        public void mouseEntered(MouseEvent mouseEvent) {
 
         }
 
         /**
          * Evento que se lanza cuando el raton deja de estar encima
-         * */
+         */
         @Override
-        synchronized public void mouseExited(MouseEvent mouseEvent) {
+        public void mouseExited(MouseEvent mouseEvent) {
 
         }
     }

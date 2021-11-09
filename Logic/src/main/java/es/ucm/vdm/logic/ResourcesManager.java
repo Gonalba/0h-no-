@@ -37,7 +37,8 @@ public class ResourcesManager {
         TITLE_DESCRIPTION,
         DIMENSION_TITLE,
         HINT_DESCRIPTION,
-        TILE_NUMBER
+        TILE_NUMBER,
+        TITLE_MENU
     }
 
     private Engine _engine;
@@ -64,6 +65,8 @@ public class ResourcesManager {
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 60, true));
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 30, true));
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 40, true));
+        _fonts.add(_engine.getGraphics().newFont("Molle-Regular.ttf", 70, false));
+
     }
 
     public Font getFont(FontsID id) {

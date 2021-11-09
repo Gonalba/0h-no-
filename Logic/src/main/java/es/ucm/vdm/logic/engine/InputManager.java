@@ -44,7 +44,7 @@ public class InputManager {
         List<Input.MyEvent> events = _instance._input.getMyEvents();
 
         for (InteractiveObject io : _instance._interactiveObjects) {
-            io.recivesEvents(events);
+            io.receivesEvents(events);
         }
     }
 

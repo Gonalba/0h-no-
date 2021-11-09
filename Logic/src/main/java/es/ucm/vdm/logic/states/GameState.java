@@ -13,6 +13,7 @@ import es.ucm.vdm.logic.engine.Position;
 public class GameState implements State {
     Board board;
     OhnoGame _game;
+    Engine _engine;
 
     Image close;
     Image eye;
@@ -39,28 +40,29 @@ public class GameState implements State {
         _game = game;
     }
 
+    public void setBoardDimension(int dimension) {
+        int tileRadius = ((bottomRegion.y - centralRegion.y) / (dimension)) / 2;
+
+        board = new Board(_engine.getGraphics());
+        // sumamos el radio del circulo de la casilla
+        // restamos lo que ocupa el tablero al ancho de la pantalla y
+        // lo dividimos entre dos para centrar el tablero.
+        board.setPosition(tileRadius + ((_engine.getGraphics().getWidth() - (tileRadius * 2 * dimension)) / 2), centralRegion.y);
+        board.setBoard(dimension, tileRadius);
+    }
+
     @Override
     public boolean init(Engine engine) {
-        int dimension = 9;
+        _engine = engine;
 
         topRegion = new Position(0, 0);
         centralRegion = new Position(0, engine.getGraphics().getHeight() / linesScene);
         bottomRegion = new Position(0, 4 * engine.getGraphics().getHeight() / linesScene);
 
-        int tileRadius = ((bottomRegion.y - centralRegion.y) / (dimension)) / 2;
-
-        board = new Board(engine.getGraphics());
-        // sumamos el radio del circulo de la casilla
-        // restamos lo que ocupa el tablero al ancho de la pantalla y
-        // lo dividimos entre dos para centrar el tablero.
-        board.setPosition(tileRadius + ((engine.getGraphics().getWidth() - (tileRadius * 2 * dimension)) / 2), centralRegion.y);
-        board.setBoard(dimension, tileRadius);
-
         close = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.CLOSE);
         eye = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.EYE);
         history = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.HISTORY);
         lock = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.LOCK);
-
 
         dimensionFont = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.DIMENSION_TITLE);
         hintFont = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION);

@@ -6,6 +6,7 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.ChangeStateBehaviour;
+import es.ucm.vdm.logic.CreateBoardBehaviour;
 import es.ucm.vdm.logic.TextButton;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.engine.InputManager;
@@ -29,7 +30,7 @@ public class TitleState implements State {
         _text = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TITLE_DESCRIPTION);
 
         _playButton = new TextButton("Jugar", ResourcesManager.FontsID.PLAY_BUTTON);
-        _playButton.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
+        _playButton.setBehaviour(new CreateBoardBehaviour(_game, 4));
         _playButton.setPosition(0, engine.getGraphics().getHeight() / 2);
         return true;
     }
