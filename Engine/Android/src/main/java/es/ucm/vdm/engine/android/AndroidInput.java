@@ -34,6 +34,7 @@ public class AndroidInput extends AbstractInput {
 
             addEvent(new MyEvent(type, x, y, fingerId));
 
+
             return true;
         }
 

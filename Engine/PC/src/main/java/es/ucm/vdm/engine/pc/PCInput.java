@@ -13,7 +13,7 @@ public class PCInput extends AbstractInput {
     private MotionEvents _motionEvents;
     private PCGraphics _graphics;
 
-    PCInput(JFrame jFrame, PCGraphics e){
+    PCInput(JFrame jFrame, PCGraphics e) {
 
         _clickEvents = new ClickEvents();
         _motionEvents = new MotionEvents();
@@ -30,13 +30,13 @@ public class PCInput extends AbstractInput {
          */
         @Override
         public void mouseDragged(MouseEvent mouseEvent) {
-            addEvent(new MyEvent(PCInput.Type.MOVED, (int)((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
-                    (int)((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
+            addEvent(new MyEvent(PCInput.Type.MOVED, (int) ((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
+                    (int) ((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
         }
 
         /**
          * Evento que salta cuando el raton se mueve
-         * */
+         */
         @Override
         public void mouseMoved(MouseEvent mouseEvent) {
 
@@ -47,7 +47,7 @@ public class PCInput extends AbstractInput {
 
         /**
          * Si pulsas un botón, arrastras fuera del botón y sueltas no se ejecutara el click()
-         * */
+         */
         @Override
         public void mouseClicked(MouseEvent mouseEvent) {
 
@@ -55,10 +55,10 @@ public class PCInput extends AbstractInput {
 
         /**
          * mouseEvent.getButton() => NOBUTTON (0) - sin pulsación, BUTTON1 (1) - derecho,
-         *                           BUTTON2 (2) - centro, BUTTON3 (3) - izquierdo
-         * */
+         * BUTTON2 (2) - centro, BUTTON3 (3) - izquierdo
+         */
         @Override
-        public void mousePressed(MouseEvent mouseEvent) {
+        synchronized public void mousePressed(MouseEvent mouseEvent) {
             addEvent(new MyEvent(PCInput.Type.PRESS, (int)((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
                     (int)((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
         }
@@ -67,14 +67,14 @@ public class PCInput extends AbstractInput {
          * La acción de pulsar se ejecuta al sontar
          */
         @Override
-        public void mouseReleased(MouseEvent mouseEvent) {
+        synchronized public void mouseReleased(MouseEvent mouseEvent) {
             addEvent(new MyEvent(PCInput.Type.RELEASE, (int)((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
                     (int)((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
         }
 
         /**
          * Evento que se lanza cuando el raton pasa por encima
-         * */
+         */
         @Override
         public void mouseEntered(MouseEvent mouseEvent) {
 
@@ -82,7 +82,7 @@ public class PCInput extends AbstractInput {
 
         /**
          * Evento que se lanza cuando el raton deja de estar encima
-         * */
+         */
         @Override
         public void mouseExited(MouseEvent mouseEvent) {
 

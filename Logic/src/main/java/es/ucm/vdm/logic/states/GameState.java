@@ -15,6 +15,7 @@ import es.ucm.vdm.logic.engine.Position;
 public class GameState implements State {
     Board board;
     OhnoGame _game;
+    Engine _engine;
 
     ImageButton close;
     ImageButton eye;
@@ -24,6 +25,8 @@ public class GameState implements State {
 
     Font dimensionFont;
     Font hintFont;
+
+    int _dimension;
 
     // dividimos la pantalla en 5 lineas
     // el tablero ocupa 3 y los menus superior e inferior 1 respectivamente
@@ -42,31 +45,34 @@ public class GameState implements State {
         _game = game;
     }
 
+    public void setBoardDimension(int dimension) {
+        _dimension = dimension;
+    }
+
     @Override
     public boolean init(Engine engine) {
-        int dimension = 4;
+        _engine = engine;
 
         topRegion = new Position(0, 0);
         centralRegion = new Position(0, engine.getGraphics().getHeight() / linesScene);
         bottomRegion = new Position(0, 4 * engine.getGraphics().getHeight() / linesScene);
 
-        int tileRadius = ((bottomRegion.y - centralRegion.y) / (dimension)) / 2;
+        int tileRadius = ((bottomRegion.y - centralRegion.y) / (_dimension)) / 2;
 
-        board = new Board(engine.getGraphics());
+        board = new Board(_engine.getGraphics());
         // sumamos el radio del circulo de la casilla
         // restamos lo que ocupa el tablero al ancho de la pantalla y
         // lo dividimos entre dos para centrar el tablero.
-        board.setPosition(tileRadius + ((engine.getGraphics().getWidth() - (tileRadius * 2 * dimension)) / 2), centralRegion.y);
-        board.setBoard(dimension, tileRadius);
+        board.setPosition(tileRadius + ((_engine.getGraphics().getWidth() - (tileRadius * 2 * _dimension)) / 2), centralRegion.y);
+        board.setBoard(_dimension, tileRadius);
 
-        int size = 64;
         int colPos = engine.getGraphics().getWidth() / 5;
 
         close = new ImageButton("", ResourcesManager.ImagesID.CLOSE);
         close.setPosition(colPos, bottomRegion.y + (centralRegion.y / 4));
         close.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
 
-        eye = new ImageButton("", ResourcesManager.ImagesID.EYE);
+        eye = new ImageButton("", ResourcesManager.ImagesID.HISTORY);
         eye.setPosition(colPos * 2, bottomRegion.y + (centralRegion.y / 4));
         //eye.setBehaviour();
 

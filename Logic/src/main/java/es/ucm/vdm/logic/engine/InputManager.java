@@ -2,6 +2,7 @@ package es.ucm.vdm.logic.engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import es.ucm.vdm.engine.common.Input;
 
@@ -12,6 +13,8 @@ public class InputManager {
 
 
     private ArrayList<InteractiveObject> _interactiveObjects;
+    private Stack<InteractiveObject> _nextInteractiveObjects;
+    private Stack<InteractiveObject> _removeInteractiveObjects;
     private Input _input;
 
 
@@ -23,6 +26,8 @@ public class InputManager {
         if (_instance == null) {
             _instance = new InputManager(input);
             _instance._interactiveObjects = new ArrayList<>();
+            _instance._nextInteractiveObjects = new Stack<>();
+            _instance._removeInteractiveObjects = new Stack<>();
         }
     }
 
@@ -36,15 +41,28 @@ public class InputManager {
      * Este metodo sirve para dar de alta los objetos que queremos que recivan los eventos
      * */
     public void addInteractObject(InteractiveObject o) {
-        if (!_instance._interactiveObjects.contains(o))
-            _instance._interactiveObjects.add(o);
+        if (!_interactiveObjects.contains(o))
+            _nextInteractiveObjects.add(o);
+    }
+
+    public void removeInteractObject(InteractiveObject o) {
+        if (!_interactiveObjects.contains(o))
+            _removeInteractiveObjects.remove(o);
     }
 
     public void checkEvents() {
-        List<Input.MyEvent> events = _instance._input.getMyEvents();
+        List<Input.MyEvent> events = _input.getMyEvents();
 
-        for (InteractiveObject io : _instance._interactiveObjects) {
+        for (InteractiveObject io : _interactiveObjects) {
             io.receivesEvents(events);
+        }
+
+        while(!_nextInteractiveObjects.empty()){
+            _interactiveObjects.add(_nextInteractiveObjects.pop());
+        }
+
+        while(!_removeInteractiveObjects.empty()){
+            _interactiveObjects.remove(_removeInteractiveObjects.pop());
         }
     }
 

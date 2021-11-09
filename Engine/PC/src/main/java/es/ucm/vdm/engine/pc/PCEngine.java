@@ -68,10 +68,10 @@ public class PCEngine implements Engine {
 
         _graphics.setGraphics((Graphics2D) strategy.getDrawGraphics());
 
-        if (!_state.init(this)) {
-            System.err.println("****Inicializacion del estado ha fallado****");
-            return;
-        }
+//        if (!_state.init(this)) {
+//            System.err.println("****Inicializacion del estado ha fallado****");
+//            return;
+//        }
 
         while (true) {
             long currentTime = System.nanoTime();
@@ -120,6 +120,8 @@ public class PCEngine implements Engine {
             _state = s;
         else
             _nextState = s;
+        
+        s.init(this);
     }
 
     @Override

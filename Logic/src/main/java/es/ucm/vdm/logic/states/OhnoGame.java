@@ -24,16 +24,16 @@ public class OhnoGame {
         ResourcesManager.initResourcesManager(_engine);
 
         _titleState = new TitleState(this);
-        if (!_titleState.init(_engine))
-            return false;
+//        if (!_titleState.init(_engine))
+//            return false;
 
         _menuState = new MenuState(this);
-        if (!_menuState.init(_engine))
-            return false;
+//        if (!_menuState.init(_engine))
+//            return false;
 
         _gameState = new GameState(this);
-        if (!_gameState.init(_engine))
-            return false;
+//        if (!_gameState.init(_engine))
+//            return false;
 
         return true;
     }
