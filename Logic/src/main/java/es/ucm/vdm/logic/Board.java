@@ -7,6 +7,7 @@ import java.util.Stack;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.logic.engine.GameObject;
+import es.ucm.vdm.logic.engine.Position;
 import es.ucm.vdm.logic.states.GameState;
 
 /**
@@ -16,6 +17,9 @@ public class Board extends GameObject {
 
     // Pool de casillas -> pila de casillas que no se usan
     private final Stack<Tile> _pool;
+
+    // historial de movimientos del tableor (boton undo)
+    private Stack<Position> _history;
 
     // Lista con todas las casillas logicas del tablero
     private final ArrayList<Tile> _board;

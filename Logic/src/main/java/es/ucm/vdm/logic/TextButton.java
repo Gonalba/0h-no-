@@ -35,7 +35,7 @@ public class TextButton extends Button {
     }
 
     @Override
-    public void recivesEvents(List<Input.MyEvent> events) {
+    public void receivesEvents(List<Input.MyEvent> events) {
         for (Input.MyEvent e : events) {
             if (e._type == Input.Type.PRESS && inChoords(e._x, e._y)) {
                 System.out.println("Este texto ha sido pulsado!! -> " + _text);

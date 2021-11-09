@@ -17,7 +17,7 @@ public class AndroidInput extends AbstractInput {
         sv.setOnTouchListener(_touchEvents);
     }
 
-    class TouchEvents implements View.OnTouchListener  {
+    class TouchEvents implements View.OnTouchListener {
         /* ---------------------------------------------------------------------------------------------- *
          * -------------------------------------- MÉTODOS PÚBLICOS -------------------------------------- *
          * ---------------------------------------------------------------------------------------------- */
@@ -28,13 +28,11 @@ public class AndroidInput extends AbstractInput {
             if (type == null)
                 return false;
 
-            int x = (int)((event.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor());
-            int y = (int)((event.getY() - _graphics.getHeightBlackBar()) / _graphics.getScaleFactor());
+            int x = (int) ((event.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor());
+            int y = (int) ((event.getY() - _graphics.getHeightBlackBar()) / _graphics.getScaleFactor());
             int fingerId = event.getActionIndex();
 
-            synchronized (this) {
-                addEvent(new MyEvent(type, x, y, fingerId));
-            }
+            addEvent(new MyEvent(type, x, y, fingerId));
 
             return true;
         }
@@ -43,9 +41,9 @@ public class AndroidInput extends AbstractInput {
          * -------------------------------------- MÉTODOS PRIVADOS -------------------------------------- *
          * ---------------------------------------------------------------------------------------------- */
 
-        private Input.Type parseActionToType(int action){
+        private Input.Type parseActionToType(int action) {
 
-            switch (action){
+            switch (action) {
                 case MotionEvent.ACTION_DOWN:
                     return Input.Type.PRESS;
                 case MotionEvent.ACTION_UP:

@@ -6,6 +6,8 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.Board;
+import es.ucm.vdm.logic.ChangeStateBehaviour;
+import es.ucm.vdm.logic.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.Position;
@@ -14,9 +16,10 @@ public class GameState implements State {
     Board board;
     OhnoGame _game;
 
-    Image close;
-    Image eye;
-    Image history;
+    ImageButton close;
+    ImageButton eye;
+    ImageButton history;
+
     Image lock;
 
     Font dimensionFont;
@@ -41,7 +44,7 @@ public class GameState implements State {
 
     @Override
     public boolean init(Engine engine) {
-        int dimension = 9;
+        int dimension = 4;
 
         topRegion = new Position(0, 0);
         centralRegion = new Position(0, engine.getGraphics().getHeight() / linesScene);
@@ -56,11 +59,22 @@ public class GameState implements State {
         board.setPosition(tileRadius + ((engine.getGraphics().getWidth() - (tileRadius * 2 * dimension)) / 2), centralRegion.y);
         board.setBoard(dimension, tileRadius);
 
-        close = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.CLOSE);
-        eye = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.EYE);
-        history = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.HISTORY);
-        lock = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.LOCK);
+        int size = 64;
+        int colPos = engine.getGraphics().getWidth() / 5;
 
+        close = new ImageButton("", ResourcesManager.ImagesID.CLOSE);
+        close.setPosition(colPos, bottomRegion.y + (centralRegion.y / 4));
+        close.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
+
+        eye = new ImageButton("", ResourcesManager.ImagesID.EYE);
+        eye.setPosition(colPos * 2, bottomRegion.y + (centralRegion.y / 4));
+        //eye.setBehaviour();
+
+        history = new ImageButton("", ResourcesManager.ImagesID.HISTORY);
+        history.setPosition(colPos * 3, bottomRegion.y + (centralRegion.y / 4));
+        //history.setBehaviour();
+
+        lock = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.LOCK);
 
         dimensionFont = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.DIMENSION_TITLE);
         hintFont = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION);
@@ -91,11 +105,9 @@ public class GameState implements State {
         board.render(g);
 
         //BOTTOM REGION
-        int size = 50;
-        int colPos = g.getWidth() / 3;
-        g.drawImage(close, colPos - (colPos / 2) - (size / 2), bottomRegion.y + (centralRegion.y / 2), size, size);
-        g.drawImage(eye, (colPos * 2) - (colPos / 2) - (size / 2), bottomRegion.y + (centralRegion.y / 2), size, size);
-        g.drawImage(history, (colPos * 3) - (colPos / 2) - (size / 2), bottomRegion.y + (centralRegion.y / 2), size, size);
+        close.render(g);
+        eye.render(g);
+        history.render(g);
 //        g.drawImage(lock, (colPos / 2) + (colPos * 3), bottomRegion.y + (centralRegion.y / 2), size, size);
 
 

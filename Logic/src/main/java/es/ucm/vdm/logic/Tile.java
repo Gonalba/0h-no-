@@ -63,7 +63,7 @@ public class Tile extends GameObject implements InteractiveObject {
     }
 
     @Override
-    public void recivesEvents(List<Input.MyEvent> events) {
+    public void receivesEvents(List<Input.MyEvent> events) {
         for (Input.MyEvent e : events) {
             if(e._type == null)
                 System.out.println("null");
@@ -97,7 +97,7 @@ public class Tile extends GameObject implements InteractiveObject {
             g.fillCircle(0, 0, _radius - 2);
 
             if (_currentState == State.DOT) {
-                g.setColor(0xFF000000);
+                g.setColor(0xFFFFFFFF);
                 g.setFont(_numFont);
                 g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
 //                g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
