@@ -32,10 +32,14 @@ public class Board extends GameObject {
 
     private Graphics _g;
     private Font _font;
+    private Font _font1;
+    private Font _font2;
 
     public Board(Graphics g, HintsManager h) {
         _g = g;
         _font = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TILE_NUMBER);
+        _font1 = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TILE_NUMBER2);
+        _font2 = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TILE_NUMBER3);
         _dimension = 0;
         _pool = new Stack<>();
         _board = new ArrayList<>();
@@ -111,7 +115,18 @@ public class Board extends GameObject {
                     _board.add(t);
                 } else {
                     // Se genera un tablero entero de tipo DOT con valor dimension, que es el maximo que podria tener
-                    t = new Tile(_font, tileRadius);
+                    if(_dimension == 4 || _dimension == 5) {
+                        t = new Tile(_font, tileRadius);
+                    }
+                    else if(_dimension == 6 || _dimension == 7){
+                        t = new Tile(_font1, tileRadius);
+                    }
+                    else if(_dimension == 8 || _dimension == 9){
+                        t = new Tile(_font2, tileRadius);
+                    }
+                    else{
+                        t = new Tile(_font, tileRadius);
+                    }
                     t.setState(Tile.State.DOT);
                     t.setNumber((_dimension * 2) - 2);
                     _board.add(t);
