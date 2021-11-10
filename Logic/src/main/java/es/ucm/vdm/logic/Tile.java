@@ -2,6 +2,7 @@ package es.ucm.vdm.logic;
 
 
 import java.util.List;
+import java.util.Stack;
 
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
@@ -9,6 +10,7 @@ import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.engine.GameObject;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.InteractiveObject;
+import es.ucm.vdm.logic.engine.Position;
 
 /**
  * Esta clase contiene la representacion logica de una casilla
@@ -40,14 +42,18 @@ public class Tile extends GameObject implements InteractiveObject {
     // collor actual de la casilla
     private int _currentColor;
 
+    private Stack<Position> _history;
+    private Board _board;
 
     private Font _numFont;
 
-    public Tile(Font f, int radius) {
+    public Tile(Font f, int radius, Board board) {
         _numFont = f;
         _currentColor = grayColor;
         _radius = radius;
 
+        _history = board.get_history();
+        _board = board;
         InputManager.getInstance().addInteractObject(this);
     }
 
@@ -69,6 +75,7 @@ public class Tile extends GameObject implements InteractiveObject {
                 System.out.println("null");
             if (e._type == Input.Type.PRESS && inChoords(e._x, e._y)) {
                 change();
+                _history.add(_position);
             }
         }
     }
@@ -99,8 +106,8 @@ public class Tile extends GameObject implements InteractiveObject {
             if (_currentState == State.DOT) {
                 g.setColor(0xFFFFFFFF);
                 g.setFont(_numFont);
+                if(!_isLocked)
                 g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
-//                g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
             }
         }
         g.restore();
@@ -134,6 +141,7 @@ public class Tile extends GameObject implements InteractiveObject {
             int i = _currentState.ordinal();
             i = (i + 1) % State.values().length;
             _currentState = State.values()[i];
+
         }
     } // fin change()
 
