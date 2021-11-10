@@ -91,5 +91,10 @@ public class MenuState implements State {
     @Override
     public void exit() {
         InputManager.getInstance().removeInteractObject(_grid4);
+        InputManager.getInstance().removeInteractObject(_grid5);
+        InputManager.getInstance().removeInteractObject(_grid6);
+        InputManager.getInstance().removeInteractObject(_grid7);
+        InputManager.getInstance().removeInteractObject(_grid8);
+        InputManager.getInstance().removeInteractObject(_grid9);
     }
 }
