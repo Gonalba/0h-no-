@@ -49,7 +49,7 @@ public abstract class Hint extends GameObject {
     /**
      * Hace visible el texto de la pista o no, segun si le pasas true o false
      * */
-    void setVisible(boolean b) {
+    public void setVisible(boolean b) {
         _visible = b;
     }
 

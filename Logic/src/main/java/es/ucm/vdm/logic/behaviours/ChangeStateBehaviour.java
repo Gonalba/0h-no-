@@ -1,4 +1,4 @@
-package es.ucm.vdm.logic;
+package es.ucm.vdm.logic.behaviours;
 
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.engine.Behaviour;
