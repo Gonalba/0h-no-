@@ -2,6 +2,7 @@ package es.ucm.vdm.logic;
 
 import java.util.ArrayList;
 
+import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.logic.engine.Position;
 import es.ucm.vdm.logic.hints.AisledBlue;
 import es.ucm.vdm.logic.hints.AisledIdle;
@@ -30,13 +31,13 @@ public class HintsManager {
     ArrayList<Hint> _errorHints;
     ArrayList<Hint> _additionalHints;
 
-    HintsManager(Board board) {
+    public HintsManager() {
       init();
     }
 
     private void init() {
         _resolutionHints = new ArrayList<>();
-        _resolutionHints.add(new FullVisionOpen(""));
+        _resolutionHints.add(new FullVisionOpen("Hola que tal"));
         _resolutionHints.add(new TooMuchBlue(""));
         _resolutionHints.add(new ForceBlue(""));
 
@@ -54,14 +55,37 @@ public class HintsManager {
 
     }
 
-// PISTAS PARA NO COMETER ERRORES CON NUMEROS
+    public Hint getHint(){
+        return _resolutionHints.get(0);
+    }
 
-    private Position[] _directions = new Position[]{
-            new Position(0, 1), //down
-            new Position(0, -1),//up
-            new Position(1, 0), //right
-            new Position(-1, 0) //left
-    };
+    public void update(double delta) {
+        for(Hint h : _additionalHints){
+            h.update(delta);
+        }
+
+        for(Hint h : _errorHints){
+            h.update(delta);
+        }
+
+        for(Hint h : _resolutionHints){
+            h.update(delta);
+        }
+    }
+
+    public void render(Graphics g) {
+        for(Hint h : _additionalHints){
+            h.render(g);
+        }
+
+        for(Hint h : _errorHints){
+            h.render(g);
+        }
+
+        for(Hint h : _resolutionHints){
+            h.render(g);
+        }
+    }
 
     private boolean ApplyHintsInPosition(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());

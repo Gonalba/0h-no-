@@ -6,10 +6,12 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.Board;
-import es.ucm.vdm.logic.ChangeStateBehaviour;
+import es.ucm.vdm.logic.HintsManager;
+import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.Tile;
+import es.ucm.vdm.logic.behaviours.TakeHintBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.Position;
 
@@ -41,6 +43,7 @@ public class GameState implements State {
 
     //region inferior que ocupa 1/5 (empieza en 4/5 y acaba en el alto)
     Position bottomRegion;
+    HintsManager _hintsManager;
 
     public GameState(OhnoGame game) {
         _game = game;
@@ -60,7 +63,8 @@ public class GameState implements State {
 
         int tileRadius = ((bottomRegion.y - centralRegion.y) / (_dimension)) / 2;
 
-        board = new Board(_engine.getGraphics());
+        _hintsManager = new HintsManager();
+        board = new Board(_engine.getGraphics(), _hintsManager);
         // sumamos el radio del circulo de la casilla
         // restamos lo que ocupa el tablero al ancho de la pantalla y
         // lo dividimos entre dos para centrar el tablero.
@@ -75,7 +79,7 @@ public class GameState implements State {
 
         eye = new ImageButton("", ResourcesManager.ImagesID.EYE);
         eye.setPosition(colPos * 2, bottomRegion.y + (centralRegion.y / 4));
-        //eye.setBehaviour();
+        eye.setBehaviour(new TakeHintBehaviour(_hintsManager));
 
         history = new ImageButton("", ResourcesManager.ImagesID.HISTORY);
         history.setPosition(colPos * 3, bottomRegion.y + (centralRegion.y / 4));
@@ -93,7 +97,7 @@ public class GameState implements State {
     public void update(double deltaTime) {
         InputManager.getInstance().checkEvents();
 
-
+        _hintsManager.update(deltaTime);
         board.update(deltaTime);
     }
 
@@ -101,9 +105,13 @@ public class GameState implements State {
     public void render(Graphics g) {
         g.clear(0xFFFFFFFF);
 
+
         //TOP REGION
         g.setColor(0xFF000000);
         g.setFont(dimensionFont);
+
+        _hintsManager.render(g);
+
         String dim = String.valueOf(board.getDimension());
         int centPosX = (g.getWidth() - 93) / 2;
         g.drawText(dim + "x" + dim, centPosX, centralRegion.y / 2);
@@ -123,7 +131,7 @@ public class GameState implements State {
     @Override
     public void exit() {
 
-        for(Tile t : board.getBoard())
+        for (Tile t : board.getBoard())
             InputManager.getInstance().removeInteractObject(t);
 
         InputManager.getInstance().removeInteractObject(close);

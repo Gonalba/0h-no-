@@ -33,13 +33,13 @@ public class Board extends GameObject {
     private Graphics _g;
     private Font _font;
 
-    public Board(Graphics g) {
+    public Board(Graphics g, HintsManager h) {
         _g = g;
         _font = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TILE_NUMBER);
         _dimension = 0;
         _pool = new Stack<>();
         _board = new ArrayList<>();
-        _hintsManager = new HintsManager(this);
+        _hintsManager = h;
         setPosition(0, 0);
     }
 
