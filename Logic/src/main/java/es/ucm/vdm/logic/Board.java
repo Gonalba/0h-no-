@@ -8,6 +8,7 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.logic.engine.GameObject;
 import es.ucm.vdm.logic.engine.Position;
+import es.ucm.vdm.logic.hints.Hint;
 import es.ucm.vdm.logic.states.GameState;
 
 /**
@@ -96,7 +97,6 @@ public class Board extends GameObject {
     public void setBoard(int dimension, int tileRadius) {
 
         _dimension = dimension;
-        _hintsManager.setDimension(dimension);
 
 //        int tileDimension = _g.getHeight() / (dimension*2);
 
@@ -162,7 +162,7 @@ public class Board extends GameObject {
             for (int j = 0; j < _dimension; j++) {
                 // Si ve de mas, su numero se disminuye
                 if (getTile(i, j).getState() == Tile.State.DOT) {
-                    int number = _hintsManager.blueVisibles(i, j, _board);
+                    int number = Hint.blueVisibles(i, j, _board);
                     getTile(i, j).setNumber(number);
                 }
                 if (getTile(i, j).getNumber() == 0)
