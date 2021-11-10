@@ -38,7 +38,9 @@ public class ResourcesManager {
         DIMENSION_TITLE,
         HINT_DESCRIPTION,
         TILE_NUMBER,
-        TITLE_MENU
+        TITLE_MENU,
+        TILE_NUMBER2,
+        TILE_NUMBER3,
     }
 
     private Engine _engine;
@@ -64,8 +66,10 @@ public class ResourcesManager {
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 27, false));
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 60, true));
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 30, true));
-        _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 40, true));
+        _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 36, true)); //tile number font
         _fonts.add(_engine.getGraphics().newFont("Molle-Regular.ttf", 70, false));
+        _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 29, true)); //tile number font
+        _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 24, true)); //tile number font
 
     }
 
