@@ -96,5 +96,6 @@ public class MenuState implements State {
         InputManager.getInstance().removeInteractObject(_grid7);
         InputManager.getInstance().removeInteractObject(_grid8);
         InputManager.getInstance().removeInteractObject(_grid9);
+        InputManager.getInstance().removeInteractObject(close);
     }
 }
