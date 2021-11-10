@@ -30,7 +30,7 @@ public class TitleState implements State {
 
         _playButton = new TextButton("Jugar", ResourcesManager.FontsID.PLAY_BUTTON);
         _playButton.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
-        _playButton.setPosition(0, engine.getGraphics().getHeight() / 2);
+        _playButton.setPosition(110, engine.getGraphics().getHeight() / 2);
         return true;
     }
 
@@ -49,12 +49,12 @@ public class TitleState implements State {
 
         g.setColor(0xFF333333);
         g.setFont(_title);
-        w = 0; // TODO: getTextWidth? //-> https://stackoverflow.com/questions/258486/calculate-the-display-width-of-a-string-in-java
+        w = 10; // TODO: getTextWidth? //-> https://stackoverflow.com/questions/258486/calculate-the-display-width-of-a-string-in-java
         g.drawText("Oh no", w, g.getHeight() / 3);
 
         g.setColor(0xFFB5B5B5);
         g.setFont(_text);
-        w = 0; // TODO: getTextWidth?
+        w = 60; // TODO: getTextWidth?
         h = 0; // TODO: getTextHeight? ?= getFontSize? (+30)
         g.drawText("Un juego copiado a Q42", w, g.getHeight() - g.getHeight() / 3);
         g.drawText("Creado por Martin Kool", w, g.getHeight() - g.getHeight() / 3 + 30);
