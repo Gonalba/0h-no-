@@ -7,6 +7,8 @@ import android.os.Bundle;
 import es.ucm.vdm.engine.android.AndroidEngine;
 import es.ucm.vdm.logic.states.OhnoGame;
 
+import static android.view.Window.FEATURE_NO_TITLE;
+
 public class MainActivity extends AppCompatActivity {
     private AndroidEngine _engine;
 
@@ -25,9 +27,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         _engine = new AndroidEngine(this);
         OhnoGame ohnoGame = new OhnoGame(_engine);
-        if(!ohnoGame.init())
+        if (!ohnoGame.init())
             return;
         _engine.setState(ohnoGame.getTitleState());
+
+        // requestWindowFeature(FEATURE_NO_TITLE); // OCULTA LA BARRA DE TITULO DE LA APP
+        // getSupportActionBar().hide(); // OCULTA LA BARRA DE TITULO DE LA APP
+
         setContentView(_engine.getSurfaceView());
     }
 

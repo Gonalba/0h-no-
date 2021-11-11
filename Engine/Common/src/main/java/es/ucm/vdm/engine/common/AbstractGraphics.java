@@ -1,14 +1,14 @@
 package es.ucm.vdm.engine.common;
 
-public abstract class AbstractGraphics implements Graphics{
+public abstract class AbstractGraphics implements Graphics {
 
     private int _height = 600, _width = 400;
 
     // valor que indica el factor de escala con el que rescalaremos la pantalla
     protected double scaleFactor;
 
-    // tamaño de las barras negras verticales y horizontales
-    protected int widthBlackBar, heightBlackBar;
+    // tamaño de las barras verticales y horizontales de rescalado
+    protected int widthBar, heightBar;
 
     // pixeles reales que ocupa la pantalla lógica (ya rescalada)
     protected int widthSizeScreen, heightSizeScreen;
@@ -37,37 +37,47 @@ public abstract class AbstractGraphics implements Graphics{
     }
 
     @Override
-    public int getWidthBlackBar(){ return widthBlackBar; }
+    public int getWidthBar() {
+        return widthBar;
+    }
 
     @Override
-    public int getHeightBlackBar(){ return heightBlackBar; }
+    public int getHeightBar() {
+        return heightBar;
+    }
 
     @Override
-    public double getScaleFactor(){ return scaleFactor; }
+    public double getScaleFactor() {
+        return scaleFactor;
+    }
 
     /* ---------------------------------------------------------------------------------------------- *
      * -------------------------------------- MÉTODOS PRIVADOS -------------------------------------- *
      * ---------------------------------------------------------------------------------------------- */
 
-    /**Renderiza las barras para que la pantalla quede en el centro*/
+    /**
+     * Renderiza las barras para que la pantalla quede en el centro
+     */
     protected void renderBars() {
         if (save()) {
             setColor(0xFFFFFFFF);
             scale(1 / scaleFactor, 1 / scaleFactor);
-            translate(-widthBlackBar, -heightBlackBar);
+            translate(-widthBar, -heightBar);
 
-            // Primera barra: uno de los dos no va a pintar nada porque o widthBlackBar o heightBlackBar son 0
-            fillRect(0, 0, widthBlackBar, heightSizeScreen);
-            fillRect(0, 0, widthSizeScreen, heightBlackBar);
+            // Primera barra: uno de los dos no va a pintar nada porque o widthBar o heightBar son 0
+            fillRect(0, 0, widthBar, heightSizeScreen);
+            fillRect(0, 0, widthSizeScreen, heightBar);
 
             // Segunda barra:
-            fillRect(widthBlackBar + widthSizeScreen, 0, _wReal, _hReal);
-            fillRect(0, heightBlackBar + heightSizeScreen, _wReal, _hReal);
+            fillRect(widthBar + widthSizeScreen, 0, _wReal, _hReal);
+            fillRect(0, heightBar + heightSizeScreen, _wReal, _hReal);
         }
         restore();
     }
 
-    /**Establece el factor de escala en funcion de la resolucion pasada por parametro*/
+    /**
+     * Establece el factor de escala en funcion de la resolucion pasada por parametro
+     */
     protected void setScaleFactor(int wReal, int hReal) {
 
         _wReal = wReal;
@@ -86,7 +96,7 @@ public abstract class AbstractGraphics implements Graphics{
             widthSizeScreen = wReal;
             heightSizeScreen = ((wReal * _height) / _width);
         }
-        // si hemos escogido el hFactor, el height de la pantalla ocupa el height de la ventana entero
+        // si hemos escogido el hFactor, el height de la pantalla ocupa el height de la ventana entera
         else {
             scaleFactor = hFactor;
 
@@ -94,11 +104,11 @@ public abstract class AbstractGraphics implements Graphics{
             heightSizeScreen = hReal;
         }
 
-        // calculamos lo que miden las barras negras tanto superior como inferior
-        widthBlackBar = (wReal - widthSizeScreen) / 2;
-        heightBlackBar = ((hReal - heightSizeScreen) / 2);
+        // calculamos lo que miden las barras tanto superior como inferior
+        widthBar = (wReal - widthSizeScreen) / 2;
+        heightBar = ((hReal - heightSizeScreen) / 2);
 
-        translate(widthBlackBar, heightBlackBar);
+        translate(widthBar, heightBar);
         scale(scaleFactor, scaleFactor);
     }
 }

@@ -18,7 +18,7 @@ public class Board extends GameObject {
     // Pool de casillas -> pila de casillas que no se usan
     private final Stack<Tile> _pool;
 
-    // historial de movimientos del tableor (boton undo)
+    // historial de movimientos del tablero (boton undo)
     private Stack<Position> _history;
 
     // Lista con todas las casillas logicas del tablero
@@ -42,6 +42,7 @@ public class Board extends GameObject {
         _dimension = 0;
         _pool = new Stack<>();
         _board = new ArrayList<>();
+        _history = new Stack<Position>();
         _hintsManager = h;
         setPosition(0, 0);
     }
@@ -86,6 +87,13 @@ public class Board extends GameObject {
 
         return _board.get((_dimension * y) + x);
     }
+    public Tile getTile(Position pos) {
+        System.out.println(String.valueOf(pos.x));
+        System.out.println(String.valueOf(pos.y));
+        if (pos.x >= _dimension || pos.y >= _dimension || pos.x < 0 || pos.y < 0)
+            return null;
+        return _board.get((_dimension * pos.y) + pos.x);
+    }
 
     /**
      * Metodo que devuelve el array de Tiles
@@ -94,6 +102,33 @@ public class Board extends GameObject {
         return _board;
     }
 
+    /**
+     * Metodo que devuelve el stack de posiciones modificadas
+     */
+    public Stack<Position> getHistory() {
+        return _history;
+    }
+
+    public void setMoveHistory(Tile t){
+        int index = _board.indexOf(t);
+        int x,y;
+        x = index % _dimension;
+        y = index/_dimension;
+
+        _history.add(new Position(x,y));
+    }
+    public void undoMove(){
+        if (!_history.empty()) {
+
+            Position a = _history.pop();//devuelve el primer elemento
+            if(getTile(a) != null)
+            getTile(a).previousState();
+
+        }
+        else {
+            System.out.println("Errorcito: no hay movimientos");
+        }
+    }
     /**
      * Metodo que redimensiona el tablero al tamaño pasado por parámetro
      */
@@ -115,16 +150,16 @@ public class Board extends GameObject {
                 } else {
                     // Se genera un tablero entero de tipo DOT con valor dimension, que es el maximo que podria tener
                     if(_dimension == 4 || _dimension == 5) {
-                        t = new Tile(_font, tileRadius);
+                        t = new Tile(_font, tileRadius,this);
                     }
                     else if(_dimension == 6 || _dimension == 7){
-                        t = new Tile(_font1, tileRadius);
+                        t = new Tile(_font1, tileRadius,this);
                     }
                     else if(_dimension == 8 || _dimension == 9){
-                        t = new Tile(_font2, tileRadius);
+                        t = new Tile(_font2, tileRadius,this);
                     }
                     else{
-                        t = new Tile(_font, tileRadius);
+                        t = new Tile(_font, tileRadius,this);
                     }
                     t.setState(Tile.State.DOT);
                     t.setNumber((_dimension * 2) - 2);
@@ -210,4 +245,6 @@ public class Board extends GameObject {
 
         t.setState(lastState);
     }
+
+
 }

@@ -11,6 +11,7 @@ import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.Tile;
+import es.ucm.vdm.logic.behaviours.StepBackBehaviour;
 import es.ucm.vdm.logic.behaviours.TakeHintBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.Position;
@@ -87,7 +88,7 @@ public class GameState implements State {
 
         history = new ImageButton("", ResourcesManager.ImagesID.HISTORY);
         history.setPosition(colPos * 3, bottomRegion.y + (centralRegion.y / 4));
-        //history.setBehaviour();
+        history.setBehaviour(new StepBackBehaviour(board));
 
         lock = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.LOCK);
 
