@@ -32,7 +32,7 @@ public class AndroidGraphics extends AbstractGraphics {
         _canvas.drawRGB(0xFF, 0xFF, 0xFF);
 
         // aplicamos la traslación y el escalado
-        translate(widthBlackBar, heightBlackBar);
+        translate(widthBar, heightBar);
         scale(scaleFactor, scaleFactor);
     }
 
@@ -108,7 +108,15 @@ public class AndroidGraphics extends AbstractGraphics {
     }
 
     @Override
+    public void drawCircle(int cx, int cy, int r, int thickness) {
+        _paint.setStrokeWidth(thickness);
+        _paint.setStyle(Paint.Style.STROKE);
+        _canvas.drawCircle(cx, cy, r, _paint);
+    }
+
+    @Override
     public void fillCircle(int cx, int cy, int r) {
+        _paint.setStyle(Paint.Style.FILL);
         _canvas.drawCircle(cx, cy, r, _paint);
     }
 

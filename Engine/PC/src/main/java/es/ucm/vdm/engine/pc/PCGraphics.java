@@ -1,5 +1,6 @@
 package es.ucm.vdm.engine.pc;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.io.FileNotFoundException;
@@ -101,6 +102,13 @@ public class PCGraphics extends AbstractGraphics {
     public void setColor(int color) {
         Color c = new Color(color);
         _graphics.setColor(c);
+    }
+
+    @Override
+    public void drawCircle(int cx, int cy, int r, int thickness) {
+        _graphics.setStroke(new BasicStroke(thickness));
+
+        _graphics.drawOval(cx - r, cy - r, r * 2, r * 2);
     }
 
     @Override

@@ -30,8 +30,8 @@ public class PCInput extends AbstractInput {
          */
         @Override
         public void mouseDragged(MouseEvent mouseEvent) {
-            addEvent(new MyEvent(PCInput.Type.MOVED, (int) ((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
-                    (int) ((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
+            addEvent(new MyEvent(PCInput.Type.MOVED, (int) ((mouseEvent.getX() - _graphics.getWidthBar()) / _graphics.getScaleFactor()),
+                    (int) ((mouseEvent.getY() - _graphics.getHeightBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
         }
 
         /**
@@ -59,8 +59,8 @@ public class PCInput extends AbstractInput {
          */
         @Override
         synchronized public void mousePressed(MouseEvent mouseEvent) {
-            addEvent(new MyEvent(PCInput.Type.PRESS, (int)((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
-                    (int)((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
+            addEvent(new MyEvent(PCInput.Type.PRESS, (int) ((mouseEvent.getX() - _graphics.getWidthBar()) / _graphics.getScaleFactor()),
+                    (int) ((mouseEvent.getY() - _graphics.getHeightBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
         }
 
         /**
@@ -68,8 +68,8 @@ public class PCInput extends AbstractInput {
          */
         @Override
         synchronized public void mouseReleased(MouseEvent mouseEvent) {
-            addEvent(new MyEvent(PCInput.Type.RELEASE, (int)((mouseEvent.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor()),
-                    (int)((mouseEvent.getY() - _graphics.getHeightBlackBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
+            addEvent(new MyEvent(PCInput.Type.RELEASE, (int) ((mouseEvent.getX() - _graphics.getWidthBar()) / _graphics.getScaleFactor()),
+                    (int) ((mouseEvent.getY() - _graphics.getHeightBar() - _graphics.hightBarOffset) / _graphics.getScaleFactor()), mouseEvent.getButton()));
         }
 
         /**

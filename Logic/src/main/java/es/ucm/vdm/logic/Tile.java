@@ -65,7 +65,7 @@ public class Tile extends GameObject implements InteractiveObject {
     @Override
     public void receivesEvents(List<Input.MyEvent> events) {
         for (Input.MyEvent e : events) {
-            if(e._type == null)
+            if (e._type == null)
                 System.out.println("null");
             if (e._type == Input.Type.PRESS && inChoords(e._x, e._y)) {
                 change();
@@ -93,6 +93,8 @@ public class Tile extends GameObject implements InteractiveObject {
     public void render(Graphics g) {
         if (g.save()) {
             g.translate(_position.x, _position.y);
+            //g.setColor(0xFF000000);
+            //g.drawCircle(0,0,_radius - 2, 5);
             g.setColor(_currentColor);
             g.fillCircle(0, 0, _radius - 2);
 

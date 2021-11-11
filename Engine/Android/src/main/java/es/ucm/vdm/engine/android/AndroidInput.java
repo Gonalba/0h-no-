@@ -28,12 +28,11 @@ public class AndroidInput extends AbstractInput {
             if (type == null)
                 return false;
 
-            int x = (int) ((event.getX() - _graphics.getWidthBlackBar()) / _graphics.getScaleFactor());
-            int y = (int) ((event.getY() - _graphics.getHeightBlackBar()) / _graphics.getScaleFactor());
+            int x = (int) ((event.getX() - _graphics.getWidthBar()) / _graphics.getScaleFactor());
+            int y = (int) ((event.getY() - _graphics.getHeightBar()) / _graphics.getScaleFactor());
             int fingerId = event.getActionIndex();
 
             addEvent(new MyEvent(type, x, y, fingerId));
-
 
             return true;
         }
