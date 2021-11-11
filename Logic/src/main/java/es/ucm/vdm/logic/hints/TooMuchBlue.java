@@ -2,12 +2,14 @@ package es.ucm.vdm.logic.hints;
 
 import java.util.ArrayList;
 
+import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.engine.Position;
 
 public class TooMuchBlue extends Hint {
-    public TooMuchBlue(String text) {
-        super(text);
+
+    public TooMuchBlue(String text, Font font) {
+        super(text, font);
     }
 
     //2

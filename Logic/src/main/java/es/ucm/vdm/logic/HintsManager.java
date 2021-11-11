@@ -1,6 +1,7 @@
 package es.ucm.vdm.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.logic.engine.Position;
@@ -32,57 +33,75 @@ public class HintsManager {
     ArrayList<Hint> _additionalHints;
 
     public HintsManager() {
-      init();
+        init();
     }
 
     private void init() {
         _resolutionHints = new ArrayList<>();
-        _resolutionHints.add(new FullVisionOpen("Hola que tal"));
-        _resolutionHints.add(new TooMuchBlue(""));
-        _resolutionHints.add(new ForceBlue(""));
+        _resolutionHints.add(new FullVisionOpen("Casillas visibles completas,\n las colindantes deben ser pared",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+        _resolutionHints.add(new TooMuchBlue("Casilla debe ser pared porque\n supera el numero indicado",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+        _resolutionHints.add(new ForceBlue("Casilla debe ser visible por\n la disposicion de las casillas",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
 
         _errorHints = new ArrayList<>();
-        _errorHints.add(new TotalBlueTiles(""));
-        _errorHints.add(new TooMuchRed(""));
-        _errorHints.add(new AisledIdle(""));
-        _errorHints.add(new AisledBlue(""));
+        _errorHints.add(new TotalBlueTiles("Excedido el numero de casillas\n visibles",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+        _errorHints.add(new TooMuchRed("Cantidad de casillas no son\n suficientes, retire alguna roja",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+        _errorHints.add(new AisledIdle("Casilla vacia incomunicada,\n debe ser pared",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+        _errorHints.add(new AisledBlue("Casilla visible aislada del \nresto, debe ser pared",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
 
         _additionalHints = new ArrayList<>();
-        _additionalHints.add(new ForcedBlueUniqueDirection(""));
-        _additionalHints.add(new ForcedBlueSolved(""));
-        _additionalHints.add(new TooMuchRedOpen(""));
-
-
+        _additionalHints.add(new ForcedBlueUniqueDirection("Casillas visibles incompletas,\n rellenar en la unica direccion disponible",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+        _additionalHints.add(new ForcedBlueSolved("Casillas visibles incompletas,\n rellenar todas las casillas colindantes",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+        _additionalHints.add(new TooMuchRedOpen("Opcion inviable, liberar casilla pared",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
     }
 
-    public Hint getHint(){
-        return _resolutionHints.get(0);
+    public Hint getHint() {
+        Random r = new Random();
+        int aux = r.nextInt(2);
+        if (aux == 0)
+            return _resolutionHints.get(r.nextInt(_resolutionHints.size() - 1));
+        else if (aux == 1)
+            return _errorHints.get(r.nextInt(_errorHints.size() - 1));
+        else if (aux == 2)
+            return _additionalHints.get(r.nextInt(_additionalHints.size() - 1));
+
+
+        return _errorHints.get(3);
     }
 
     public void update(double delta) {
-        for(Hint h : _additionalHints){
+        for (Hint h : _additionalHints) {
             h.update(delta);
         }
 
-        for(Hint h : _errorHints){
+        for (Hint h : _errorHints) {
             h.update(delta);
         }
 
-        for(Hint h : _resolutionHints){
+        for (Hint h : _resolutionHints) {
             h.update(delta);
         }
     }
 
     public void render(Graphics g) {
-        for(Hint h : _additionalHints){
+        for (Hint h : _additionalHints) {
             h.render(g);
         }
 
-        for(Hint h : _errorHints){
+        for (Hint h : _errorHints) {
             h.render(g);
         }
 
-        for(Hint h : _resolutionHints){
+        for (Hint h : _resolutionHints) {
             h.render(g);
         }
     }

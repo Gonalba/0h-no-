@@ -14,7 +14,7 @@ public class ImageButton extends Button {
     float _scale = 0.5f;
 
     public ImageButton(String text, ResourcesManager.ImagesID id) {
-        _image = ResourcesManager.getInstance().getImage(id);
+        _image = ResourcesManager.Instance().getImage(id);
         _text = text;
 
         InputManager.getInstance().addInteractObject(this);

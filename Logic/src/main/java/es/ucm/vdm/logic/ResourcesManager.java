@@ -16,7 +16,7 @@ public class ResourcesManager {
         }
     }
 
-    public static ResourcesManager getInstance() {
+    public static ResourcesManager Instance() {
         if (_instance == null)
             System.err.println("**ResourcesManager no inicializado**\nEs necesario llamar una vez al metodo initResourcesManager");
         return _instance;

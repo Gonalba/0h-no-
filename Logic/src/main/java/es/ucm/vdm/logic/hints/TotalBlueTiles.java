@@ -2,13 +2,14 @@ package es.ucm.vdm.logic.hints;
 
 import java.util.ArrayList;
 
+import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.engine.Position;
 
 public class TotalBlueTiles extends Hint {
 
-    public TotalBlueTiles(String text) {
-        super(text);
+    public TotalBlueTiles(String text, Font font) {
+        super(text, font);
     }
 
     //4

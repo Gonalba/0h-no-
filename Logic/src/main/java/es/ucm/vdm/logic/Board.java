@@ -9,7 +9,6 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.logic.engine.GameObject;
 import es.ucm.vdm.logic.engine.Position;
 import es.ucm.vdm.logic.hints.Hint;
-import es.ucm.vdm.logic.states.GameState;
 
 /**
  * Clase que contiene la representacion logica del tablero
@@ -37,9 +36,9 @@ public class Board extends GameObject {
 
     public Board(Graphics g, HintsManager h) {
         _g = g;
-        _font = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TILE_NUMBER);
-        _font1 = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TILE_NUMBER2);
-        _font2 = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TILE_NUMBER3);
+        _font = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER);
+        _font1 = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER2);
+        _font2 = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER3);
         _dimension = 0;
         _pool = new Stack<>();
         _board = new ArrayList<>();

@@ -4,7 +4,7 @@ import java.util.List;
 
 import es.ucm.vdm.engine.common.Input;
 /**
- * Los objetos que implementen esta interfaz reciven los eventos del input manager
+ * Los objetos que implementen esta interfaz reciben los eventos del input manager
  * */
 public interface InteractiveObject {
     /**

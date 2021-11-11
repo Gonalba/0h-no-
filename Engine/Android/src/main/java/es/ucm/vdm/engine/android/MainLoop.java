@@ -1,5 +1,9 @@
 package es.ucm.vdm.engine.android;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import es.ucm.vdm.engine.common.State;
 
 public class MainLoop implements Runnable {
@@ -84,6 +88,7 @@ public class MainLoop implements Runnable {
      * ejecutado en otra hebra. Aunque sea público, NO debe ser llamado
      * desde el exterior.
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void run() {
         if (_renderThread != Thread.currentThread()) {
@@ -105,7 +110,7 @@ public class MainLoop implements Runnable {
 
         while (!_engine.getSurfaceView().getHolder().getSurface().isValid())
             ;
-        _engine.getGraphics().setCanvas(_engine.getSurfaceView().getHolder().lockCanvas());
+        _engine.getGraphics().setCanvas(_engine.getSurfaceView().getHolder().lockHardwareCanvas());
         _engine.getGraphics().setScaleFactor(_engine.getSurfaceView().getWidth(), _engine.getSurfaceView().getHeight());
         _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
 

@@ -2,6 +2,7 @@ package es.ucm.vdm.logic.hints;
 
 import java.util.ArrayList;
 
+import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.engine.GameObject;
@@ -19,11 +20,13 @@ public abstract class Hint extends GameObject {
     protected static Position _pointToReturn = new Position(0, 0);
 
     private String _text;
+    private Font _font;
     private boolean _visible = false;
 
 
-    Hint(String text) {
+    Hint(String text, Font font) {
         _text = text;
+        _font = font;
     }
 
 
@@ -41,14 +44,33 @@ public abstract class Hint extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        if (_visible)
-            g.drawText(_text, _position.x, _position.y);
+        if (g.save() && _visible) {
+            g.translate(_position.x, _position.y);
+
+            g.setColor(0xFF000000);
+            g.setFont(_font);
+
+            int i = 0, initChar = 0, line = 0;
+
+            while (i < _text.length()) {
+
+                if (_text.charAt(i) == '\n' || i == _text.length() - 1) {
+                    String s = _text.substring(initChar, i + 1);
+                    int w = (int)(g.getWidth() - (s.length() * _font.getSize() / 2.3)) / 2;
+                    g.drawText(s, w, line * 30);
+                    initChar += i;
+                    line++;
+                }
+                i++;
+            }
+        }
+        g.restore();
     }
 
 
     /**
      * Hace visible el texto de la pista o no, segun si le pasas true o false
-     * */
+     */
     public void setVisible(boolean b) {
         _visible = b;
     }

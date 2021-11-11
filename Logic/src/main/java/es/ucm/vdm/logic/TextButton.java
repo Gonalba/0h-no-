@@ -2,22 +2,18 @@ package es.ucm.vdm.logic;
 
 import java.util.List;
 
-import es.ucm.vdm.engine.common.Engine;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.engine.Button;
-import es.ucm.vdm.logic.engine.GameObject;
 import es.ucm.vdm.logic.engine.InputManager;
-import es.ucm.vdm.logic.engine.InteractiveObject;
-import es.ucm.vdm.logic.engine.Position;
 
 public class TextButton extends Button {
     private Font _font;
     String _text;
 
     public TextButton(String text, ResourcesManager.FontsID id) {
-        _font = ResourcesManager.getInstance().getFont(id);
+        _font = ResourcesManager.Instance().getFont(id);
         _text = text;
 
         InputManager.getInstance().addInteractObject(this);

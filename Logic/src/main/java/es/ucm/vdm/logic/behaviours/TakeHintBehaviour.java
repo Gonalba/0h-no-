@@ -3,18 +3,17 @@ package es.ucm.vdm.logic.behaviours;
 import es.ucm.vdm.logic.HintsManager;
 import es.ucm.vdm.logic.engine.Behaviour;
 import es.ucm.vdm.logic.hints.Hint;
+import es.ucm.vdm.logic.states.GameState;
 
 public class TakeHintBehaviour implements Behaviour {
-    private HintsManager _hintManager;
+    private GameState _gameState;
 
-    public TakeHintBehaviour(HintsManager hm) {
-        _hintManager = hm;
+    public TakeHintBehaviour(GameState gs) {
+        _gameState = gs;
     }
 
     @Override
     public void onClick() {
-        Hint h = _hintManager.getHint();
-        h.setVisible(true);
-        h.setPosition(0,0);
+        _gameState.showHint();
     }
 }

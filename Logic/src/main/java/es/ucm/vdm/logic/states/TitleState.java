@@ -24,9 +24,9 @@ public class TitleState implements State {
     @Override
     public boolean init(Engine engine) {
 
-        _q42 = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.Q42);
-        _title = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TITLE);
-        _text = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.TITLE_DESCRIPTION);
+        _q42 = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.Q42);
+        _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TITLE);
+        _text = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TITLE_DESCRIPTION);
 
         _playButton = new TextButton("Jugar", ResourcesManager.FontsID.PLAY_BUTTON);
         _playButton.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));

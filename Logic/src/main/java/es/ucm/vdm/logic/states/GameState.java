@@ -14,6 +14,7 @@ import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.behaviours.TakeHintBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.Position;
+import es.ucm.vdm.logic.hints.Hint;
 
 public class GameState implements State {
     Board board;
@@ -30,6 +31,9 @@ public class GameState implements State {
     Font hintFont;
 
     int _dimension = 4;
+    boolean _visibleDimensionTitle = true;
+
+    Hint visibleHint;
 
     // dividimos la pantalla en 5 lineas
     // el tablero ocupa 3 y los menus superior e inferior 1 respectivamente
@@ -79,16 +83,16 @@ public class GameState implements State {
 
         eye = new ImageButton("", ResourcesManager.ImagesID.EYE);
         eye.setPosition(colPos * 2, bottomRegion.y + (centralRegion.y / 4));
-        eye.setBehaviour(new TakeHintBehaviour(_hintsManager));
+        eye.setBehaviour(new TakeHintBehaviour(this));
 
         history = new ImageButton("", ResourcesManager.ImagesID.HISTORY);
         history.setPosition(colPos * 3, bottomRegion.y + (centralRegion.y / 4));
         //history.setBehaviour();
 
-        lock = ResourcesManager.getInstance().getImage(ResourcesManager.ImagesID.LOCK);
+        lock = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.LOCK);
 
-        dimensionFont = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.DIMENSION_TITLE);
-        hintFont = ResourcesManager.getInstance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION);
+        dimensionFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.DIMENSION_TITLE);
+        hintFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION);
 
         return true;
     }
@@ -105,17 +109,16 @@ public class GameState implements State {
     public void render(Graphics g) {
         g.clear(0xFFFFFFFF);
 
-
         //TOP REGION
-        g.setColor(0xFF000000);
-        g.setFont(dimensionFont);
-
         _hintsManager.render(g);
 
-        String dim = String.valueOf(board.getDimension());
-        int centPosX = (g.getWidth() - 93) / 2;
-        g.drawText(dim + "x" + dim, centPosX, centralRegion.y / 2);
-
+        if (_visibleDimensionTitle) {
+            g.setColor(0xFF000000);
+            g.setFont(dimensionFont);
+            String dim = String.valueOf(board.getDimension());
+            int centPosX = (g.getWidth() - 93) / 2;
+            g.drawText(dim + "x" + dim, centPosX, centralRegion.y / 2);
+        }
         //CENTRAL REGION
         board.render(g);
 
@@ -126,6 +129,17 @@ public class GameState implements State {
 //        g.drawImage(lock, (colPos / 2) + (colPos * 3), bottomRegion.y + (centralRegion.y / 2), size, size);
 
 
+    }
+
+    public void showHint() {
+        if(visibleHint != null)
+            visibleHint.setVisible(false);
+
+        _visibleDimensionTitle = false;
+
+        visibleHint = _hintsManager.getHint();
+        visibleHint.setVisible(true);
+        visibleHint.setPosition(10, 40);
     }
 
     @Override
