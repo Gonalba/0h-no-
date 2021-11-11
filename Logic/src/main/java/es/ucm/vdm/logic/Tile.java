@@ -42,18 +42,14 @@ public class Tile extends GameObject implements InteractiveObject {
     // collor actual de la casilla
     private int _currentColor;
 
-    private Stack<Position> _history;
-    private Board _board;
-
     private Font _numFont;
+    private Board _board;
 
     public Tile(Font f, int radius, Board board) {
         _numFont = f;
+        _board = board;
         _currentColor = grayColor;
         _radius = radius;
-
-        _history = board.get_history();
-        _board = board;
         InputManager.getInstance().addInteractObject(this);
     }
 
@@ -75,7 +71,7 @@ public class Tile extends GameObject implements InteractiveObject {
                 System.out.println("null");
             if (e._type == Input.Type.PRESS && inChoords(e._x, e._y)) {
                 change();
-                _history.add(_position);
+                _board.setMoveHistory(this);
             }
         }
     }

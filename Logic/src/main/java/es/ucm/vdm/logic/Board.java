@@ -10,6 +10,7 @@ import es.ucm.vdm.logic.engine.GameObject;
 import es.ucm.vdm.logic.engine.Position;
 import es.ucm.vdm.logic.hints.Hint;
 import es.ucm.vdm.logic.states.GameState;
+import sun.security.util.Debug;
 
 /**
  * Clase que contiene la representacion logica del tablero
@@ -89,9 +90,10 @@ public class Board extends GameObject {
         return _board.get((_dimension * y) + x);
     }
     public Tile getTile(Position pos) {
+        System.out.println(String.valueOf(pos.x));
+        System.out.println(String.valueOf(pos.y));
         if (pos.x >= _dimension || pos.y >= _dimension || pos.x < 0 || pos.y < 0)
             return null;
-
         return _board.get((_dimension * pos.y) + pos.x);
     }
 
@@ -105,8 +107,29 @@ public class Board extends GameObject {
     /**
      * Metodo que devuelve el stack de posiciones modificadas
      */
-    public Stack<Position> get_history() {
+    public Stack<Position> getHistory() {
         return _history;
+    }
+
+    public void setMoveHistory(Tile t){
+        int index = _board.indexOf(t);
+        int x,y;
+        x = index % _dimension;
+        y = index/_dimension;
+
+        _history.add(new Position(x,y));
+    }
+    public void undoMove(){
+        if (!_history.empty()) {
+
+            Position a = _history.pop();//devuelve el primer elemento
+            if(getTile(a) != null)
+            getTile(a).previousState();
+
+        }
+        else {
+            System.out.println("Errorcito: no hay movimientos");
+        }
     }
     /**
      * Metodo que redimensiona el tablero al tamaño pasado por parámetro
