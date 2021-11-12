@@ -54,7 +54,7 @@ public class MenuState implements State {
 
         int verPos = (engine.getGraphics().getHeight()/5) * 4;
         int colPos = (engine.getGraphics().getWidth()/5)*2;
-        close = new ImageButton("", ResourcesManager.ImagesID.CLOSE);
+        close = new ImageButton(ResourcesManager.ImagesID.CLOSE);
         close.setPosition(colPos,verPos );
         close.setBehaviour(new ChangeStateBehaviour(_game, _game.getTitleState()));
         return true;

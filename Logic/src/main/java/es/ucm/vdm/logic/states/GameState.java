@@ -75,15 +75,15 @@ public class GameState implements State {
 
         int colPos = engine.getGraphics().getWidth() / 5;
 
-        close = new ImageButton("", ResourcesManager.ImagesID.CLOSE);
+        close = new ImageButton(ResourcesManager.ImagesID.CLOSE);
         close.setPosition(colPos, bottomRegion.y + (centralRegion.y / 4));
         close.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
 
-        eye = new ImageButton("", ResourcesManager.ImagesID.EYE);
+        eye = new ImageButton(ResourcesManager.ImagesID.EYE);
         eye.setPosition(colPos * 2, bottomRegion.y + (centralRegion.y / 4));
         eye.setBehaviour(new TakeHintBehaviour(this));
 
-        history = new ImageButton("", ResourcesManager.ImagesID.HISTORY);
+        history = new ImageButton(ResourcesManager.ImagesID.HISTORY);
         history.setPosition(colPos * 3, bottomRegion.y + (centralRegion.y / 4));
         history.setBehaviour(new StepBackBehaviour(board));
 
