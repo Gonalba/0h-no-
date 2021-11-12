@@ -83,6 +83,7 @@ public class HintsManager {
         currentVisibleHint = hints.get(r.nextInt(hints.size()));
 
         currentVisibleHint.showText(true);
+        System.out.println(currentVisibleHint._text + " " + currentVisibleHint.getIndexTileX() + " " + currentVisibleHint.getIndexTileY());
         board.get((dimension * currentVisibleHint.getIndexTileY()) + currentVisibleHint.getIndexTileX()).showHintMark(true);
     }
 

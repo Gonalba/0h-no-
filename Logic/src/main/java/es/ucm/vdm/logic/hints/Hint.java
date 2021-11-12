@@ -19,7 +19,7 @@ public abstract class Hint extends GameObject {
 
     protected static Position _pointToReturn = new Position(0, 0);
 
-    private String _text;
+    public String _text;
     private Font _font;
     private boolean _visible = false;
 

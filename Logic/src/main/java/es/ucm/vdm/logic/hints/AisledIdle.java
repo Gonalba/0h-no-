@@ -19,6 +19,9 @@ public class AisledIdle extends Hint {
     public Position executeHint(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());
 
+        if (board.get((dimension * y) + x).getState() != Tile.State.EMPTY)
+            return null;
+
         boolean rodeada = aisled(x, y, board);
         Tile actual = board.get((dimension * y) + x);
         //si alrededor son muros, si es IDLE y si no tiene numero

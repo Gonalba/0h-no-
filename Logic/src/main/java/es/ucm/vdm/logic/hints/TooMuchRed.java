@@ -19,10 +19,8 @@ public class TooMuchRed extends Hint {
     public Position executeHint(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());
 
-        if (board.get((dimension * y) + x).getState() != Tile.State.DOT)
-            return null;
-
-        if (blueVisibles(x, y, board) >= board.get((dimension * y) + x).getNumber())
+        if (board.get((dimension * y) + x).getState() != Tile.State.DOT ||
+                blueVisibles(x, y, board) >= board.get((dimension * y) + x).getNumber())
             return null;
 
         int currentX, currentY;

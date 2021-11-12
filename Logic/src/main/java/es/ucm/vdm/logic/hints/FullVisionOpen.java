@@ -14,15 +14,13 @@ public class FullVisionOpen extends Hint {
 
     //1
     // Devuelve TRUE si una casilla azul ve las VALOR casillas que tiene que ver
-    // y que la casilla no esta limitada por las paredes en caso contrario FALSE
+    // y que la casilla no esta limitada por las paredes, en caso contrario FALSE
     @Override
     public Position executeHint(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());
-        
-        boolean b = board.get((dimension * y) + x).getState() == Tile.State.DOT &&
-                blueVisibles(x, y, board) == board.get((dimension * y) + x).getNumber();
 
-        if (!b)
+        if (board.get((dimension * y) + x).getState() != Tile.State.DOT ||
+                blueVisibles(x, y, board) != board.get((dimension * y) + x).getNumber())
             return null;
 
         int currentX, currentY;
