@@ -118,11 +118,10 @@ public class PCEngine implements Engine {
 
     @Override
     public void setState(State s) {
-        if (_state == null){
+        if (_state == null) {
             _state = s;
             _state.init(this);
-        }
-        else
+        } else
             _nextState = s;
     }
 

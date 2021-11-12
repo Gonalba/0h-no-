@@ -31,8 +31,7 @@ public class MainLoop implements Runnable {
         if (_state == null) {
             _state = s;
             _state.init(_engine);
-        }
-        else
+        } else
             _nextState = s;
     }
 
@@ -134,7 +133,7 @@ public class MainLoop implements Runnable {
             _engine.getGraphics().renderBars();
             _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
 
-            if(_nextState != null){
+            if (_nextState != null) {
                 _state.exit();
                 _nextState.init(_engine);
                 _state = _nextState;

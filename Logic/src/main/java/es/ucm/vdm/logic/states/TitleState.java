@@ -43,6 +43,8 @@ public class TitleState implements State {
     public void render(Graphics g) {
         g.clear(0xFFFFFFFF);
 
+        g.setColor(0xFFFFFFFF);
+
         int w = _q42.getWidth() / 20;
         int h = _q42.getHeight() / 20;
         g.drawImage(_q42, (g.getWidth() / 2) - (w / 2), g.getHeight() - (g.getHeight() / 5), w, h);
@@ -59,7 +61,7 @@ public class TitleState implements State {
         g.drawText("Un juego copiado a Q42", w, g.getHeight() - g.getHeight() / 3);
         g.drawText("Creado por Martin Kool", w, g.getHeight() - g.getHeight() / 3 + 30);
 
-        g.setColor(0xFF000000);
+        g.setColor(0x66000000);
         _playButton.render(g);
     }
 

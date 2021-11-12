@@ -32,14 +32,14 @@ public class InputManager {
     }
 
     public static InputManager getInstance() {
-        if(_instance == null)
+        if (_instance == null)
             System.err.println("**InputManager no inicializado**\nEs necesario llamar una vez al metodo initInutManager");
         return _instance;
     }
 
     /**
      * Este metodo sirve para dar de alta los objetos que queremos que recivan los eventos
-     * */
+     */
     public void addInteractObject(InteractiveObject o) {
         if (!_interactiveObjects.contains(o))
             _nextInteractiveObjects.add(o);
@@ -57,11 +57,11 @@ public class InputManager {
             io.receivesEvents(events);
         }
 
-        while(!_nextInteractiveObjects.empty()){
+        while (!_nextInteractiveObjects.empty()) {
             _interactiveObjects.add(_nextInteractiveObjects.pop());
         }
 
-        while(!_removeInteractiveObjects.empty()){
+        while (!_removeInteractiveObjects.empty()) {
             _interactiveObjects.remove(_removeInteractiveObjects.pop());
         }
     }

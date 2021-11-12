@@ -21,6 +21,6 @@ public class ForcedBlueSolved extends Hint {
         if (board.get((dimension * y) + x).getState() != Tile.State.DOT)
             return null;
 
-        return (board.get((dimension * y) + x).getNumber() == OnSight(x, y, board)) ? _pointToReturn.set(x, y) : null;
+        return (board.get((dimension * y) + x).getNumber() == onSight(x, y, board)) ? _pointToReturn.set(x, y) : null;
     }
 }

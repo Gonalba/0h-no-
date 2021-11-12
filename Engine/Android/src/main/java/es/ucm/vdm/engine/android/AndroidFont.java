@@ -12,7 +12,7 @@ public class AndroidFont implements Font {
     private int _size;
     private boolean _isBold;
 
-    AndroidFont(AssetManager assetManager, String filename, int size, boolean isBold){
+    AndroidFont(AssetManager assetManager, String filename, int size, boolean isBold) {
         _font = Typeface.createFromAsset(assetManager, filename);
         _size = size;
         _isBold = isBold;
@@ -26,9 +26,13 @@ public class AndroidFont implements Font {
         return _font;
     }
 
-    public int getSize() { return _size; }
+    public int getSize() {
+        return _size;
+    }
 
-    public boolean isBold() { return _isBold; }
+    public boolean isBold() {
+        return _isBold;
+    }
 
     //public void setSize(int _size){ }
 }

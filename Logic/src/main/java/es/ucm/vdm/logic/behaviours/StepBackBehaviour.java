@@ -8,7 +8,7 @@ public class StepBackBehaviour implements Behaviour {
     private GameState _gs;
     private Board _board;
 
-    public StepBackBehaviour(Board board,GameState gs) {
+    public StepBackBehaviour(Board board, GameState gs) {
 
         _board = board;
         _gs = gs;

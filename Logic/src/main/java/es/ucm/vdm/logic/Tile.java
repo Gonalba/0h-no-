@@ -73,8 +73,9 @@ public class Tile extends GameObject implements InteractiveObject {
     @Override
     public void receivesEvents(List<Input.MyEvent> events) {
         for (Input.MyEvent e : events) {
-            if (e._type == null)
-                System.out.println("null");
+            if (e == null)
+                return;
+
             if (e._type == Input.Type.PRESS && inChoords(e._x, e._y)) {
                 change();
                 _board.setMoveHistory(this);
@@ -89,7 +90,6 @@ public class Tile extends GameObject implements InteractiveObject {
 
     @Override
     public void update(double delta) {
-
 
     }
 
@@ -108,8 +108,10 @@ public class Tile extends GameObject implements InteractiveObject {
             if (_currentState == State.DOT && _isLocked) {
                 g.setColor(0xFFFFFFFF);
                 g.setFont(_numFont);
-                g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
+                g.drawText(String.valueOf(_number), -g.getWidthText(String.valueOf(_number)) / 2,
+                        g.getWidthText(String.valueOf(_number)) / 2);
             } else if (_currentState == State.WALL && _isLocked && _showLock) {
+                g.setColor(0x33FFFFFF);
                 int pos = _radius / 2;
                 g.drawImage(_lockImage, -pos, -pos, _radius, _radius);
             }

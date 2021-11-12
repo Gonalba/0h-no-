@@ -33,10 +33,16 @@ public class GraphicsButton extends Button {
         g.setColor(_color);
         g.fillCircle(getPosition().x, getPosition().y, _r);
 
-        g.setColor(0xFF000000);
+        g.setColor(0xFFFFFFFF);
         g.setFont(_font);
-        g.drawText(String.valueOf(_num), _position.x - (_font.getSize() / 4), _position.y + (_font.getSize() / 4));
+        if (g.save()) {
+            g.translate(_position.x, _position.y);
+            String text = String.valueOf(_num);
+            g.drawText(text, -g.getWidthText(text) / 2, g.getWidthText(text) / 2);
+        }
+        g.restore();
     }
+
 
     @Override
     public void receivesEvents(List<Input.MyEvent> events) {

@@ -29,7 +29,6 @@ public class Board extends GameObject {
 
     private HintsManager _hintsManager;
 
-
     private Font _font;
     private Font _font1;
     private Font _font2;
@@ -87,6 +86,7 @@ public class Board extends GameObject {
 
         return _board.get((_dimension * y) + x);
     }
+
     public Tile getTile(Position pos) {
         //System.out.println(String.valueOf(pos.x));
         //System.out.println(String.valueOf(pos.y));
@@ -105,26 +105,27 @@ public class Board extends GameObject {
     /**
      * Metodo que añade tiles al stack de posiciones
      */
-    public void setMoveHistory(Tile t){
+    public void setMoveHistory(Tile t) {
         int index = _board.indexOf(t);
-        int x,y;
+        int x, y;
         x = index % _dimension;
-        y = index/_dimension;
+        y = index / _dimension;
 
-        _history.add(new Position(x,y));
+        _history.add(new Position(x, y));
     }
+
     /**
      * Metodo que quita tiles al stack de posiciones
      */
-    public String undoMove(){
+    public String undoMove() {
         String _text;
         if (!_history.empty()) {
 
             Position a = _history.pop();//devuelve el primer elemento
-            if(getTile(a) != null)
-            getTile(a).previousState();
+            if (getTile(a) != null)
+                getTile(a).previousState();
             //sacar por pantalla el cambio de color
-            switch (getTile(a).getState()){
+            switch (getTile(a).getState()) {
                 case DOT:
                     _text = "Esta celda ha vuelto a azul";
                     break;
@@ -139,14 +140,12 @@ public class Board extends GameObject {
                     break;
             }
 
-        }
-        else {
-            System.out.println("Errorcito: no hay movimientos");
-            //sacar por pantalla que no hay movimientos pendientes
+        } else
             _text = "No quedan movimientos";
-        }
+
         return _text;
     }
+
     /**
      * Metodo que redimensiona el tablero al tamaño pasado por parámetro
      */
@@ -167,17 +166,14 @@ public class Board extends GameObject {
                     _board.add(t);
                 } else {
                     // Se genera un tablero entero de tipo DOT con valor dimension, que es el maximo que podria tener
-                    if(_dimension == 4 || _dimension == 5) {
-                        t = new Tile(_font, tileRadius,this);
-                    }
-                    else if(_dimension == 6 || _dimension == 7){
-                        t = new Tile(_font1, tileRadius,this);
-                    }
-                    else if(_dimension == 8 || _dimension == 9){
-                        t = new Tile(_font2, tileRadius,this);
-                    }
-                    else{
-                        t = new Tile(_font, tileRadius,this);
+                    if (_dimension == 4 || _dimension == 5) {
+                        t = new Tile(_font, tileRadius, this);
+                    } else if (_dimension == 6 || _dimension == 7) {
+                        t = new Tile(_font1, tileRadius, this);
+                    } else if (_dimension == 8 || _dimension == 9) {
+                        t = new Tile(_font2, tileRadius, this);
+                    } else {
+                        t = new Tile(_font, tileRadius, this);
                     }
                     t.setState(Tile.State.DOT);
                     t.setNumber((_dimension * 2) - 2);

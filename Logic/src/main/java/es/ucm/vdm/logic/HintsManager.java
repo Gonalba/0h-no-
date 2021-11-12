@@ -45,11 +45,11 @@ public class HintsManager {
 
     private void init() {
         _resolutionHints = new ArrayList<>();
-        _resolutionHints.add(new FullVisionOpen("Este número ve todos\n sus puntos",
+        _resolutionHints.add(new FullVisionOpen("Este número ve todos\nsus puntos",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _resolutionHints.add(new TooMuchBlue("Extender en una dirección\n superará el máximo permitido",
+        _resolutionHints.add(new TooMuchBlue("Extender en una dirección\nsuperará el máximo permitido",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _resolutionHints.add(new ForceBlue("Este número solo puede\n ampliarse en una dirección",
+        _resolutionHints.add(new ForceBlue("Este número solo puede\nampliarse en una dirección",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
         _errorHints = new ArrayList<>();
@@ -63,11 +63,11 @@ public class HintsManager {
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
         _additionalHints = new ArrayList<>();
-        _additionalHints.add(new ForcedBlueUniqueDirection("Este número solo puede\n ampliarse en una direccón",
+        _additionalHints.add(new ForcedBlueUniqueDirection("Este número solo puede\nampliarse en una direccón",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _additionalHints.add(new ForcedBlueSolved("Este punto debería ver\n al menos a otro",
+        _additionalHints.add(new ForcedBlueSolved("Este punto debería ver\nal menos a otro",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _additionalHints.add(new TooMuchRedOpen("Este punto debe ver\n al menos a otro",
+        _additionalHints.add(new TooMuchRedOpen("Este punto debe ver\nal menos a otro",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
     }
 

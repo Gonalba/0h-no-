@@ -22,7 +22,7 @@ public class TooMuchRedOpen extends Hint {
         if (board.get((dimension * y) + x).getState() != Tile.State.DOT)
             return null;
 
-        if (board.get((dimension * y) + x).getNumber() > OnSight(x, y, board))
+        if (board.get((dimension * y) + x).getNumber() > onSight(x, y, board))
             return _pointToReturn.set(x, y);
         return null;
     }

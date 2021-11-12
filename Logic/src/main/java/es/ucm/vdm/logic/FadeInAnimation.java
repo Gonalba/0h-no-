@@ -20,7 +20,7 @@ public class FadeInAnimation extends Animation {
         _color |= alpha << 24;
     }
 
-    public static int getA(int argb) {
+    public int getA(int argb) {
         return (argb >> 24) & 0xFF;
     }
 }

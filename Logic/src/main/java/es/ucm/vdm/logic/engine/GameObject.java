@@ -30,4 +30,5 @@ public abstract class GameObject {
     public Position getPosition() {
         return _position;
     }
+
 }

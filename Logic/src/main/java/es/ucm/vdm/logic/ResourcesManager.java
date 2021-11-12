@@ -32,17 +32,17 @@ public class ResourcesManager {
     }
 
     public enum FontsID {
-        
+
         MOLLE_REGULAR_70,
         MOLLE_REGULAR_130,
+        JOSEFINSANS_16,
         JOSEFINSANS_27,
         JOSEFINSANS_BOLD_24,
         JOSEFINSANS_BOLD_29,
         JOSEFINSANS_BOLD_30,
         JOSEFINSANS_BOLD_36,
         JOSEFINSANS_BOLD_60,
-        JOSEFINSANS_BOLD_80,
-        HISTORICAL
+        JOSEFINSANS_BOLD_80
     }
 
     private Engine _engine;
@@ -65,6 +65,8 @@ public class ResourcesManager {
 
         _fonts.add(_engine.getGraphics().newFont("Molle-Regular.ttf", 70, false));
         _fonts.add(_engine.getGraphics().newFont("Molle-Regular.ttf", 130, false));
+
+        _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 16, false));//history font
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 27, false));
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 24, true)); //tile number font
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 29, true)); //tile number font
@@ -72,7 +74,6 @@ public class ResourcesManager {
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 36, true)); //tile number font
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 60, true));
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 80, true));
-        _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 16, false));//history font
 
     }
 

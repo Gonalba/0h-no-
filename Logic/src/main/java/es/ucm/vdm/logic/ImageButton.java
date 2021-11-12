@@ -42,7 +42,7 @@ public class ImageButton extends Button {
     private boolean inChoords(int x, int y) {
         int length = (int) (_image.getWidth() * _scale);
 
-        return x >_position.x + ((_image.getWidth() - length) / 2) &&
+        return x > _position.x + ((_image.getWidth() - length) / 2) &&
                 x < _position.x + ((_image.getWidth() - length) / 2) + length &&
                 y > _position.y + ((_image.getWidth() - length) / 2) &&
                 y < _position.y + ((_image.getWidth() - length) / 2) + length;

@@ -90,17 +90,17 @@ public class GameState implements State {
 
         history = new ImageButton(ResourcesManager.ImagesID.HISTORY);
         history.setPosition(colPos * 3, bottomRegion.y + (centralRegion.y / 4));
-        history.setBehaviour(new StepBackBehaviour(board,this));
+        history.setBehaviour(new StepBackBehaviour(board, this));
 
         lock = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.LOCK);
 
         dimensionFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_60);
         hintFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30);
-        historicalFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HISTORICAL);
+        historicalFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_16);
 
         _visibleDimensionTitle = true;
         _setUndoText = false;
-        
+
         return true;
     }
 
@@ -124,20 +124,19 @@ public class GameState implements State {
             String dim = String.valueOf(board.getDimension());
             int centPosX = (g.getWidth() - 93) / 2;
             g.drawText(dim + "x" + dim, centPosX, centralRegion.y / 2);
-        }
-        else if(_setUndoText){
+        } else if (_setUndoText) {
             g.setColor(0xFF000000);
             g.setFont(hintFont);
             int centPosX = 35;
             g.drawText(stepback, centPosX, centralRegion.y / 2);
-        }
-        else
+        } else
             _hintsManager.render(g);
 
         //CENTRAL REGION
         board.render(g);
 
         //BOTTOM REGION
+        g.setColor(0x66FFFFFF);
         close.render(g);
         eye.render(g);
         history.render(g);
@@ -154,7 +153,7 @@ public class GameState implements State {
 
     }
 
-    public void showUndo(String s){
+    public void showUndo(String s) {
         _visibleDimensionTitle = false;
         stepback = s;
         _setUndoText = true;

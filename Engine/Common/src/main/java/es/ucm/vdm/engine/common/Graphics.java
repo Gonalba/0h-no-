@@ -104,7 +104,7 @@ public interface Graphics {
 
     /**
      * Devuelve el ancho en pixeles de la cadena que se le pasa por parametro
-     * */
+     */
     int getWidthText(String text);
 
     /**

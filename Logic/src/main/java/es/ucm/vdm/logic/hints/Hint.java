@@ -143,7 +143,7 @@ public abstract class Hint extends GameObject {
 
     //Metodo auxiliar para pistas 9 y 10
     //Cuenta azules y vacias alcanzables desde la posicion x,y
-    protected static int OnSight(int x, int y, ArrayList<Tile> board) {
+    protected static int onSight(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());
 
         int fullOnSight = 0;
