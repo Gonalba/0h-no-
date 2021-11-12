@@ -130,6 +130,10 @@ public class PCGraphics extends AbstractGraphics {
         }
     }
 
+    public int getWidthText(String text){
+        return _graphics.getFontMetrics().stringWidth(text);
+    }
+
     @Override
     protected void renderBars() {
         super.renderBars();

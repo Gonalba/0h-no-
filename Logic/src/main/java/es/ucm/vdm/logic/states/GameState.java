@@ -138,7 +138,7 @@ public class GameState implements State {
 
         _visibleDimensionTitle = false;
 
-        visibleHint = _hintsManager.getHint();
+        visibleHint = _hintsManager.getHint(board.getBoard());
         visibleHint.setVisible(true);
         visibleHint.setPosition(10, 40);
     }

@@ -32,6 +32,10 @@ public class HintsManager {
     ArrayList<Hint> _errorHints;
     ArrayList<Hint> _additionalHints;
 
+    // array con las pistas actuales del tablero (desde la ultima vez que se llamo al getHints())
+    ArrayList<Hint> currentHints = new ArrayList<>();
+
+
     public HintsManager() {
         init();
     }
@@ -56,26 +60,50 @@ public class HintsManager {
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
 
         _additionalHints = new ArrayList<>();
-        _additionalHints.add(new ForcedBlueUniqueDirection("Casillas visibles incompletas,\n rellenar en la unica direccion disponible",
+        _additionalHints.add(new ForcedBlueUniqueDirection("Casillas visibles incompletas,\n rellenar en la direccion disponible",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
-        _additionalHints.add(new ForcedBlueSolved("Casillas visibles incompletas,\n rellenar todas las casillas colindantes",
+        _additionalHints.add(new ForcedBlueSolved("Casillas visibles incompletas,\n rellenar las casillas colindantes",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
-        _additionalHints.add(new TooMuchRedOpen("Opcion inviable, liberar casilla pared",
+        _additionalHints.add(new TooMuchRedOpen("Opcion inviable, liberar casilla\n pared",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
     }
 
-    public Hint getHint() {
+    public Hint getHint(ArrayList<Tile> board) {
         Random r = new Random();
-        int aux = r.nextInt(2);
-        if (aux == 0)
-            return _resolutionHints.get(r.nextInt(_resolutionHints.size() - 1));
-        else if (aux == 1)
-            return _errorHints.get(r.nextInt(_errorHints.size() - 1));
-        else if (aux == 2)
-            return _additionalHints.get(r.nextInt(_additionalHints.size() - 1));
+        ArrayList<Hint> hints = getCurrentHints(board);
+        return hints.get(r.nextInt(hints.size()));
+    }
+
+    private ArrayList<Hint> getCurrentHints(ArrayList<Tile> board) {
+        currentHints.clear();
+        int dimension = (int) Math.sqrt(board.size());
 
 
-        return _errorHints.get(3);
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                for (Hint h : _resolutionHints) {
+                    if (h.executeHint(j, i, board) != null) {
+                        h.setPosition(j, i);
+                        currentHints.add(h);
+                    }
+                }
+
+                for (Hint h : _errorHints) {
+                    if (h.executeHint(j, i, board) != null) {
+                        h.setPosition(j, i);
+                        currentHints.add(h);
+                    }
+                }
+
+                for (Hint h : _additionalHints) {
+                    if (h.executeHint(j, i, board) != null) {
+                        h.setPosition(j, i);
+                        currentHints.add(h);
+                    }
+                }
+            }
+        }
+        return currentHints;
     }
 
     public void update(double delta) {

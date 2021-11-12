@@ -94,7 +94,7 @@ public class AndroidGraphics extends AbstractGraphics {
         if (_canvas != null)
             _canvas.restore();
         else
-            System.out.println("***********EL OBJETO '_canvas' ES NULL. NO SE PUEDE HACER EL RESTORE***********");
+            System.err.println("***********EL OBJETO '_canvas' ES NULL. NO SE PUEDE HACER EL RESTORE***********");
     }
 
     @Override
@@ -123,6 +123,20 @@ public class AndroidGraphics extends AbstractGraphics {
     @Override
     public void drawText(String text, int x, int y) {
         _canvas.drawText(text, x, y, _paint);
+    }
+
+    @Override
+    public int getWidthText(String text) {
+        int count = 0;
+        if (text != null && text.length() > 0) {
+            float[] widths = new float[text.length()];
+
+            _paint.getTextWidths(text, widths);
+            for (int j = 0; j < text.length(); j++) {
+                count += (int) Math.ceil(widths[j]);
+            }
+        }
+        return count;
     }
 
     @Override

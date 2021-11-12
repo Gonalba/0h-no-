@@ -23,10 +23,18 @@ public abstract class Hint extends GameObject {
     private Font _font;
     private boolean _visible = false;
 
+    private int _x;
+    private int _y;
+
 
     Hint(String text, Font font) {
         _text = text;
         _font = font;
+    }
+
+    public void setPosition(int x, int y) {
+        _x = x;
+        _y = y;
     }
 
 
@@ -47,16 +55,18 @@ public abstract class Hint extends GameObject {
         if (g.save() && _visible) {
             g.translate(_position.x, _position.y);
 
-            g.setColor(0xFF000000);
+            g.setColor(0xFF777777);
             g.setFont(_font);
 
-            int i = 0, initChar = 0, line = 0;
+            int i = 0, initChar = 0, line = 1;
+
+
 
             while (i < _text.length()) {
 
                 if (_text.charAt(i) == '\n' || i == _text.length() - 1) {
                     String s = _text.substring(initChar, i + 1);
-                    int w = (int)(g.getWidth() - (s.length() * _font.getSize() / 2.3)) / 2;
+                    int w = (int) (g.getWidth() -  g.getWidthText(s)) / 2;
                     g.drawText(s, w, line * 30);
                     initChar += i;
                     line++;
