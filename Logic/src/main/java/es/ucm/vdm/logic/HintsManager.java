@@ -45,29 +45,29 @@ public class HintsManager {
 
     private void init() {
         _resolutionHints = new ArrayList<>();
-        _resolutionHints.add(new FullVisionOpen("Casillas visibles completas,\n las colindantes deben ser pared",
+        _resolutionHints.add(new FullVisionOpen("Este número ve todos\n sus puntos",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _resolutionHints.add(new TooMuchBlue("Casilla debe ser pared porque\n supera el numero indicado",
+        _resolutionHints.add(new TooMuchBlue("Extender en una dirección\n superará el máximo permitido",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _resolutionHints.add(new ForceBlue("Casilla debe ser visible por\n la disposicion de las casillas",
+        _resolutionHints.add(new ForceBlue("Este número solo puede\n ampliarse en una dirección",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
         _errorHints = new ArrayList<>();
-        _errorHints.add(new TotalBlueTiles("Excedido el numero de casillas\n visibles",
+        _errorHints.add(new TotalBlueTiles("Este punto ve demasiados",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _errorHints.add(new TooMuchRed("Cantidad de casillas no son\n suficientes, retire alguna roja",
+        _errorHints.add(new TooMuchRed("Este punto no ve suficientes",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _errorHints.add(new AisledIdle("Casilla vacia incomunicada,\n debe ser pared",
+        _errorHints.add(new AisledIdle("Esto debería ser fácil :)",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _errorHints.add(new AisledBlue("Casilla visible aislada del \nresto, debe ser pared",
+        _errorHints.add(new AisledBlue("Esto debería ser fácil :)",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
         _additionalHints = new ArrayList<>();
-        _additionalHints.add(new ForcedBlueUniqueDirection("Casillas visibles incompletas,\n rellenar en la direccion disponible",
+        _additionalHints.add(new ForcedBlueUniqueDirection("Este número solo puede\n ampliarse en una direccón",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _additionalHints.add(new ForcedBlueSolved("Casillas visibles incompletas,\n rellenar las casillas colindantes",
+        _additionalHints.add(new ForcedBlueSolved("Este punto debería ver\n al menos a otro",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _additionalHints.add(new TooMuchRedOpen("Opcion inviable, liberar casilla\n pared",
+        _additionalHints.add(new TooMuchRedOpen("Este punto debe ver\n al menos a otro",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
     }
 
