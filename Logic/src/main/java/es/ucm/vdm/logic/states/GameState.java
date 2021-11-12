@@ -97,6 +97,9 @@ public class GameState implements State {
         dimensionFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_60);
         hintFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30);
         historicalFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HISTORICAL);
+
+        _visibleDimensionTitle = true;
+        _setUndoText = false;
         
         return true;
     }
@@ -114,7 +117,6 @@ public class GameState implements State {
         g.clear(0xFFFFFFFF);
 
         //TOP REGION
-        _hintsManager.render(g);
 
         if (_visibleDimensionTitle) {
             g.setColor(0xFF000000);
@@ -123,12 +125,15 @@ public class GameState implements State {
             int centPosX = (g.getWidth() - 93) / 2;
             g.drawText(dim + "x" + dim, centPosX, centralRegion.y / 2);
         }
-        if(_setUndoText){
+        else if(_setUndoText){
             g.setColor(0xFF000000);
             g.setFont(hintFont);
             int centPosX = 35;
             g.drawText(stepback, centPosX, centralRegion.y / 2);
         }
+        else
+            _hintsManager.render(g);
+
         //CENTRAL REGION
         board.render(g);
 
@@ -143,6 +148,7 @@ public class GameState implements State {
 
     public void showHint() {
         _visibleDimensionTitle = false;
+        _setUndoText = false;
 
         _hintsManager.showHint(board.getBoard());
 

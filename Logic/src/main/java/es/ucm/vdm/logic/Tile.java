@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
+import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.engine.GameObject;
 import es.ucm.vdm.logic.engine.InputManager;
@@ -28,6 +29,8 @@ public class Tile extends GameObject implements InteractiveObject {
     // atributo que determina si la casilla es interactuable o no
     private boolean _isLocked;
 
+    private boolean _showLock = false;
+
     // numero que contiene la casilla (si no tiene numero el valor es 0)
     private int _number;
 
@@ -40,6 +43,7 @@ public class Tile extends GameObject implements InteractiveObject {
     // collor actual de la casilla
     private int _currentColor;
 
+    private Image _lockImage;
     private Font _numFont;
     private Board _board;
 
@@ -52,6 +56,7 @@ public class Tile extends GameObject implements InteractiveObject {
         _currentColor = grayColor;
         _radius = radius;
         InputManager.getInstance().addInteractObject(this);
+        _lockImage = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.LOCK);
     }
 
     public Tile(Tile another) {
@@ -84,12 +89,7 @@ public class Tile extends GameObject implements InteractiveObject {
 
     @Override
     public void update(double delta) {
-        if (_currentState == State.DOT)
-            _currentColor = blueColor;
-        else if (_currentState == State.WALL)
-            _currentColor = redColor;
-        else if (_currentState == State.EMPTY)
-            _currentColor = grayColor;
+
 
     }
 
@@ -105,15 +105,23 @@ public class Tile extends GameObject implements InteractiveObject {
             g.setColor(_currentColor);
             g.fillCircle(0, 0, _radius - 2);
 
-            if (_currentState == State.DOT) {
+            if (_currentState == State.DOT && _isLocked) {
                 g.setColor(0xFFFFFFFF);
                 g.setFont(_numFont);
-                if (!_isLocked)
-                    g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
+                g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
+            } else if (_currentState == State.WALL && _isLocked && _showLock) {
+                int pos = _radius / 2;
+                g.drawImage(_lockImage, -pos, -pos, _radius, _radius);
             }
         }
         g.restore();
 
+    }
+
+    public void showLock(boolean b) {
+        if (_isLocked) {
+            _showLock = b;
+        }
     }
 
     /**
@@ -142,8 +150,9 @@ public class Tile extends GameObject implements InteractiveObject {
         if (!_isLocked) {
             int i = _currentState.ordinal();
             i = (i + 1) % State.values().length;
-            _currentState = State.values()[i];
-
+            setState(State.values()[i]);
+        } else {
+            _board.showLockInTiles(!_showLock);
         }
     } // fin change()
 
@@ -154,11 +163,11 @@ public class Tile extends GameObject implements InteractiveObject {
     public void previousState() {
         if (!_isLocked) {
             if (_currentState == State.DOT)
-                _currentState = State.EMPTY;
+                setState(State.EMPTY);
             else {
                 int i = _currentState.ordinal();
                 i--;
-                _currentState = State.values()[i];
+                setState(State.values()[i]);
             }
         } // if (_isLocked)
     } // fin previousState()
@@ -185,6 +194,13 @@ public class Tile extends GameObject implements InteractiveObject {
 
     public void setState(State state) {
         _currentState = state;
+
+        if (_currentState == State.DOT)
+            _currentColor = blueColor;
+        else if (_currentState == State.WALL)
+            _currentColor = redColor;
+        else if (_currentState == State.EMPTY)
+            _currentColor = grayColor;
     }
 
     public void setLocked(boolean isLocked) {

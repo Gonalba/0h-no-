@@ -262,7 +262,17 @@ public class Board extends GameObject {
         } while (_hintsManager.resolvePuzzle(_board));
 
         t.setState(lastState);
+
+        for (Tile tile : _board) {
+            if (tile.getState() != Tile.State.EMPTY)
+                tile.setLocked(true);
+        }
     }
 
+    public void showLockInTiles(boolean b) {
+        for (Tile tile : _board) {
+            tile.showLock(b);
+        }
+    }
 
 }

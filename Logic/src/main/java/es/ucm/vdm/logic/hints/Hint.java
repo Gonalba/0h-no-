@@ -50,7 +50,7 @@ public abstract class Hint extends GameObject {
         if (g.save() && _visible) {
             g.translate(_position.x, _position.y);
 
-            g.setColor(0xFF777777);
+            g.setColor(0xFF000000);
             g.setFont(_font);
 
             int i = 0, initChar = 0, line = 1;

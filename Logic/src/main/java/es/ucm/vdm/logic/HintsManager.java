@@ -83,7 +83,6 @@ public class HintsManager {
         currentVisibleHint = hints.get(r.nextInt(hints.size()));
 
         currentVisibleHint.showText(true);
-        System.out.println(currentVisibleHint._text + " " + currentVisibleHint.getIndexTileX() + " " + currentVisibleHint.getIndexTileY());
         board.get((dimension * currentVisibleHint.getIndexTileY()) + currentVisibleHint.getIndexTileX()).showHintMark(true);
     }
 
@@ -118,31 +117,13 @@ public class HintsManager {
     }
 
     public void update(double delta) {
-        for (Hint h : _additionalHints) {
-            h.update(delta);
-        }
-
-        for (Hint h : _errorHints) {
-            h.update(delta);
-        }
-
-        for (Hint h : _resolutionHints) {
-            h.update(delta);
-        }
+        if (currentVisibleHint != null)
+            currentVisibleHint.update(delta);
     }
 
     public void render(Graphics g) {
-        for (Hint h : _additionalHints) {
-            h.render(g);
-        }
-
-        for (Hint h : _errorHints) {
-            h.render(g);
-        }
-
-        for (Hint h : _resolutionHints) {
-            h.render(g);
-        }
+        if (currentVisibleHint != null)
+            currentVisibleHint.render(g);
     }
 
     private boolean ApplyHintsInPosition(int x, int y, ArrayList<Tile> board) {
