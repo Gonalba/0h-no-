@@ -127,7 +127,7 @@ public class MainLoop implements Runnable {
             // Pintamos el frame
             while (!_engine.getSurfaceView().getHolder().getSurface().isValid())
                 ;
-            _engine.getGraphics().setCanvas(_engine.getSurfaceView().getHolder().lockCanvas());
+            _engine.getGraphics().setCanvas(_engine.getSurfaceView().getHolder().lockHardwareCanvas());
 
             _state.render(_engine.getGraphics());
 

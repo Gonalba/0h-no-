@@ -41,6 +41,7 @@ public class ResourcesManager {
         TITLE_MENU,
         TILE_NUMBER2,
         TILE_NUMBER3,
+        HISTORICAL
     }
 
     private Engine _engine;
@@ -70,7 +71,7 @@ public class ResourcesManager {
         _fonts.add(_engine.getGraphics().newFont("Molle-Regular.ttf", 70, false));
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 29, true)); //tile number font
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 24, true)); //tile number font
-
+        _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 16, false));//history font
     }
 
     public Font getFont(FontsID id) {

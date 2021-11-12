@@ -29,13 +29,13 @@ public class Board extends GameObject {
 
     private HintsManager _hintsManager;
 
-    private Graphics _g;
+
     private Font _font;
     private Font _font1;
     private Font _font2;
 
-    public Board(Graphics g, HintsManager h) {
-        _g = g;
+    public Board(HintsManager h) {
+
         _font = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER);
         _font1 = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER2);
         _font2 = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER3);
@@ -88,8 +88,8 @@ public class Board extends GameObject {
         return _board.get((_dimension * y) + x);
     }
     public Tile getTile(Position pos) {
-        System.out.println(String.valueOf(pos.x));
-        System.out.println(String.valueOf(pos.y));
+        //System.out.println(String.valueOf(pos.x));
+        //System.out.println(String.valueOf(pos.y));
         if (pos.x >= _dimension || pos.y >= _dimension || pos.x < 0 || pos.y < 0)
             return null;
         return _board.get((_dimension * pos.y) + pos.x);
@@ -103,12 +103,8 @@ public class Board extends GameObject {
     }
 
     /**
-     * Metodo que devuelve el stack de posiciones modificadas
+     * Metodo que añade tiles al stack de posiciones
      */
-    public Stack<Position> getHistory() {
-        return _history;
-    }
-
     public void setMoveHistory(Tile t){
         int index = _board.indexOf(t);
         int x,y;
@@ -117,17 +113,39 @@ public class Board extends GameObject {
 
         _history.add(new Position(x,y));
     }
-    public void undoMove(){
+    /**
+     * Metodo que quita tiles al stack de posiciones
+     */
+    public String undoMove(){
+        String _text;
         if (!_history.empty()) {
 
             Position a = _history.pop();//devuelve el primer elemento
             if(getTile(a) != null)
             getTile(a).previousState();
+            //sacar por pantalla el cambio de color
+            switch (getTile(a).getState()){
+                case DOT:
+                    _text = "Esta celda ha vuelto a azul";
+                    break;
+                case WALL:
+                    _text = "Esta celda ha vuelto a rojo";
+                    break;
+                case EMPTY:
+                    _text = "Esta celda ha vuelto a vacío";
+                    break;
+                default:
+                    _text = "algo ha ido mal";
+                    break;
+            }
 
         }
         else {
             System.out.println("Errorcito: no hay movimientos");
+            //sacar por pantalla que no hay movimientos pendientes
+            _text = "No quedan movimientos";
         }
+        return _text;
     }
     /**
      * Metodo que redimensiona el tablero al tamaño pasado por parámetro

@@ -30,11 +30,13 @@ public class GameState implements State {
 
     Font dimensionFont;
     Font hintFont;
+    Font historicalFont;
 
     int _dimension = 4;
     boolean _visibleDimensionTitle = true;
-
+    boolean _setUndoText = false;
     Hint visibleHint;
+    String stepback = "vacio";
 
     // dividimos la pantalla en 5 lineas
     // el tablero ocupa 3 y los menus superior e inferior 1 respectivamente
@@ -69,7 +71,7 @@ public class GameState implements State {
         int tileRadius = ((bottomRegion.y - centralRegion.y) / (_dimension)) / 2;
 
         _hintsManager = new HintsManager();
-        board = new Board(_engine.getGraphics(), _hintsManager);
+        board = new Board(_hintsManager);
         // sumamos el radio del circulo de la casilla
         // restamos lo que ocupa el tablero al ancho de la pantalla y
         // lo dividimos entre dos para centrar el tablero.
@@ -88,13 +90,13 @@ public class GameState implements State {
 
         history = new ImageButton("", ResourcesManager.ImagesID.HISTORY);
         history.setPosition(colPos * 3, bottomRegion.y + (centralRegion.y / 4));
-        history.setBehaviour(new StepBackBehaviour(board));
+        history.setBehaviour(new StepBackBehaviour(board,this));
 
         lock = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.LOCK);
 
         dimensionFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.DIMENSION_TITLE);
         hintFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION);
-
+        historicalFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HISTORICAL);
         return true;
     }
 
@@ -120,6 +122,12 @@ public class GameState implements State {
             int centPosX = (g.getWidth() - 93) / 2;
             g.drawText(dim + "x" + dim, centPosX, centralRegion.y / 2);
         }
+        if(_setUndoText){
+            g.setColor(0xFF000000);
+            g.setFont(hintFont);
+            int centPosX = 35;
+            g.drawText(stepback, centPosX, centralRegion.y / 2);
+        }
         //CENTRAL REGION
         board.render(g);
 
@@ -141,6 +149,12 @@ public class GameState implements State {
         visibleHint = _hintsManager.getHint();
         visibleHint.setVisible(true);
         visibleHint.setPosition(10, 40);
+    }
+
+    public void showUndo(String s){
+        _visibleDimensionTitle = false;
+        stepback = s;
+        _setUndoText = true;
     }
 
     @Override
