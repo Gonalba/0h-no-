@@ -46,29 +46,29 @@ public class HintsManager {
     private void init() {
         _resolutionHints = new ArrayList<>();
         _resolutionHints.add(new FullVisionOpen("Casillas visibles completas,\n las colindantes deben ser pared",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _resolutionHints.add(new TooMuchBlue("Casilla debe ser pared porque\n supera el numero indicado",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _resolutionHints.add(new ForceBlue("Casilla debe ser visible por\n la disposicion de las casillas",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
         _errorHints = new ArrayList<>();
         _errorHints.add(new TotalBlueTiles("Excedido el numero de casillas\n visibles",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _errorHints.add(new TooMuchRed("Cantidad de casillas no son\n suficientes, retire alguna roja",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _errorHints.add(new AisledIdle("Casilla vacia incomunicada,\n debe ser pared",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _errorHints.add(new AisledBlue("Casilla visible aislada del \nresto, debe ser pared",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
         _additionalHints = new ArrayList<>();
         _additionalHints.add(new ForcedBlueUniqueDirection("Casillas visibles incompletas,\n rellenar en la direccion disponible",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _additionalHints.add(new ForcedBlueSolved("Casillas visibles incompletas,\n rellenar las casillas colindantes",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _additionalHints.add(new TooMuchRedOpen("Opcion inviable, liberar casilla\n pared",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
     }
 
     public void showHint(ArrayList<Tile> board) {

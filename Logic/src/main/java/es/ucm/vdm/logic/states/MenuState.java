@@ -30,9 +30,9 @@ public class MenuState implements State {
     @Override
     public boolean init(Engine engine) {
 
-        _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TITLE_MENU);
-        _select = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TITLE_DESCRIPTION);
-        Font numFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER);
+        _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.MOLLE_REGULAR_70);
+        _select = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_27);
+        Font numFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_36);
         _grid4 = new GraphicsButton(0xFF1CC4E4, 30, numFont, 4);
         _grid4.setPosition(130,300);
         _grid4.setBehaviour(new CreateBoardBehaviour(_game, 4));

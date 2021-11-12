@@ -89,8 +89,8 @@ public class GameState implements State {
 
         lock = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.LOCK);
 
-        dimensionFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.DIMENSION_TITLE);
-        hintFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION);
+        dimensionFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_60);
+        hintFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30);
 
         return true;
     }
