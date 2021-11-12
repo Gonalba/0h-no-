@@ -1,7 +1,5 @@
 package es.ucm.vdm.logic.engine;
 
-import java.awt.image.DirectColorModel;
-
 import es.ucm.vdm.engine.common.Graphics;
 
 public abstract class GameObject {

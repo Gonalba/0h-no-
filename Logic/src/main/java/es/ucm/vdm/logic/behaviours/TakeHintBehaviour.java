@@ -1,8 +1,6 @@
 package es.ucm.vdm.logic.behaviours;
 
-import es.ucm.vdm.logic.HintsManager;
 import es.ucm.vdm.logic.engine.Behaviour;
-import es.ucm.vdm.logic.hints.Hint;
 import es.ucm.vdm.logic.states.GameState;
 
 public class TakeHintBehaviour implements Behaviour {

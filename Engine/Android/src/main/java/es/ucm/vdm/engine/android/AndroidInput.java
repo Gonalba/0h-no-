@@ -4,8 +4,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 
-import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.engine.common.AbstractInput;
+import es.ucm.vdm.engine.common.Input;
 
 public class AndroidInput extends AbstractInput {
     private TouchEvents _touchEvents;

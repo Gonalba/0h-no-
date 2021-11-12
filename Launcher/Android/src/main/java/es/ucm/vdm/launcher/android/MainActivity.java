@@ -1,8 +1,8 @@
 package es.ucm.vdm.launcher.android;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import es.ucm.vdm.engine.android.AndroidEngine;
 import es.ucm.vdm.logic.states.OhnoGame;

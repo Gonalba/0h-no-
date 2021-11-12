@@ -5,9 +5,9 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
-import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
-import es.ucm.vdm.logic.TextButton;
 import es.ucm.vdm.logic.ResourcesManager;
+import es.ucm.vdm.logic.TextButton;
+import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 
 public class TitleState implements State {

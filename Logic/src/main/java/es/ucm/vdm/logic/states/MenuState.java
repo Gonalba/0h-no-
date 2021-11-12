@@ -4,11 +4,11 @@ import es.ucm.vdm.engine.common.Engine;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.State;
-import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
-import es.ucm.vdm.logic.behaviours.CreateBoardBehaviour;
 import es.ucm.vdm.logic.GraphicsButton;
 import es.ucm.vdm.logic.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
+import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
+import es.ucm.vdm.logic.behaviours.CreateBoardBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 
 public class MenuState implements State {

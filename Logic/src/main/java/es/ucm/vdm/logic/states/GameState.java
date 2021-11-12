@@ -7,15 +7,14 @@ import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.Board;
 import es.ucm.vdm.logic.HintsManager;
-import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.Tile;
+import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.behaviours.StepBackBehaviour;
 import es.ucm.vdm.logic.behaviours.TakeHintBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.Position;
-import es.ucm.vdm.logic.hints.Hint;
 
 public class GameState implements State {
     Board board;
