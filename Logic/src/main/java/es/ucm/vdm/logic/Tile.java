@@ -45,6 +45,9 @@ public class Tile extends GameObject implements InteractiveObject {
     private Font _numFont;
     private Board _board;
 
+    // atributo que determina si se tiene que pintar o no el borde de la pista
+    boolean _showCircle = false;
+
     public Tile(Font f, int radius, Board board) {
         _numFont = f;
         _board = board;
@@ -96,16 +99,19 @@ public class Tile extends GameObject implements InteractiveObject {
     public void render(Graphics g) {
         if (g.save()) {
             g.translate(_position.x, _position.y);
-            //g.setColor(0xFF000000);
-            //g.drawCircle(0,0,_radius - 2, 5);
+            if (_showCircle) {
+                g.setColor(0xFF000000);
+                g.drawCircle(0, 0, _radius - 2, 5);
+            }
+
             g.setColor(_currentColor);
             g.fillCircle(0, 0, _radius - 2);
 
             if (_currentState == State.DOT) {
                 g.setColor(0xFFFFFFFF);
                 g.setFont(_numFont);
-                if(!_isLocked)
-                g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
+                if (!_isLocked)
+                    g.drawText(String.valueOf(_number), -_numFont.getSize() / 4, _numFont.getSize() / 4);
             }
         }
         g.restore();
@@ -159,6 +165,9 @@ public class Tile extends GameObject implements InteractiveObject {
         } // if (_isLocked)
     } // fin previousState()
 
+    public void showHintMark(boolean showCircle) {
+        _showCircle = showCircle;
+    }
 
     public State getState() {
         return _currentState;

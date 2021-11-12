@@ -35,6 +35,9 @@ public class HintsManager {
     // array con las pistas actuales del tablero (desde la ultima vez que se llamo al getHints())
     ArrayList<Hint> currentHints = new ArrayList<>();
 
+    // pista visible en este momento
+    Hint currentVisibleHint;
+
 
     public HintsManager() {
         init();
@@ -68,36 +71,43 @@ public class HintsManager {
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
     }
 
-    public Hint getHint(ArrayList<Tile> board) {
-        Random r = new Random();
-        ArrayList<Hint> hints = getCurrentHints(board);
-        return hints.get(r.nextInt(hints.size()));
-    }
+    public void showHint(ArrayList<Tile> board) {
+        if (currentVisibleHint != null)
+            currentVisibleHint.showText(false);
 
-    private ArrayList<Hint> getCurrentHints(ArrayList<Tile> board) {
-        currentHints.clear();
         int dimension = (int) Math.sqrt(board.size());
 
+        Random r = new Random();
+        ArrayList<Hint> hints = getCurrentHints(board, dimension);
+
+        currentVisibleHint = hints.get(r.nextInt(hints.size()));
+
+        currentVisibleHint.showText(true);
+        board.get((dimension * currentVisibleHint.getIndexTileY()) + currentVisibleHint.getIndexTileX()).showHintMark(true);
+    }
+
+    private ArrayList<Hint> getCurrentHints(ArrayList<Tile> board, int dimension) {
+        currentHints.clear();
 
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
                 for (Hint h : _resolutionHints) {
                     if (h.executeHint(j, i, board) != null) {
-                        h.setPosition(j, i);
+                        h.setIndexTile(j, i);
                         currentHints.add(h);
                     }
                 }
 
                 for (Hint h : _errorHints) {
                     if (h.executeHint(j, i, board) != null) {
-                        h.setPosition(j, i);
+                        h.setIndexTile(j, i);
                         currentHints.add(h);
                     }
                 }
 
                 for (Hint h : _additionalHints) {
                     if (h.executeHint(j, i, board) != null) {
-                        h.setPosition(j, i);
+                        h.setIndexTile(j, i);
                         currentHints.add(h);
                     }
                 }

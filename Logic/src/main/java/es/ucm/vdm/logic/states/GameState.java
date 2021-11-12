@@ -34,8 +34,6 @@ public class GameState implements State {
     int _dimension = 4;
     boolean _visibleDimensionTitle = true;
 
-    Hint visibleHint;
-
     // dividimos la pantalla en 5 lineas
     // el tablero ocupa 3 y los menus superior e inferior 1 respectivamente
     int linesScene = 5;
@@ -133,14 +131,10 @@ public class GameState implements State {
     }
 
     public void showHint() {
-        if(visibleHint != null)
-            visibleHint.setVisible(false);
-
         _visibleDimensionTitle = false;
 
-        visibleHint = _hintsManager.getHint(board.getBoard());
-        visibleHint.setVisible(true);
-        visibleHint.setPosition(10, 40);
+        _hintsManager.showHint(board.getBoard());
+
     }
 
     @Override
