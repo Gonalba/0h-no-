@@ -31,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         _engine.setState(ohnoGame.getTitleState());
 
-        // requestWindowFeature(FEATURE_NO_TITLE); // OCULTA LA BARRA DE TITULO DE LA APP
-        // getSupportActionBar().hide(); // OCULTA LA BARRA DE TITULO DE LA APP
+        // Oculta la barra de titulo de la app
+        requestWindowFeature(FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
 
         setContentView(_engine.getSurfaceView());
     }
