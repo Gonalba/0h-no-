@@ -15,6 +15,7 @@ import es.ucm.vdm.logic.behaviours.StepBackBehaviour;
 import es.ucm.vdm.logic.behaviours.TakeHintBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.Position;
+import es.ucm.vdm.logic.hints.Hint;
 
 public class GameState implements State {
     Board board;
