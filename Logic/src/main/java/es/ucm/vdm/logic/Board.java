@@ -34,11 +34,11 @@ public class Board extends GameObject {
     private Font _font1;
     private Font _font2;
 
-    public Board(HintsManager h) {
-
-        _font = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER);
-        _font1 = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER2);
-        _font2 = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER3);
+    public Board(Graphics g, HintsManager h) {
+        _g = g;
+        _font = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_36);
+        _font1 = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_29);
+        _font2 = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_24);
         _dimension = 0;
         _pool = new Stack<>();
         _board = new ArrayList<>();

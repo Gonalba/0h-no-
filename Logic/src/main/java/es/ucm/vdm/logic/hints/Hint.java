@@ -19,9 +19,12 @@ public abstract class Hint extends GameObject {
 
     protected static Position _pointToReturn = new Position(0, 0);
 
-    private String _text;
+    public String _text;
     private Font _font;
     private boolean _visible = false;
+
+    private int _indexTileX;
+    private int _indexTileY;
 
 
     Hint(String text, Font font) {
@@ -47,16 +50,15 @@ public abstract class Hint extends GameObject {
         if (g.save() && _visible) {
             g.translate(_position.x, _position.y);
 
-            g.setColor(0xFF000000);
+            g.setColor(0xFF777777);
             g.setFont(_font);
 
-            int i = 0, initChar = 0, line = 0;
+            int i = 0, initChar = 0, line = 1;
 
             while (i < _text.length()) {
-
                 if (_text.charAt(i) == '\n' || i == _text.length() - 1) {
                     String s = _text.substring(initChar, i + 1);
-                    int w = (int)(g.getWidth() - (s.length() * _font.getSize() / 2.3)) / 2;
+                    int w = (int) (g.getWidth() - g.getWidthText(s)) / 2;
                     g.drawText(s, w, line * 30);
                     initChar += i;
                     line++;
@@ -71,8 +73,21 @@ public abstract class Hint extends GameObject {
     /**
      * Hace visible el texto de la pista o no, segun si le pasas true o false
      */
-    public void setVisible(boolean b) {
+    public void showText(boolean b) {
         _visible = b;
+    }
+
+    public void setIndexTile(int indexTileX, int indexTileY) {
+        _indexTileX = indexTileX;
+        _indexTileY = indexTileY;
+    }
+
+    public int getIndexTileX() {
+        return _indexTileX;
+    }
+
+    public int getIndexTileY() {
+        return _indexTileY;
     }
 
     // Devuelve FULL si una casilla azul ve las VALOR casillas que tiene que ver

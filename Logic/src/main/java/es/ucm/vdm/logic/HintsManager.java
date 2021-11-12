@@ -32,6 +32,13 @@ public class HintsManager {
     ArrayList<Hint> _errorHints;
     ArrayList<Hint> _additionalHints;
 
+    // array con las pistas actuales del tablero (desde la ultima vez que se llamo al getHints())
+    ArrayList<Hint> currentHints = new ArrayList<>();
+
+    // pista visible en este momento
+    Hint currentVisibleHint;
+
+
     public HintsManager() {
         init();
     }
@@ -39,43 +46,75 @@ public class HintsManager {
     private void init() {
         _resolutionHints = new ArrayList<>();
         _resolutionHints.add(new FullVisionOpen("Casillas visibles completas,\n las colindantes deben ser pared",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _resolutionHints.add(new TooMuchBlue("Casilla debe ser pared porque\n supera el numero indicado",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _resolutionHints.add(new ForceBlue("Casilla debe ser visible por\n la disposicion de las casillas",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
         _errorHints = new ArrayList<>();
         _errorHints.add(new TotalBlueTiles("Excedido el numero de casillas\n visibles",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _errorHints.add(new TooMuchRed("Cantidad de casillas no son\n suficientes, retire alguna roja",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _errorHints.add(new AisledIdle("Casilla vacia incomunicada,\n debe ser pared",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _errorHints.add(new AisledBlue("Casilla visible aislada del \nresto, debe ser pared",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
         _additionalHints = new ArrayList<>();
-        _additionalHints.add(new ForcedBlueUniqueDirection("Casillas visibles incompletas,\n rellenar en la unica direccion disponible",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
-        _additionalHints.add(new ForcedBlueSolved("Casillas visibles incompletas,\n rellenar todas las casillas colindantes",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
-        _additionalHints.add(new TooMuchRedOpen("Opcion inviable, liberar casilla pared",
-                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION)));
+        _additionalHints.add(new ForcedBlueUniqueDirection("Casillas visibles incompletas,\n rellenar en la direccion disponible",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
+        _additionalHints.add(new ForcedBlueSolved("Casillas visibles incompletas,\n rellenar las casillas colindantes",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
+        _additionalHints.add(new TooMuchRedOpen("Opcion inviable, liberar casilla\n pared",
+                ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
     }
 
-    public Hint getHint() {
+    public void showHint(ArrayList<Tile> board) {
+        if (currentVisibleHint != null)
+            currentVisibleHint.showText(false);
+
+        int dimension = (int) Math.sqrt(board.size());
+
         Random r = new Random();
-        int aux = r.nextInt(2);
-        if (aux == 0)
-            return _resolutionHints.get(r.nextInt(_resolutionHints.size() - 1));
-        else if (aux == 1)
-            return _errorHints.get(r.nextInt(_errorHints.size() - 1));
-        else if (aux == 2)
-            return _additionalHints.get(r.nextInt(_additionalHints.size() - 1));
+        ArrayList<Hint> hints = getCurrentHints(board, dimension);
 
+        currentVisibleHint = hints.get(r.nextInt(hints.size()));
 
-        return _errorHints.get(3);
+        currentVisibleHint.showText(true);
+        System.out.println(currentVisibleHint._text + " " + currentVisibleHint.getIndexTileX() + " " + currentVisibleHint.getIndexTileY());
+        board.get((dimension * currentVisibleHint.getIndexTileY()) + currentVisibleHint.getIndexTileX()).showHintMark(true);
+    }
+
+    private ArrayList<Hint> getCurrentHints(ArrayList<Tile> board, int dimension) {
+        currentHints.clear();
+
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                for (Hint h : _resolutionHints) {
+                    if (h.executeHint(j, i, board) != null) {
+                        h.setIndexTile(j, i);
+                        currentHints.add(h);
+                    }
+                }
+
+                for (Hint h : _errorHints) {
+                    if (h.executeHint(j, i, board) != null) {
+                        h.setIndexTile(j, i);
+                        currentHints.add(h);
+                    }
+                }
+
+                for (Hint h : _additionalHints) {
+                    if (h.executeHint(j, i, board) != null) {
+                        h.setIndexTile(j, i);
+                        currentHints.add(h);
+                    }
+                }
+            }
+        }
+        return currentHints;
     }
 
     public void update(double delta) {

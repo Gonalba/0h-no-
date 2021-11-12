@@ -7,9 +7,9 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import es.ucm.vdm.engine.common.AbstractGraphics;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Image;
-import es.ucm.vdm.engine.common.AbstractGraphics;
 
 public class PCGraphics extends AbstractGraphics {
     private java.awt.Graphics2D _graphics;
@@ -47,7 +47,7 @@ public class PCGraphics extends AbstractGraphics {
         PCFont f = null;
 
         try {
-            f = new PCFont(filename, size, isBold, _engine);
+            f = new PCFont("Data/" + filename, size, isBold, _engine);
         } catch (FileNotFoundException e) {
             System.out.println("Fuente no cargada: fichero .ttf no encontrado");
         }
@@ -128,6 +128,10 @@ public class PCGraphics extends AbstractGraphics {
         } else {
             System.out.println("Establece una fuente con el método setFont(Font f)");
         }
+    }
+
+    public int getWidthText(String text) {
+        return _graphics.getFontMetrics().stringWidth(text);
     }
 
     @Override

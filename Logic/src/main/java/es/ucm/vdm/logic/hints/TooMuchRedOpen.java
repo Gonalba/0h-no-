@@ -17,12 +17,14 @@ public class TooMuchRedOpen extends Hint {
     // CurrentAzules +1 sigue siendo menor que tiled.Valor
     @Override
     public Position executeHint(int x, int y, ArrayList<Tile> board) {
-//        int dimension = (int) Math.sqrt(board.size());
-//        if (board.get((dimension * y) + x).getState() != Tile.State.DOT)
-//            return false;
-//
-//        return (board.get((dimension * y) + x).getNumber() > OnSight(x, y, board));
-        return _pointToReturn;
+        int dimension = (int) Math.sqrt(board.size());
+
+        if (board.get((dimension * y) + x).getState() != Tile.State.DOT)
+            return null;
+
+        if (board.get((dimension * y) + x).getNumber() > OnSight(x, y, board))
+            return _pointToReturn.set(x, y);
+        return null;
     }
 
 }

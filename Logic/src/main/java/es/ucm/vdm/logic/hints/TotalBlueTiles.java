@@ -16,9 +16,14 @@ public class TotalBlueTiles extends Hint {
     // El recuento de los valores de azules y del total de azules que ve una casilla, no coincide, hay mas casillas que tile.valor
     @Override
     public Position executeHint(int x, int y, ArrayList<Tile> board) {
-//        int dimension = (int) Math.sqrt(board.size());
-//        return blueVisibles(x, y, board) > board.get((dimension * y) + x).getNumber();
-        return _pointToReturn;
+        int dimension = (int) Math.sqrt(board.size());
+
+        if (board.get((dimension * y) + x).getState() != Tile.State.DOT)
+            return null;
+
+        if (blueVisibles(x, y, board) > board.get((dimension * y) + x).getNumber())
+            return _pointToReturn.set(x, y);
+        return null;
     }
 
 }
