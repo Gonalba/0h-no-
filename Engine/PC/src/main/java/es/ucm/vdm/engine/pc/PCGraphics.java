@@ -47,7 +47,7 @@ public class PCGraphics extends AbstractGraphics {
         PCFont f = null;
 
         try {
-            f = new PCFont(filename, size, isBold, _engine);
+            f = new PCFont("Data/" + filename, size, isBold, _engine);
         } catch (FileNotFoundException e) {
             System.out.println("Fuente no cargada: fichero .ttf no encontrado");
         }
@@ -130,7 +130,7 @@ public class PCGraphics extends AbstractGraphics {
         }
     }
 
-    public int getWidthText(String text){
+    public int getWidthText(String text) {
         return _graphics.getFontMetrics().stringWidth(text);
     }
 
