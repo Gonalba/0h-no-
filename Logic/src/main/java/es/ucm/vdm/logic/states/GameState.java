@@ -7,15 +7,14 @@ import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.Board;
 import es.ucm.vdm.logic.HintsManager;
-import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.Tile;
+import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.behaviours.StepBackBehaviour;
 import es.ucm.vdm.logic.behaviours.TakeHintBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.Position;
-import es.ucm.vdm.logic.hints.Hint;
 
 public class GameState implements State {
     Board board;
@@ -76,22 +75,22 @@ public class GameState implements State {
 
         int colPos = engine.getGraphics().getWidth() / 5;
 
-        close = new ImageButton("", ResourcesManager.ImagesID.CLOSE);
+        close = new ImageButton(ResourcesManager.ImagesID.CLOSE);
         close.setPosition(colPos, bottomRegion.y + (centralRegion.y / 4));
         close.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
 
-        eye = new ImageButton("", ResourcesManager.ImagesID.EYE);
+        eye = new ImageButton(ResourcesManager.ImagesID.EYE);
         eye.setPosition(colPos * 2, bottomRegion.y + (centralRegion.y / 4));
         eye.setBehaviour(new TakeHintBehaviour(this));
 
-        history = new ImageButton("", ResourcesManager.ImagesID.HISTORY);
+        history = new ImageButton(ResourcesManager.ImagesID.HISTORY);
         history.setPosition(colPos * 3, bottomRegion.y + (centralRegion.y / 4));
         history.setBehaviour(new StepBackBehaviour(board));
 
         lock = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.LOCK);
 
-        dimensionFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.DIMENSION_TITLE);
-        hintFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.HINT_DESCRIPTION);
+        dimensionFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_60);
+        hintFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30);
 
         return true;
     }

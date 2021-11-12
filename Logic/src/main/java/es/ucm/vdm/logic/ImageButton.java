@@ -10,12 +10,10 @@ import es.ucm.vdm.logic.engine.InputManager;
 
 public class ImageButton extends Button {
     private Image _image;
-    String _text;
     float _scale = 0.5f;
 
-    public ImageButton(String text, ResourcesManager.ImagesID id) {
+    public ImageButton(ResourcesManager.ImagesID id) {
         _image = ResourcesManager.Instance().getImage(id);
-        _text = text;
 
         InputManager.getInstance().addInteractObject(this);
     }

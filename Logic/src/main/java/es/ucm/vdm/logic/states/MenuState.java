@@ -4,11 +4,11 @@ import es.ucm.vdm.engine.common.Engine;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.State;
-import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
-import es.ucm.vdm.logic.behaviours.CreateBoardBehaviour;
 import es.ucm.vdm.logic.GraphicsButton;
 import es.ucm.vdm.logic.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
+import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
+import es.ucm.vdm.logic.behaviours.CreateBoardBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 
 public class MenuState implements State {
@@ -30,9 +30,9 @@ public class MenuState implements State {
     @Override
     public boolean init(Engine engine) {
 
-        _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TITLE_MENU);
-        _select = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TITLE_DESCRIPTION);
-        Font numFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TILE_NUMBER);
+        _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.MOLLE_REGULAR_70);
+        _select = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_27);
+        Font numFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_36);
         _grid4 = new GraphicsButton(0xFF1CC4E4, 30, numFont, 4);
         _grid4.setPosition(130,300);
         _grid4.setBehaviour(new CreateBoardBehaviour(_game, 4));
@@ -54,7 +54,7 @@ public class MenuState implements State {
 
         int verPos = (engine.getGraphics().getHeight()/5) * 4;
         int colPos = (engine.getGraphics().getWidth()/5)*2;
-        close = new ImageButton("", ResourcesManager.ImagesID.CLOSE);
+        close = new ImageButton(ResourcesManager.ImagesID.CLOSE);
         close.setPosition(colPos,verPos );
         close.setBehaviour(new ChangeStateBehaviour(_game, _game.getTitleState()));
         return true;

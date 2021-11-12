@@ -5,9 +5,9 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
-import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
-import es.ucm.vdm.logic.TextButton;
 import es.ucm.vdm.logic.ResourcesManager;
+import es.ucm.vdm.logic.TextButton;
+import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 
 public class TitleState implements State {
@@ -25,10 +25,10 @@ public class TitleState implements State {
     public boolean init(Engine engine) {
 
         _q42 = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.Q42);
-        _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TITLE);
-        _text = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.TITLE_DESCRIPTION);
+        _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.MOLLE_REGULAR_130);
+        _text = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_27);
 
-        _playButton = new TextButton("Jugar", ResourcesManager.FontsID.PLAY_BUTTON);
+        _playButton = new TextButton("Jugar", ResourcesManager.FontsID.JOSEFINSANS_BOLD_80);
         _playButton.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
         _playButton.setPosition(110, engine.getGraphics().getHeight() / 2);
         return true;
@@ -59,7 +59,7 @@ public class TitleState implements State {
         g.drawText("Un juego copiado a Q42", w, g.getHeight() - g.getHeight() / 3);
         g.drawText("Creado por Martin Kool", w, g.getHeight() - g.getHeight() / 3 + 30);
 
-
+        g.setColor(0xFF000000);
         _playButton.render(g);
     }
 

@@ -7,8 +7,8 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.io.InputStream;
 
-import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.engine.common.Engine;
+import es.ucm.vdm.engine.common.State;
 
 public class AndroidEngine implements Engine {
     private SurfaceView _surfaceView;

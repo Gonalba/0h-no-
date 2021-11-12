@@ -2,7 +2,6 @@ package es.ucm.vdm.logic;
 
 
 import java.util.List;
-import java.util.Stack;
 
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
@@ -10,7 +9,6 @@ import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.engine.GameObject;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.InteractiveObject;
-import es.ucm.vdm.logic.engine.Position;
 
 /**
  * Esta clase contiene la representacion logica de una casilla
