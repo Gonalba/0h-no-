@@ -1,6 +1,7 @@
 package es.ucm.vdm.logic.states;
 
 import java.util.List;
+import java.util.Random;
 
 import es.ucm.vdm.engine.common.Engine;
 import es.ucm.vdm.engine.common.Font;
@@ -49,6 +50,20 @@ public class GameState implements State, InteractiveObject {
     boolean press = false;
 
     String stepback = "vacio";
+    String winMessage;
+    String[] winMessages = new String[] {
+            "¡Deslumbrante!",
+            "¡Sin parangón!",
+            "¡Brillante!",
+            "¡Maravilloso!",
+            "¡Crack!",
+            "¡Fiera!",
+            "¡Mastodonte!",
+            "¡Espectacular!",
+            "¡Impresionante!",
+            "¡Bien hecho!",
+            "Sonic estaría orgulloso ;)"
+    };
 
     // dividimos la pantalla en 5 lineas
     // el tablero ocupa 3 y los menus superior e inferior 1 respectivamente
@@ -79,6 +94,9 @@ public class GameState implements State, InteractiveObject {
         topRegion = new Position(0, 0);
         centralRegion = new Position(0, engine.getGraphics().getHeight() / linesScene);
         bottomRegion = new Position(0, 4 * engine.getGraphics().getHeight() / linesScene);
+
+        Random r = new Random();
+        winMessage = winMessages[r.nextInt(winMessages.length)];
 
         int tileRadius = ((bottomRegion.y - centralRegion.y) / (_dimension)) / 2;
 
@@ -142,8 +160,7 @@ public class GameState implements State, InteractiveObject {
             win = !showHint();
             _setUndoText = false;
             _visibleDimensionTitle = false;
-        }
-        else if(percentajeNum < 100 || (percentajeNum == 100 && press))
+        } else if (percentajeNum < 100 || (percentajeNum == 100 && press))
             showFinalHint = false;
     }
 
@@ -172,8 +189,8 @@ public class GameState implements State, InteractiveObject {
         if (win) {
             g.setColor(0xFF000000);
             g.setFont(hintFont);
-            int centPosX = (g.getWidth() - g.getWidthText("SIN PARANGÓN")) / 2;
-            g.drawText("SIN PARANGÓN", centPosX, centralRegion.y / 2);
+            int centPosX = (g.getWidth() - g.getWidthText(winMessage)) / 2;
+            g.drawText(winMessage, centPosX, centralRegion.y / 2);
         }
 
 
