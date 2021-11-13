@@ -35,8 +35,14 @@ public class GameState implements State, InteractiveObject {
     Font dimensionFont;
     Font hintFont;
     Font historicalFont;
+    Font percentajeFont;
 
     int _dimension = 4;
+
+    int _blocked = 0;
+    int _total;
+
+
     boolean _visibleDimensionTitle = true;
     boolean _setUndoText = false;
     Hint visibleHint;
@@ -67,7 +73,7 @@ public class GameState implements State, InteractiveObject {
     @Override
     public boolean init(Engine engine) {
         _engine = engine;
-
+        _blocked = 0;
         topRegion = new Position(0, 0);
         centralRegion = new Position(0, engine.getGraphics().getHeight() / linesScene);
         bottomRegion = new Position(0, 4 * engine.getGraphics().getHeight() / linesScene);
@@ -81,6 +87,14 @@ public class GameState implements State, InteractiveObject {
         // lo dividimos entre dos para centrar el tablero.
         board.setPosition(tileRadius + ((_engine.getGraphics().getWidth() - (tileRadius * 2 * _dimension)) / 2), centralRegion.y);
         board.setBoard(_dimension, tileRadius);
+
+        //Calculo para el porcentaje de relleno
+        _total = _dimension * _dimension;
+        for(Tile t: board.getBoard()){
+            if(t.isLocked()){
+                _blocked++;
+            }
+        }
 
         int colPos = engine.getGraphics().getWidth() / 5;
 
@@ -101,6 +115,7 @@ public class GameState implements State, InteractiveObject {
         dimensionFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_60);
         hintFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30);
         historicalFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_16);
+        percentajeFont = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_20);
 
         _visibleDimensionTitle = true;
         _setUndoText = false;
@@ -144,6 +159,14 @@ public class GameState implements State, InteractiveObject {
         board.render(g);
 
         //BOTTOM REGION
+        g.setColor(0x66000000);
+        g.setFont(percentajeFont);
+        String percentaje = Integer.toString((int)(((_total - _blocked) - board.emptys())*100)/(_total - _blocked))+"%";
+
+        int centPosX = (g.getWidth() - g.getWidthText(percentaje)) / 2;;
+        g.drawText(percentaje, centPosX, bottomRegion.y + 20);
+
+        //Buttons
         g.setColor(0x66FFFFFF);
         close.render(g);
         eye.render(g);
