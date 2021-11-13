@@ -66,8 +66,6 @@ public class Tile extends GameObject implements InteractiveObject {
         this._radius = another._radius;
         this._numFont = another._numFont;
         this._currentColor = another._currentColor;
-
-        //InputManager.Instance().addInteractObject(this);
     }
 
     @Override

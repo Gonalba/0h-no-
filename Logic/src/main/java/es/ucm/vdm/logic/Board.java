@@ -251,22 +251,28 @@ public class Board extends GameObject {
         Tile.State lastState;
         Tile t;
         int dim = _dimension * _dimension;
-
+        ArrayList<Tile> list = new ArrayList<>(_board);
         do {
-            int randPos = rand.nextInt(dim);
-            t = _board.get(randPos);
+            do {
+                int randPos = rand.nextInt(dim--);
+                t = list.get(randPos);
 
-            lastState = t.getState();
-            t.setState(Tile.State.EMPTY);
-            t.setLocked(false);
-        } while (_hintsManager.resolvePuzzle(_board));
 
-        t.setState(lastState);
+                list.remove(t);
 
-        for (Tile tile : _board) {
-            if (tile.getState() != Tile.State.EMPTY)
-                tile.setLocked(true);
-        }
+                lastState = t.getState();
+                t.setState(Tile.State.EMPTY);
+                t.setLocked(false);
+            } while (dim > 0 && _hintsManager.resolvePuzzle(_board));
+
+            t.setState(lastState);
+            t.setLocked(true);
+        } while (!list.isEmpty());
+
+//        for (Tile tile : _board) {
+//            if (tile.getState() != Tile.State.EMPTY)
+//                tile.setLocked(true);
+//        }
     }
 
     public void showLockInTiles(boolean b) {
