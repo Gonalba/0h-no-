@@ -1,23 +1,27 @@
 package es.ucm.vdm.logic.states;
 
+import java.util.List;
+
 import es.ucm.vdm.engine.common.Engine;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
+import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.Board;
 import es.ucm.vdm.logic.HintsManager;
-import es.ucm.vdm.logic.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.behaviours.StepBackBehaviour;
 import es.ucm.vdm.logic.behaviours.TakeHintBehaviour;
+import es.ucm.vdm.logic.engine.ImageButton;
 import es.ucm.vdm.logic.engine.InputManager;
+import es.ucm.vdm.logic.engine.InteractiveObject;
 import es.ucm.vdm.logic.engine.Position;
 import es.ucm.vdm.logic.hints.Hint;
 
-public class GameState implements State {
+public class GameState implements State, InteractiveObject {
     Board board;
     OhnoGame _game;
     Engine _engine;
@@ -101,12 +105,14 @@ public class GameState implements State {
         _visibleDimensionTitle = true;
         _setUndoText = false;
 
+        InputManager.Instance().addInteractObject(this);
+
         return true;
     }
 
     @Override
     public void update(double deltaTime) {
-        InputManager.getInstance().checkEvents();
+        InputManager.Instance().checkEvents();
 
         _hintsManager.update(deltaTime);
         board.update(deltaTime);
@@ -163,10 +169,21 @@ public class GameState implements State {
     public void exit() {
 
         for (Tile t : board.getBoard())
-            InputManager.getInstance().removeInteractObject(t);
+            InputManager.Instance().removeInteractObject(t);
 
-        InputManager.getInstance().removeInteractObject(close);
-        InputManager.getInstance().removeInteractObject(eye);
-        InputManager.getInstance().removeInteractObject(history);
+        InputManager.Instance().removeInteractObject(close);
+        InputManager.Instance().removeInteractObject(eye);
+        InputManager.Instance().removeInteractObject(history);
+    }
+
+    @Override
+    public void receivesEvents(List<Input.MyEvent> events) {
+        for (Input.MyEvent e : events) {
+            if (e._type == Input.Type.PRESS) {
+                _hintsManager.resetHint(board);
+                _setUndoText = false;
+                _visibleDimensionTitle = true;
+            }
+        }
     }
 }

@@ -4,8 +4,8 @@ import es.ucm.vdm.engine.common.Engine;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.State;
-import es.ucm.vdm.logic.GraphicsButton;
-import es.ucm.vdm.logic.ImageButton;
+import es.ucm.vdm.logic.engine.GraphicsButton;
+import es.ucm.vdm.logic.engine.ImageButton;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.behaviours.CreateBoardBehaviour;
@@ -62,7 +62,7 @@ public class MenuState implements State {
 
     @Override
     public void update(double deltaTime) {
-        InputManager.getInstance().checkEvents();
+        InputManager.Instance().checkEvents();
     }
 
     @Override
@@ -91,12 +91,12 @@ public class MenuState implements State {
 
     @Override
     public void exit() {
-        InputManager.getInstance().removeInteractObject(_grid4);
-        InputManager.getInstance().removeInteractObject(_grid5);
-        InputManager.getInstance().removeInteractObject(_grid6);
-        InputManager.getInstance().removeInteractObject(_grid7);
-        InputManager.getInstance().removeInteractObject(_grid8);
-        InputManager.getInstance().removeInteractObject(_grid9);
-        InputManager.getInstance().removeInteractObject(close);
+        InputManager.Instance().removeInteractObject(_grid4);
+        InputManager.Instance().removeInteractObject(_grid5);
+        InputManager.Instance().removeInteractObject(_grid6);
+        InputManager.Instance().removeInteractObject(_grid7);
+        InputManager.Instance().removeInteractObject(_grid8);
+        InputManager.Instance().removeInteractObject(_grid9);
+        InputManager.Instance().removeInteractObject(close);
     }
 }

@@ -48,15 +48,15 @@ public class Tile extends GameObject implements InteractiveObject {
     private Board _board;
 
     // atributo que determina si se tiene que pintar o no el borde de la pista
-    boolean _showCircle = false;
+    private boolean _showCircle = false;
 
     public Tile(Font f, int radius, Board board) {
         _numFont = f;
         _board = board;
         _currentColor = grayColor;
         _radius = radius;
-        InputManager.getInstance().addInteractObject(this);
         _lockImage = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.LOCK);
+        InputManager.Instance().addInteractObject(this);
     }
 
     public Tile(Tile another) {
@@ -67,7 +67,7 @@ public class Tile extends GameObject implements InteractiveObject {
         this._numFont = another._numFont;
         this._currentColor = another._currentColor;
 
-        InputManager.getInstance().addInteractObject(this);
+        //InputManager.Instance().addInteractObject(this);
     }
 
     @Override

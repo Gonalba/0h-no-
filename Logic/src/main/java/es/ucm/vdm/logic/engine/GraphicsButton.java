@@ -1,4 +1,4 @@
-package es.ucm.vdm.logic;
+package es.ucm.vdm.logic.engine;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class GraphicsButton extends Button {
         _num = num;
         _font = font;
 
-        InputManager.getInstance().addInteractObject(this);
+        InputManager.Instance().addInteractObject(this);
     }
 
     @Override

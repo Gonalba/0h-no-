@@ -71,6 +71,13 @@ public class HintsManager {
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
     }
 
+    public void resetHint(Board board) {
+        if (currentVisibleHint != null) {
+            currentVisibleHint.showText(false);
+            board.getTile(currentVisibleHint.getIndexTileX(), currentVisibleHint.getIndexTileY()).showHintMark(false);
+        }
+    }
+
     public void showHint(ArrayList<Tile> board) {
         if (currentVisibleHint != null)
             currentVisibleHint.showText(false);

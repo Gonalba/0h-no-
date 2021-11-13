@@ -6,7 +6,7 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.ResourcesManager;
-import es.ucm.vdm.logic.TextButton;
+import es.ucm.vdm.logic.engine.TextButton;
 import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
 
@@ -36,7 +36,7 @@ public class TitleState implements State {
 
     @Override
     public void update(double deltaTime) {
-        InputManager.getInstance().checkEvents();
+        InputManager.Instance().checkEvents();
     }
 
     @Override
@@ -67,6 +67,6 @@ public class TitleState implements State {
 
     @Override
     public void exit() {
-        InputManager.getInstance().removeInteractObject(_playButton);
+        InputManager.Instance().removeInteractObject(_playButton);
     }
 }

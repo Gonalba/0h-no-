@@ -1,10 +1,11 @@
-package es.ucm.vdm.logic;
+package es.ucm.vdm.logic.engine;
 
 import java.util.List;
 
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.Input;
+import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.engine.Button;
 import es.ucm.vdm.logic.engine.InputManager;
 
@@ -15,7 +16,7 @@ public class ImageButton extends Button {
     public ImageButton(ResourcesManager.ImagesID id) {
         _image = ResourcesManager.Instance().getImage(id);
 
-        InputManager.getInstance().addInteractObject(this);
+        InputManager.Instance().addInteractObject(this);
     }
 
     @Override
