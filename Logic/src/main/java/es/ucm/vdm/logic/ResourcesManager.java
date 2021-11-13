@@ -37,6 +37,7 @@ public class ResourcesManager {
         MOLLE_REGULAR_130,
         JOSEFINSANS_16,
         JOSEFINSANS_27,
+        JOSEFINSANS_BOLD_20,
         JOSEFINSANS_BOLD_24,
         JOSEFINSANS_BOLD_29,
         JOSEFINSANS_BOLD_30,
@@ -68,6 +69,8 @@ public class ResourcesManager {
 
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 16, false));//history font
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 27, false));
+
+        _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 20, true));//percentaje font
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 24, true)); //tile number font
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 29, true)); //tile number font
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 30, true));

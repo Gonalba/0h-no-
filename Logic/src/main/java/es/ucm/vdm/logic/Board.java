@@ -26,7 +26,7 @@ public class Board extends GameObject {
 
     // Dimension del tablero
     private int _dimension;
-
+    private int _blockedTiles;
     private HintsManager _hintsManager;
 
     private Font _font;
@@ -280,5 +280,12 @@ public class Board extends GameObject {
             tile.showLock(b);
         }
     }
-
+    public int emptys(){
+        int vacias=0;
+        for(Tile t: _board){
+            if(t.getState()== Tile.State.EMPTY)
+            vacias++;
+        }
+        return vacias;
+    }
 }
