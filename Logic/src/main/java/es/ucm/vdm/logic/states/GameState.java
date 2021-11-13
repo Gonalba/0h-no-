@@ -19,7 +19,6 @@ import es.ucm.vdm.logic.engine.ImageButton;
 import es.ucm.vdm.logic.engine.InputManager;
 import es.ucm.vdm.logic.engine.InteractiveObject;
 import es.ucm.vdm.logic.engine.Position;
-import es.ucm.vdm.logic.hints.Hint;
 
 public class GameState implements State, InteractiveObject {
     Board board;
@@ -41,11 +40,14 @@ public class GameState implements State, InteractiveObject {
 
     int _blocked = 0;
     int _total;
-
+    int percentajeNum = 0;
 
     boolean _visibleDimensionTitle = true;
     boolean _setUndoText = false;
-    Hint visibleHint;
+    boolean win = false;
+    boolean showFinalHint = false;
+    boolean press = false;
+
     String stepback = "vacio";
 
     // dividimos la pantalla en 5 lineas
@@ -90,8 +92,8 @@ public class GameState implements State, InteractiveObject {
 
         //Calculo para el porcentaje de relleno
         _total = _dimension * _dimension;
-        for(Tile t: board.getBoard()){
-            if(t.isLocked()){
+        for (Tile t : board.getBoard()) {
+            if (t.isLocked()) {
                 _blocked++;
             }
         }
@@ -131,6 +133,18 @@ public class GameState implements State, InteractiveObject {
 
         _hintsManager.update(deltaTime);
         board.update(deltaTime);
+
+        percentajeNum = (((_total - _blocked) - board.emptys()) * 100) / (_total - _blocked);
+
+        if (percentajeNum == 100 && !showFinalHint) {
+            press = false;
+            showFinalHint = true;
+            win = !showHint();
+            _setUndoText = false;
+            _visibleDimensionTitle = false;
+        }
+        else if(percentajeNum < 100 || (percentajeNum == 100 && press))
+            showFinalHint = false;
     }
 
     @Override
@@ -150,10 +164,18 @@ public class GameState implements State, InteractiveObject {
         } else if (_setUndoText) {
             g.setColor(0xFF000000);
             g.setFont(hintFont);
-            int centPosX = (g.getWidth() - g.getWidthText(stepback)) / 2;;
+            int centPosX = (g.getWidth() - g.getWidthText(stepback)) / 2;
             g.drawText(stepback, centPosX, centralRegion.y / 2);
         } else
             _hintsManager.render(g);
+
+        if (win) {
+            g.setColor(0xFF000000);
+            g.setFont(hintFont);
+            int centPosX = (g.getWidth() - g.getWidthText("SIN PARANGÓN")) / 2;
+            g.drawText("SIN PARANGÓN", centPosX, centralRegion.y / 2);
+        }
+
 
         //CENTRAL REGION
         board.render(g);
@@ -161,9 +183,10 @@ public class GameState implements State, InteractiveObject {
         //BOTTOM REGION
         g.setColor(0x66000000);
         g.setFont(percentajeFont);
-        String percentaje = Integer.toString((int)(((_total - _blocked) - board.emptys())*100)/(_total - _blocked))+"%";
+        String percentaje = Integer.toString(percentajeNum) + "%";
 
-        int centPosX = (g.getWidth() - g.getWidthText(percentaje)) / 2;;
+        int centPosX = (g.getWidth() - g.getWidthText(percentaje)) / 2;
+
         g.drawText(percentaje, centPosX, bottomRegion.y + 20);
 
         //Buttons
@@ -173,12 +196,11 @@ public class GameState implements State, InteractiveObject {
         history.render(g);
     }
 
-    public void showHint() {
+    public boolean showHint() {
         _visibleDimensionTitle = false;
         _setUndoText = false;
 
-        _hintsManager.showHint(board.getBoard());
-
+        return _hintsManager.showHint(board);
     }
 
     public void showUndo(String s) {
@@ -201,10 +223,11 @@ public class GameState implements State, InteractiveObject {
     @Override
     public void receivesEvents(List<Input.MyEvent> events) {
         for (Input.MyEvent e : events) {
-            if (e._type == Input.Type.PRESS) {
+            if (e._type == Input.Type.PRESS && !win) {
                 _hintsManager.resetHint(board);
                 _setUndoText = false;
                 _visibleDimensionTitle = true;
+                press = true;
             }
         }
     }

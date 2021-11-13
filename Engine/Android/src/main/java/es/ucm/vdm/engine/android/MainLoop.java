@@ -30,7 +30,6 @@ public class MainLoop implements Runnable {
     void setState(State s) {
         if (_state == null) {
             _state = s;
-            _state.init(_engine);
         } else
             _nextState = s;
     }
@@ -106,12 +105,14 @@ public class MainLoop implements Runnable {
         long informePrevio = lastFrameTime; // Informes de FPS
         int frames = 0;
 
-
         while (!_engine.getSurfaceView().getHolder().getSurface().isValid())
             ;
         _engine.getGraphics().setCanvas(_engine.getSurfaceView().getHolder().lockHardwareCanvas());
         _engine.getGraphics().setScaleFactor(_engine.getSurfaceView().getWidth(), _engine.getSurfaceView().getHeight());
         _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
+
+        if(_state.init(_engine))
+            System.err.println("Error al inicializar el estado");
 
         // Bucle principal.
         while (_running) {

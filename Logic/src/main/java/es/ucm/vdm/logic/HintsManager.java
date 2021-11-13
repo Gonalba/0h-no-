@@ -28,15 +28,25 @@ public class HintsManager {
     // dimension del tablero para poder acceder a las casillas [(dimension * y) + x]
 
 
-    ArrayList<Hint> _resolutionHints;
-    ArrayList<Hint> _errorHints;
-    ArrayList<Hint> _additionalHints;
-
+    private ArrayList<Hint> _hints;
     // array con las pistas actuales del tablero (desde la ultima vez que se llamo al getHints())
-    ArrayList<Hint> currentHints = new ArrayList<>();
+    private ArrayList<Hint> currentHints;
 
     // pista visible en este momento
-    Hint currentVisibleHint;
+    private Hint currentVisibleHint;
+
+    enum HintsName {
+        FULLVISIONOPEN,
+        TOOMUCHBLUE,
+        FORCEBLUE,
+        TOTALBLUETILES,
+        TOOMUCHRED,
+        AISLEDIDLE,
+        AISLEDBLUE,
+        FORCEDBLUEUNIQUEDIRECTION,
+        FORCEDBLUESOLVED,
+        TOOMUCHREDOPEN
+    }
 
 
     public HintsManager() {
@@ -44,30 +54,30 @@ public class HintsManager {
     }
 
     private void init() {
-        _resolutionHints = new ArrayList<>();
-        _resolutionHints.add(new FullVisionOpen("Este número ve todos\nsus puntos",
+        currentHints = new ArrayList<>();
+
+        _hints = new ArrayList<>();
+        _hints.add(new FullVisionOpen("Este número ve todos\nsus puntos",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _resolutionHints.add(new TooMuchBlue("Extender en una dirección\nsuperará el máximo permitido",
+        _hints.add(new TooMuchBlue("Extender en una dirección\nsuperará el máximo permitido",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _resolutionHints.add(new ForceBlue("Este número puede\nampliarse en una dirección",
+        _hints.add(new ForceBlue("Este número puede\nampliarse en una dirección",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
-        _errorHints = new ArrayList<>();
-        _errorHints.add(new TotalBlueTiles("Este punto ve demasiados",
+        _hints.add(new TotalBlueTiles("Este punto ve demasiados",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _errorHints.add(new TooMuchRed("Este punto no ve suficientes",
+        _hints.add(new TooMuchRed("Este punto no ve suficientes",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _errorHints.add(new AisledIdle("Esto debería ser fácil :)",
+        _hints.add(new AisledIdle("Esto debería ser fácil :)",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _errorHints.add(new AisledBlue("Esto debería ser fácil :)",
+        _hints.add(new AisledBlue("Esto debería ser fácil :)",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
-        _additionalHints = new ArrayList<>();
-        _additionalHints.add(new ForcedBlueUniqueDirection("Este número solo puede\nampliarse en una direccón",
+        _hints.add(new ForcedBlueUniqueDirection("Este número solo puede\nampliarse en una direccón",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _additionalHints.add(new ForcedBlueSolved("Este punto debería ver\nal menos a otro",
+        _hints.add(new ForcedBlueSolved("Este punto debería ver\nal menos a otro",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _additionalHints.add(new TooMuchRedOpen("Este punto debe ver\nal menos a otro",
+        _hints.add(new TooMuchRedOpen("Este punto debe ver\nal menos a otro",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
     }
 
@@ -78,21 +88,33 @@ public class HintsManager {
         }
     }
 
-    public void showHint(ArrayList<Tile> board) {
-        if (currentVisibleHint != null)
-            currentVisibleHint.showText(false);
+    /**
+     * Devuelve FALSE si no hay pistas que mostrar. TRUE en caso contrario
+     */
+    public boolean showHint(Board board) {
 
-        int dimension = (int) Math.sqrt(board.size());
+        int dimension = (int) Math.sqrt(board.getBoard().size());
+
+        if (currentVisibleHint != null) {
+            for (Hint h : _hints) {
+                h.showText(false);
+                board.getBoard().get((dimension * h.getIndexTileY()) + h.getIndexTileX()).showHintMark(false);
+            }
+        }
+
 
         Random r = new Random();
-        ArrayList<Hint> hints = getCurrentHints(board, dimension);
+        ArrayList<Hint> hints = getCurrentHints(board.getBoard(), dimension);
 
         if (!hints.isEmpty()) {
             currentVisibleHint = hints.get(r.nextInt(hints.size()));
 
             currentVisibleHint.showText(true);
-            board.get((dimension * currentVisibleHint.getIndexTileY()) + currentVisibleHint.getIndexTileX()).showHintMark(true);
-        }
+            board.getBoard().get((dimension * currentVisibleHint.getIndexTileY()) + currentVisibleHint.getIndexTileX()).showHintMark(true);
+        } else
+            resetHint(board);
+
+        return !hints.isEmpty();
     }
 
     private ArrayList<Hint> getCurrentHints(ArrayList<Tile> board, int dimension) {
@@ -100,21 +122,7 @@ public class HintsManager {
 
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
-                for (Hint h : _resolutionHints) {
-                    if (h.executeHint(j, i, board) != null) {
-                        h.setIndexTile(j, i);
-                        currentHints.add(h);
-                    }
-                }
-
-                for (Hint h : _errorHints) {
-                    if (h.executeHint(j, i, board) != null) {
-                        h.setIndexTile(j, i);
-                        currentHints.add(h);
-                    }
-                }
-
-                for (Hint h : _additionalHints) {
+                for (Hint h : _hints) {
                     if (h.executeHint(j, i, board) != null) {
                         h.setIndexTile(j, i);
                         currentHints.add(h);
@@ -138,25 +146,25 @@ public class HintsManager {
     private boolean ApplyHintsInPosition(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());
 
-        Position t = _resolutionHints.get(0).executeHint(x, y, board);
+        Position t = _hints.get(HintsName.FULLVISIONOPEN.ordinal()).executeHint(x, y, board);
         if (t != null) {
             board.get((dimension * t.y) + t.x).setState(Tile.State.WALL);
             return true;
         }
 
-        t = _resolutionHints.get(1).executeHint(x, y, board);
+        t = _hints.get(HintsName.TOOMUCHBLUE.ordinal()).executeHint(x, y, board);
         if (t != null) {
             board.get((dimension * t.y) + t.x).setState(Tile.State.WALL);
             return true;
         }
 
-        t = _resolutionHints.get(2).executeHint(x, y, board);
+        t = _hints.get(HintsName.FORCEBLUE.ordinal()).executeHint(x, y, board);
         if (t != null) {
             board.get((dimension * t.y) + t.x).setState(Tile.State.DOT);
             return true;
         }
 
-        t = _errorHints.get(2).executeHint(x, y, board);
+        t = _hints.get(HintsName.AISLEDIDLE.ordinal()).executeHint(x, y, board);
         if (t != null) {
             board.get((dimension * t.y) + t.x).setState(Tile.State.WALL);
             return true;

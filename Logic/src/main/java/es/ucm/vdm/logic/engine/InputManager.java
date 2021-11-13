@@ -28,6 +28,16 @@ public class InputManager {
             _instance._interactiveObjects = new ArrayList<>();
             _instance._nextInteractiveObjects = new Stack<>();
             _instance._removeInteractiveObjects = new Stack<>();
+        } else reset();
+    }
+
+    private static void reset() {
+        while (!_instance._nextInteractiveObjects.empty()) {
+            _instance._interactiveObjects.add(_instance._nextInteractiveObjects.pop());
+        }
+
+        while (!_instance._removeInteractiveObjects.empty()) {
+            _instance._interactiveObjects.remove(_instance._removeInteractiveObjects.pop());
         }
     }
 
