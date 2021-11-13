@@ -78,7 +78,8 @@ public class Tile extends GameObject implements InteractiveObject {
 
             if (e._type == Input.Type.PRESS && inChoords(e._x, e._y)) {
                 change();
-                _board.setMoveHistory(this);
+                if (!_isLocked)
+                    _board.setMoveHistory(this);
             }
         }
     }
@@ -148,7 +149,7 @@ public class Tile extends GameObject implements InteractiveObject {
     /**
      * Metodo que cambia al siguiente estado
      */
-    public void change() {
+    private void change() {
         if (!_isLocked) {
             int i = _currentState.ordinal();
             i = (i + 1) % State.values().length;

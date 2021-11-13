@@ -49,7 +49,7 @@ public class HintsManager {
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
         _resolutionHints.add(new TooMuchBlue("Extender en una dirección\nsuperará el máximo permitido",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
-        _resolutionHints.add(new ForceBlue("Este número solo puede\nampliarse en una dirección",
+        _resolutionHints.add(new ForceBlue("Este número puede\nampliarse en una dirección",
                 ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_30)));
 
         _errorHints = new ArrayList<>();
@@ -87,10 +87,12 @@ public class HintsManager {
         Random r = new Random();
         ArrayList<Hint> hints = getCurrentHints(board, dimension);
 
-        currentVisibleHint = hints.get(r.nextInt(hints.size()));
+        if (!hints.isEmpty()) {
+            currentVisibleHint = hints.get(r.nextInt(hints.size()));
 
-        currentVisibleHint.showText(true);
-        board.get((dimension * currentVisibleHint.getIndexTileY()) + currentVisibleHint.getIndexTileX()).showHintMark(true);
+            currentVisibleHint.showText(true);
+            board.get((dimension * currentVisibleHint.getIndexTileY()) + currentVisibleHint.getIndexTileX()).showHintMark(true);
+        }
     }
 
     private ArrayList<Hint> getCurrentHints(ArrayList<Tile> board, int dimension) {

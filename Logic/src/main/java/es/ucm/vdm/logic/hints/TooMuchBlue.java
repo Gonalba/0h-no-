@@ -21,7 +21,7 @@ public class TooMuchBlue extends Hint {
 
         int initVision = blueVisibles(x, y, board);
 
-        if (board.get((dimension * y) + x).getState() != Tile.State.DOT ||
+        if (board.get((dimension * y) + x).getState() != Tile.State.DOT || !board.get((dimension * y) + x).isLocked() ||
                 initVision >= board.get((dimension * y) + x).getNumber())
             return null;
 

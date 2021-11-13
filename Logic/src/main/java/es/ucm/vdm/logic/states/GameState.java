@@ -128,12 +128,14 @@ public class GameState implements State, InteractiveObject {
             g.setColor(0xFF000000);
             g.setFont(dimensionFont);
             String dim = String.valueOf(board.getDimension());
-            int centPosX = (g.getWidth() - 93) / 2;
-            g.drawText(dim + "x" + dim, centPosX, centralRegion.y / 2);
+            dim = dim + "x" + dim;
+
+            int centPosX = (g.getWidth() - g.getWidthText(dim)) / 2;
+            g.drawText(dim, centPosX, centralRegion.y / 2);
         } else if (_setUndoText) {
             g.setColor(0xFF000000);
             g.setFont(hintFont);
-            int centPosX = 35;
+            int centPosX = (g.getWidth() - g.getWidthText(stepback)) / 2;;
             g.drawText(stepback, centPosX, centralRegion.y / 2);
         } else
             _hintsManager.render(g);
@@ -146,9 +148,6 @@ public class GameState implements State, InteractiveObject {
         close.render(g);
         eye.render(g);
         history.render(g);
-//        g.drawImage(lock, (colPos / 2) + (colPos * 3), bottomRegion.y + (centralRegion.y / 2), size, size);
-
-
     }
 
     public void showHint() {

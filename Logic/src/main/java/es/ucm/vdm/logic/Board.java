@@ -163,6 +163,7 @@ public class Board extends GameObject {
                     t = _pool.pop();
                     t.setNumber((_dimension * 2) - 2);
                     t.setState(Tile.State.DOT);
+                    t.setLocked(true);
                     _board.add(t);
                 } else {
                     // Se genera un tablero entero de tipo DOT con valor dimension, que es el maximo que podria tener
@@ -175,8 +176,9 @@ public class Board extends GameObject {
                     } else {
                         t = new Tile(_font, tileRadius, this);
                     }
-                    t.setState(Tile.State.DOT);
                     t.setNumber((_dimension * 2) - 2);
+                    t.setState(Tile.State.DOT);
+                    t.setLocked(true);
                     _board.add(t);
                 }
                 t.setPosition(((i % _dimension) * t.getDiameter()) + _position.x,
@@ -193,6 +195,7 @@ public class Board extends GameObject {
             for (int i = 0; i < _board.size(); i++) {
                 _board.get(i).setNumber((_dimension * 2) - 2);
                 _board.get(i).setState(Tile.State.DOT);
+                _board.get(i).setLocked(true);
             }
         }
 
@@ -255,6 +258,7 @@ public class Board extends GameObject {
 
             lastState = t.getState();
             t.setState(Tile.State.EMPTY);
+            t.setLocked(false);
         } while (_hintsManager.resolvePuzzle(_board));
 
         t.setState(lastState);
