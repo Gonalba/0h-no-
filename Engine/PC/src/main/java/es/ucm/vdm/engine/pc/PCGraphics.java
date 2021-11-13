@@ -97,19 +97,17 @@ public class PCGraphics extends AbstractGraphics {
 
     @Override
     public void drawImage(Image image, int x, int y, int w, int h) {
-        Composite oldComposite = _graphics.getComposite();
-
-        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)_graphics.getColor().getAlpha() / 255);
-        _graphics.setComposite(ac);
         _graphics.drawImage(((PCImage) image).getImage(), x, y, w, h, null);
-
-        _graphics.setComposite(oldComposite);
     }
 
     @Override
     public void setColor(int color) {
+
         Color c = new Color(color, true);
         _graphics.setColor(c);
+
+        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)_graphics.getColor().getAlpha() / 255);
+        _graphics.setComposite(ac);
     }
 
     @Override
