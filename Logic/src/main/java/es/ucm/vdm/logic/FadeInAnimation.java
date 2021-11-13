@@ -16,7 +16,7 @@ public class FadeInAnimation extends Animation {
     @Override
     public void animate() {
         int alpha = getA(_color);
-        alpha -= _velocity;
+        alpha += _velocity;
         _color |= alpha << 24;
     }
 
