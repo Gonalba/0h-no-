@@ -16,8 +16,10 @@ public class FadeOutAnimation extends Animation {
     @Override
     public void animate() {
         int alpha = getA(_color);
-        alpha += _velocity;
+
+        alpha -= _velocity;
         _color |= alpha << 24;
+
     }
 
     public static int getA(int argb) {
