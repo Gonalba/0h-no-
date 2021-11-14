@@ -5,7 +5,7 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
-import es.ucm.vdm.logic.FadeOutAnimation;
+import es.ucm.vdm.logic.FadeInAnimation;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
@@ -18,7 +18,7 @@ public class TitleState implements State {
     Font _text;
     TextButton _playButton;
 
-    FadeOutAnimation fadeOutAnimation;
+    FadeInAnimation fadeInAnimation;
 
     public TitleState(OhnoGame game) {
         _game = game;
@@ -28,7 +28,7 @@ public class TitleState implements State {
     public boolean init(Engine engine) {
 
         // se pasa la duracion en segundos y el color inicial
-        fadeOutAnimation = new FadeOutAnimation(5, 0x800000FF);
+        fadeInAnimation = new FadeInAnimation(5, 0x0000FF00);
 
         _q42 = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.Q42);
         _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.MOLLE_REGULAR_130);
@@ -44,7 +44,7 @@ public class TitleState implements State {
     public void update(double deltaTime) {
         InputManager.Instance().checkEvents();
 
-        fadeOutAnimation.animate(deltaTime);
+        fadeInAnimation.animate(deltaTime);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class TitleState implements State {
 
 
         // getColor devuelve el color con el alpha actualizado
-        g.setColor(fadeOutAnimation.getColor());
+        g.setColor(fadeInAnimation.getColor());
         g.setFont(_title);
         w = 10;
         g.drawText("Oh no", w, g.getHeight() / 3);
