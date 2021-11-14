@@ -1,31 +1,44 @@
 package es.ucm.vdm.logic;
 
 import es.ucm.vdm.logic.engine.Animation;
-import es.ucm.vdm.logic.engine.GameObject;
 
 public class ResizeAnimation extends Animation {
 
     int _offsetSize;
+    float _currentSize;
     float _velocity;
     int _initSize;
+    int _repeats;
+    int _currentRepeats;
 
-    public ResizeAnimation(float duration, int offsetSize) {
+    public ResizeAnimation(float duration, int repeats, int offsetSize, int initSize) {
         super(duration);
-        _initSize = 0;
+        _repeats = repeats;
+        _initSize = initSize;
         _offsetSize = offsetSize;
-        // velocidad = espacio / tiempo
-        _velocity = offsetSize / duration;
+        _velocity = (offsetSize * 4 * repeats) / duration;
+        _currentSize = initSize;
+        _currentRepeats = 0;
     }
 
     @Override
     public void animate(double deltaTime) {
-        int currentSize = 0;
-        boolean oneTime = false;
-        if(currentSize < _initSize + _offsetSize)
-            currentSize++;
-        if(currentSize >= _offsetSize)
-            oneTime = true;
-        if(oneTime && currentSize > _initSize - _offsetSize)
-            currentSize--;
+
+        if (_currentRepeats < _repeats * 4) {
+            _currentSize += _velocity * deltaTime;
+            if (_currentSize < _initSize - _offsetSize) {
+                _velocity *= -1;
+                _currentSize = 2 * (_initSize - _offsetSize) - _currentSize;;
+                _currentRepeats++;
+            } else if (_currentSize > _initSize + _offsetSize) {
+                _velocity *= -1;
+                _currentSize = -_currentSize;
+                _currentRepeats++;
+            }
+        }
+    }
+
+    public int getSize() {
+        return (int)_currentSize;
     }
 }

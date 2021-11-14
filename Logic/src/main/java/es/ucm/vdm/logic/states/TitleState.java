@@ -5,7 +5,7 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
-import es.ucm.vdm.logic.FadeInAnimation;
+import es.ucm.vdm.logic.ResizeAnimation;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
@@ -18,7 +18,7 @@ public class TitleState implements State {
     Font _text;
     TextButton _playButton;
 
-    FadeInAnimation fadeInAnimation;
+    ResizeAnimation resizeAnimation;
 
     public TitleState(OhnoGame game) {
         _game = game;
@@ -28,11 +28,12 @@ public class TitleState implements State {
     public boolean init(Engine engine) {
 
         // se pasa la duracion en segundos y el color inicial
-        fadeInAnimation = new FadeInAnimation(5, 0x0000FF00);
 
         _q42 = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.Q42);
         _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.MOLLE_REGULAR_130);
         _text = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_27);
+
+        resizeAnimation = new ResizeAnimation(10, 2, (int) ((_q42.getWidth() / 20) * 2), (_q42.getWidth() / 20));
 
         _playButton = new TextButton("Jugar", ResourcesManager.FontsID.JOSEFINSANS_BOLD_80);
         _playButton.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
@@ -44,7 +45,7 @@ public class TitleState implements State {
     public void update(double deltaTime) {
         InputManager.Instance().checkEvents();
 
-        fadeInAnimation.animate(deltaTime);
+        resizeAnimation.animate(deltaTime);
     }
 
     @Override
@@ -53,13 +54,13 @@ public class TitleState implements State {
 
 
         g.setColor(0xFFFFFFFF);
-        int w = _q42.getWidth() / 20;
-        int h = _q42.getHeight() / 20;
+        int w = resizeAnimation.getSize();
+        int h = resizeAnimation.getSize();
         g.drawImage(_q42, (g.getWidth() / 2) - (w / 2), g.getHeight() - (g.getHeight() / 5), w, h);
 
 
         // getColor devuelve el color con el alpha actualizado
-        g.setColor(fadeInAnimation.getColor());
+        g.setColor(0xFF000000);
         g.setFont(_title);
         w = 10;
         g.drawText("Oh no", w, g.getHeight() / 3);
