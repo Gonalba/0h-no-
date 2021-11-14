@@ -18,10 +18,7 @@ public class AndroidEngine implements Engine {
     private AssetManager _assetManager;
 
     /**
-     * Constructor.
-     *
-     * @param context Contexto en el que se integrará la vista
-     *                (normalmente una actividad).
+     * Constructor que recibe un Contexto en el que se integrará la vista (normalmente una actividad).
      */
     public AndroidEngine(Context context) {
         _surfaceView = new SurfaceView(context);
@@ -29,19 +26,7 @@ public class AndroidEngine implements Engine {
         _graphics = new AndroidGraphics(_assetManager);
         _input = new AndroidInput(_surfaceView, _graphics);
         _mainLoop = new MainLoop(this);
-    } // Engine
-
-    /* ---------------------------------------------------------------------------------------------- *
-     * ------------------------------------- MÉTODOS PROTEGIDOS ------------------------------------- *
-     * ---------------------------------------------------------------------------------------------- */
-
-    protected State getState() {
-        return _mainLoop.getState();
     }
-
-    /* ---------------------------------------------------------------------------------------------- *
-     * -------------------------------------- MÉTODOS PÚBLICOS -------------------------------------- *
-     * ---------------------------------------------------------------------------------------------- */
 
     /**
      * Método llamado para solicitar que se continue con el
@@ -81,6 +66,9 @@ public class AndroidEngine implements Engine {
         return _assetManager.open(filename);
     }
 
+    /**
+     * Devuelve la surfaceView actual
+     */
     public SurfaceView getSurfaceView() {
         return _surfaceView;
     }
@@ -89,4 +77,12 @@ public class AndroidEngine implements Engine {
     public void setState(State s) {
         _mainLoop.setState(s);
     }
+
+    /**
+     * Devuelve el estado actual
+     */
+    protected State getState() {
+        return _mainLoop.getState();
+    }
+
 }

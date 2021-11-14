@@ -18,21 +18,23 @@ public class PCGraphics extends AbstractGraphics {
     private PCEngine _engine;
     int hightBarOffset = 23;
 
-
     public PCGraphics(PCEngine engine) {
         _engine = engine;
         _transformQueue = new LinkedList<>();
     }
 
-    /* ---------------------------------------------------------------------------------------------- *
-     * -------------------------------------- MÉTODOS PUBLICOS -------------------------------------- *
-     * ---------------------------------------------------------------------------------------------- */
-
+    /**
+     * Se selecciona Graphics2D a utilizar y traslada la matriz
+     * para que tenga en cuenta las barrar de reescalado
+     */
     public void setGraphics(java.awt.Graphics2D graphics) {
         _graphics = graphics;
         translate(0, hightBarOffset);
     }
 
+    /**
+     * Se descarta el Graphics2D actual llamando a dispose
+     */
     public void dispose() {
         _graphics.dispose();
     }
@@ -105,7 +107,7 @@ public class PCGraphics extends AbstractGraphics {
         Color c = new Color(color, true);
         _graphics.setColor(c);
 
-        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)_graphics.getColor().getAlpha() / 255);
+        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) _graphics.getColor().getAlpha() / 255);
         _graphics.setComposite(ac);
     }
 
@@ -135,6 +137,9 @@ public class PCGraphics extends AbstractGraphics {
         }
     }
 
+    /**
+     * Devuelve el tamaño real del texto completo pasado por parámetro
+     */
     public int getWidthText(String text) {
         return _graphics.getFontMetrics().stringWidth(text);
     }

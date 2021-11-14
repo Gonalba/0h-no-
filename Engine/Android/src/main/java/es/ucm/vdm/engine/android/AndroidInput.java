@@ -18,9 +18,6 @@ public class AndroidInput extends AbstractInput {
     }
 
     class TouchEvents implements View.OnTouchListener {
-        /* ---------------------------------------------------------------------------------------------- *
-         * -------------------------------------- MÉTODOS PÚBLICOS -------------------------------------- *
-         * ---------------------------------------------------------------------------------------------- */
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -37,10 +34,9 @@ public class AndroidInput extends AbstractInput {
             return true;
         }
 
-        /* ---------------------------------------------------------------------------------------------- *
-         * -------------------------------------- MÉTODOS PRIVADOS -------------------------------------- *
-         * ---------------------------------------------------------------------------------------------- */
-
+        /**
+         * Devuelve la equivalencia en tipo de Input dada un ActionMasked
+         */
         private Input.Type parseActionToType(int action) {
 
             switch (action) {

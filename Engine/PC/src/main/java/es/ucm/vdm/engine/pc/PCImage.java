@@ -27,6 +27,9 @@ public class PCImage implements Image {
         return _height;
     }
 
+    /**
+     * Devuelve la imagen cargada actual
+     */
     public java.awt.Image getImage() {
         return _image;
     }

@@ -33,16 +33,15 @@ public class PCFont implements Font {
 
     }
 
-    /* ---------------------------------------------------------------------------------------------- *
-     * -------------------------------------- MÉTODOS PÚBLICOS -------------------------------------- *
-     * ---------------------------------------------------------------------------------------------- */
-
+    /**
+     * Devuelve la fuente creada
+     */
     public java.awt.Font getFont() {
         return _font;
     }
 
+    @Override
     public int getSize() {
         return _size;
     }
-    //public void setSize(int size){ }
 }

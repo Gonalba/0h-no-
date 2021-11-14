@@ -10,7 +10,7 @@ import java.io.InputStream;
 public interface Engine {
 
     /**
-     * Devuelve la instancia del motor grafico
+     * Devuelve la instancia del motor gráfico
      */
     Graphics getGraphics();
 

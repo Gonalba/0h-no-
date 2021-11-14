@@ -5,10 +5,10 @@ import java.util.List;
 
 public abstract class AbstractInput implements Input {
 
-    protected List<MyEvent> _listMyEvents = null;
+    protected List<MyEvent> listMyEvents = null;
 
     protected AbstractInput() {
-        _listMyEvents = new ArrayList();
+        listMyEvents = new ArrayList();
     }
 
     /**
@@ -16,16 +16,19 @@ public abstract class AbstractInput implements Input {
      */
     @Override
     synchronized public List<MyEvent> getMyEvents() {
-        if (_listMyEvents.isEmpty())
-            return _listMyEvents;
+        if (listMyEvents.isEmpty())
+            return listMyEvents;
 
-        List<MyEvent> myEvents = new ArrayList<MyEvent>(_listMyEvents);
-        _listMyEvents.clear();
+        List<MyEvent> myEvents = new ArrayList<MyEvent>(listMyEvents);
+        listMyEvents.clear();
 
         return myEvents;
     }
 
+    /**
+     * Añade un evento a la lista de eventos
+     */
     synchronized protected void addEvent(MyEvent e) {
-        _listMyEvents.add(e);
+        listMyEvents.add(e);
     }
 }

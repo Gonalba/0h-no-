@@ -32,6 +32,9 @@ public class AndroidImage implements Image {
         return _bitmap.getHeight();
     }
 
+    /**
+     * Devuelve el bitmap creado de la imagen
+     */
     public Bitmap getBitmap() {
         return _bitmap;
     }

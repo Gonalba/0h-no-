@@ -7,7 +7,6 @@ import es.ucm.vdm.engine.common.Font;
 
 public class AndroidFont implements Font {
 
-    //Fuente usada para escribir el texto.
     private Typeface _font;
     private int _size;
     private boolean _isBold;
@@ -18,21 +17,23 @@ public class AndroidFont implements Font {
         _isBold = isBold;
     }
 
-    /* ---------------------------------------------------------------------------------------------- *
-     * -------------------------------------- MÉTODOS PÚBLICOS -------------------------------------- *
-     * ---------------------------------------------------------------------------------------------- */
-
-    public Typeface getFont() {
-        return _font;
-    }
-
+    @Override
     public int getSize() {
         return _size;
     }
 
+    /**
+     * Devuelve la fuente creada
+     */
+    public Typeface getFont() {
+        return _font;
+    }
+
+    /**
+     * Devuelve el estado del boolean que indica si está en negrita la fuente
+     */
     public boolean isBold() {
         return _isBold;
     }
 
-    //public void setSize(int _size){ }
 }

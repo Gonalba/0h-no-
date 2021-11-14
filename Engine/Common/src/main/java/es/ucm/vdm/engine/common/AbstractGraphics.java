@@ -14,11 +14,7 @@ public abstract class AbstractGraphics implements Graphics {
     protected int widthSizeScreen, heightSizeScreen;
 
     // dimensiones reales de la pantalla
-    protected int _wReal, _hReal;
-
-    /* ---------------------------------------------------------------------------------------------- *
-     * -------------------------------------- MÉTODOS PUBLICOS -------------------------------------- *
-     * ---------------------------------------------------------------------------------------------- */
+    protected int wReal, hReal;
 
     @Override
     public void setLogicSize(int w, int h) {
@@ -51,10 +47,6 @@ public abstract class AbstractGraphics implements Graphics {
         return scaleFactor;
     }
 
-    /* ---------------------------------------------------------------------------------------------- *
-     * -------------------------------------- MÉTODOS PRIVADOS -------------------------------------- *
-     * ---------------------------------------------------------------------------------------------- */
-
     /**
      * Renderiza las barras para que la pantalla quede en el centro
      */
@@ -69,19 +61,19 @@ public abstract class AbstractGraphics implements Graphics {
             fillRect(0, 0, widthSizeScreen, heightBar);
 
             // Segunda barra:
-            fillRect(widthBar + widthSizeScreen, 0, _wReal, _hReal);
-            fillRect(0, heightBar + heightSizeScreen, _wReal, _hReal);
+            fillRect(widthBar + widthSizeScreen, 0, wReal, hReal);
+            fillRect(0, heightBar + heightSizeScreen, wReal, hReal);
         }
         restore();
     }
 
     /**
-     * Establece el factor de escala en funcion de la resolucion pasada por parametro
+     * Establece el factor de escala en función de la resolucion pasada por parametro
      */
     protected void setScaleFactor(int wReal, int hReal) {
 
-        _wReal = wReal;
-        _hReal = hReal;
+        this.wReal = wReal;
+        this.hReal = hReal;
         // factor de escala horizontal y vertical (solo elegimos uno, el más pequeño, para rescalar la pantalla)
         double wFactor, hFactor;
 
