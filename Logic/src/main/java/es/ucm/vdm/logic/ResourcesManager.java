@@ -10,9 +10,12 @@ import es.ucm.vdm.engine.common.Image;
  * Clase encargada de crear todos los recursos del juego y permitir al resto de clases acceder a ellos
  */
 public class ResourcesManager {
-
+    // Instancia del singleton
     private static ResourcesManager _instance;
 
+    /**
+     *  Inicializa la instancia del singleton
+     */
     public static void initResourcesManager(Engine engine) {
         if (_instance == null) {
             _instance = new ResourcesManager(engine);
@@ -35,10 +38,8 @@ public class ResourcesManager {
     }
 
     public enum FontsID {
-
         MOLLE_REGULAR_70,
         MOLLE_REGULAR_130,
-        JOSEFINSANS_16,
         JOSEFINSANS_27,
         JOSEFINSANS_BOLD_20,
         JOSEFINSANS_BOLD_24,
@@ -70,7 +71,6 @@ public class ResourcesManager {
         _fonts.add(_engine.getGraphics().newFont("Molle-Regular.ttf", 70, false));
         _fonts.add(_engine.getGraphics().newFont("Molle-Regular.ttf", 130, false));
 
-        _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 16, false));//history font
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 27, false));
 
         _fonts.add(_engine.getGraphics().newFont("JosefinSans-Bold.ttf", 20, true));//percentaje font

@@ -198,21 +198,6 @@ public class Tile extends GameObject implements InteractiveObject {
     }
 
     /**
-     * Metodo que devuelve el valor del radio
-     */
-    public int getRadius() {
-        return _radius;
-    }
-
-
-    /**
-     * Método que asigna el valor del radio del circulo
-     */
-    public void setRadius(int r) {
-        _radius = r;
-    }
-
-    /**
      * Metodo que devuelve el valor del diametro
      */
     public int getDiameter() {
