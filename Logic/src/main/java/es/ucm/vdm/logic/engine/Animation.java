@@ -1,4 +1,5 @@
 package es.ucm.vdm.logic.engine;
+
 /**
  * Clase base abstracta para la creacion de animaciones.
  * Al constructor se le pasa un parámetro que determina la duración de la animacion
@@ -12,5 +13,5 @@ public abstract class Animation {
         _duration = duration;
     }
 
-    public abstract void animate(double deltaTime);
+    public abstract boolean animate(double deltaTime);
 }

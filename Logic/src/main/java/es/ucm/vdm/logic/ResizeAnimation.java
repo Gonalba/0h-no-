@@ -22,7 +22,7 @@ public class ResizeAnimation extends Animation {
     }
 
     @Override
-    public void animate(double deltaTime) {
+    public boolean animate(double deltaTime) {
 
         if (_currentRepeats < _repeats * 3) {
             _currentSize += _velocity * deltaTime;
@@ -42,7 +42,7 @@ public class ResizeAnimation extends Animation {
 //                _currentRepeats++;
 //            }
 //        }
-
+        return true;
     }
 
     public int getSize() {

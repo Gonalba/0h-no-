@@ -50,6 +50,10 @@ public class Tile extends GameObject implements InteractiveObject {
     // atributo que determina si se tiene que pintar o no el borde de la pista
     private boolean _showCircle = false;
 
+    private FadeInAnimation _fadeInAnimation;
+    private FadeOutAnimation _fadeOutAnimation;
+    private ResizeAnimation _resizeAnimation;
+
     public Tile(Font f, int radius, Board board) {
         _numFont = f;
         _board = board;
@@ -57,6 +61,10 @@ public class Tile extends GameObject implements InteractiveObject {
         _radius = radius;
         _lockImage = ResourcesManager.Instance().getImage(ResourcesManager.ImagesID.LOCK);
         InputManager.Instance().addInteractObject(this);
+
+        _fadeInAnimation = new FadeInAnimation(5, 0x00FFFFFF);
+        _fadeOutAnimation = new FadeOutAnimation(5, 0xFFFFFFFF);
+        _resizeAnimation = new ResizeAnimation(1, 2, (int) (radius / 3), radius);
     }
 
     public Tile(Tile another) {
@@ -87,9 +95,20 @@ public class Tile extends GameObject implements InteractiveObject {
                 y > (_position.y - _radius) && y < (_position.y + _radius);
     }
 
+
+    boolean animResizing = false;
+    boolean animFading = false;
+
+    int previousColor;
+
     @Override
     public void update(double delta) {
 
+        if (animResizing)
+            _resizeAnimation.animate(delta);
+        if (animFading) {
+            animFading = _fadeInAnimation.animate(delta) && _fadeOutAnimation.animate(delta);
+        }
     }
 
     @Override
@@ -101,8 +120,17 @@ public class Tile extends GameObject implements InteractiveObject {
                 g.drawCircle(0, 0, _radius - 2, 5);
             }
 
-            g.setColor(_currentColor);
-            g.fillCircle(0, 0, _radius - 2);
+            if (animFading) {
+                g.setColor(_fadeOutAnimation.getColor());
+                g.fillCircle(0, 0, _radius - 2);
+
+                g.setColor(_fadeInAnimation.getColor());
+                g.fillCircle(0, 0, _radius - 2);
+
+            } else {
+                g.setColor(_currentColor);
+                g.fillCircle(0, 0, _radius - 2);
+            }
 
             if (_currentState == State.DOT && _isLocked) {
                 g.setColor(0xFFFFFFFF);
@@ -149,11 +177,24 @@ public class Tile extends GameObject implements InteractiveObject {
      */
     private void change() {
         if (!_isLocked) {
+            previousColor = _currentColor;
             int i = _currentState.ordinal();
             i = (i + 1) % State.values().length;
             setState(State.values()[i]);
+
+            _fadeOutAnimation.setAnimParams(0.25f, previousColor);
+
+            int c = 0;
+            int color;
+            c |= 0x00000000;
+            color = _currentColor & 0x00FFFFFF;
+            c |= color;
+
+            _fadeInAnimation.setAnimParams(0.25f, c);
+            animFading = true;
         } else {
             _board.showLockInTiles(!_showLock);
+            animResizing = true;
         }
     } // fin change()
 

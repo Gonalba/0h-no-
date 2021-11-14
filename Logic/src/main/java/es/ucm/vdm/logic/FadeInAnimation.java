@@ -18,11 +18,13 @@ public class FadeInAnimation extends Animation {
     }
 
     @Override
-    public void animate(double deltaTime) {
+    public boolean animate(double deltaTime) {
         alpha += (_velocity * deltaTime);
         if (alpha < 255) {
             _currentColor = ((int) alpha) << 24;
-        }
+        } else
+            return false;
+        return true;
     }
 
     public int getColor() {
@@ -33,13 +35,20 @@ public class FadeInAnimation extends Animation {
         int c = 0;
         c |= _currentColor;
         _color = _color & 0x00FFFFFF;
-        c|= _color;
+        c |= _color;
 
         return c;
     }
 
     private int getAlpha(int argb) {
         return (argb >> 24) & 0xFF;
+    }
+
+    public void setAnimParams(float duration, int color) {
+        _currentColor = color;
+        _color = color;
+        alpha = getAlpha(color);
+        _velocity = (255 - alpha) / duration;
     }
 }
 
