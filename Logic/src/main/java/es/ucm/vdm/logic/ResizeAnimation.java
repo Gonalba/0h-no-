@@ -24,21 +24,28 @@ public class ResizeAnimation extends Animation {
     @Override
     public void animate(double deltaTime) {
 
-        if (_currentRepeats < _repeats * 4) {
+        if (_currentRepeats < _repeats * 3) {
             _currentSize += _velocity * deltaTime;
             if (_currentSize < _initSize - _offsetSize) {
                 _velocity *= -1;
-                _currentSize = 2 * (_initSize - _offsetSize) - _currentSize;;
+                _currentSize = _initSize - _offsetSize;
                 _currentRepeats++;
             } else if (_currentSize > _initSize + _offsetSize) {
                 _velocity *= -1;
-                _currentSize = -_currentSize;
+                _currentSize = _initSize + _offsetSize;
                 _currentRepeats++;
             }
         }
+//        else if (_currentRepeats < _repeats * 4) {
+//            _currentSize += -_velocity * deltaTime;
+//            if (_currentSize == _initSize) {
+//                _currentRepeats++;
+//            }
+//        }
+
     }
 
     public int getSize() {
-        return (int)_currentSize;
+        return (int) _currentSize;
     }
 }

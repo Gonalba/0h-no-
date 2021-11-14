@@ -33,7 +33,7 @@ public class TitleState implements State {
         _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.MOLLE_REGULAR_130);
         _text = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_27);
 
-        resizeAnimation = new ResizeAnimation(10, 2, (int) ((_q42.getWidth() / 20) * 2), (_q42.getWidth() / 20));
+        resizeAnimation = new ResizeAnimation(5, 2, (int) ((_q42.getWidth() / 20) * 0.5f), (_q42.getWidth() / 20));
 
         _playButton = new TextButton("Jugar", ResourcesManager.FontsID.JOSEFINSANS_BOLD_80);
         _playButton.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
