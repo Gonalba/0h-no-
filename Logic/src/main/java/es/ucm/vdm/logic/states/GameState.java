@@ -24,10 +24,9 @@ import es.ucm.vdm.logic.engine.Position;
 
 /**
  * Clase que contiene los objetos del juego en cuestion (tablero, pistas...)
- *
+ * <p>
  * Implementa las interfaces State, perteneciente al motor para que se pueda ejecutar el bucle dentro del mismo,
  * e InteractiveObject, para poder detectar cuando se pulsa en pantalla y poder borrar los mensajes de pistas y undo
- *
  */
 public class GameState implements State, InteractiveObject {
 

@@ -24,9 +24,9 @@ public class InputManager {
     private ArrayList<InteractiveObject> _interactiveObjects;
 
     /*
-    * Pila de objetos interactuables que quieren ser añadidos a la lsita para recibir los eventos ocurridos
-    * Al final de la ejecucion de checkEvents() es cuando se añaden
-    * */
+     * Pila de objetos interactuables que quieren ser añadidos a la lsita para recibir los eventos ocurridos
+     * Al final de la ejecucion de checkEvents() es cuando se añaden
+     * */
     private Stack<InteractiveObject> _nextInteractiveObjects;
 
     /*

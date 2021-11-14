@@ -5,13 +5,14 @@ import java.util.List;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Input;
+
 /**
  * Boton grafico que hereda de Button y que tiene la forma de un circulo con un numero dentro
  * Los parametros que se le pasan al constructor son:
- *  - el color con el que se renderiza
- *  - el radio de la circunferencia
- *  - el numero que va a aparecer dentro
- *
+ * - el color con el que se renderiza
+ * - el radio de la circunferencia
+ * - el numero que va a aparecer dentro
+ * <p>
  * Implementa el metodo recivesEvents() de la interfaz InteractiveObject donde recive una lista de eventos por parametro
  * En el constructor se da de alta al objeto en el InputManager para que se llame dicho metodo de la interfaz
  */

@@ -6,10 +6,11 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.ResourcesManager;
+
 /**
  * Clase que hace boton a una imagen.
  * Hereda de Button y al constructor se le pasa una imagen
- *
+ * <p>
  * Implementa el metodo recivesEvents() de la interfaz InteractiveObject donde recive una lista de eventos por parametro
  * En el constructor se da de alta al objeto en el InputManager para que se llame dicho metodo de la interfaz
  */

@@ -1,4 +1,5 @@
 package es.ucm.vdm.logic.engine;
+
 /**
  * Clase que define el tipo posicion
  */

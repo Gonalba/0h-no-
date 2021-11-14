@@ -14,7 +14,7 @@ public class ResourcesManager {
     private static ResourcesManager _instance;
 
     /**
-     *  Inicializa la instancia del singleton
+     * Inicializa la instancia del singleton
      */
     public static void initResourcesManager(Engine engine) {
         if (_instance == null) {

@@ -3,6 +3,7 @@ package es.ucm.vdm.logic.behaviours;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.engine.Behaviour;
 import es.ucm.vdm.logic.states.OhnoGame;
+
 /**
  * Funcionalidad para cambiar de escena
  */

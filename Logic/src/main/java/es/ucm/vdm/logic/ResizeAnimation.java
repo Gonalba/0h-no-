@@ -1,6 +1,7 @@
 package es.ucm.vdm.logic;
 
 import es.ucm.vdm.logic.engine.Animation;
+
 /**
  * Clase que realiza la animacion de rescalado de las casillas
  */
