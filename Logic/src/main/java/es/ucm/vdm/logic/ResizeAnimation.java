@@ -1,15 +1,17 @@
 package es.ucm.vdm.logic;
 
 import es.ucm.vdm.logic.engine.Animation;
-
+/**
+ * Clase que realiza la animacion de rescalado de las casillas
+ */
 public class ResizeAnimation extends Animation {
 
-    int _offsetSize;
-    float _currentSize;
-    float _velocity;
-    int _initSize;
-    int _repeats;
-    int _currentRepeats;
+    private int _offsetSize;
+    private float _currentSize;
+    private float _velocity;
+    private int _initSize;
+    private int _repeats;
+    private int _currentRepeats;
 
     public ResizeAnimation(float duration, int repeats, int offsetSize, int initSize) {
         super(duration);

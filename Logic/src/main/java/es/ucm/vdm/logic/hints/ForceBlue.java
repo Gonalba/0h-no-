@@ -6,15 +6,19 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.engine.Position;
 
-public class ForceBlue extends Hint {
 
+// Pista 3
+// Por la suma total de las casillas vacias en una direccion, es obligatorio que
+// en otra direccion haya al menos una casilla azul
+
+/**
+ * Clase que hereda de la clase Hint e implementa la logica de la pista en el metodo executeHint()
+ */
+public class ForceBlue extends Hint {
     public ForceBlue(String text, Font font) {
         super(text, font);
     }
 
-    //3
-    // Por la suma total de las casillas vacias en una direccion, es obligatorio que
-    // en otra direccion haya al menos una casilla azul
     @Override
     public Position executeHint(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());

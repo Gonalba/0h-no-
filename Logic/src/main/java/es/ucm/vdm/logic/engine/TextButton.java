@@ -7,14 +7,22 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.ResourcesManager;
 
+/**
+ * Clase que define un texto como boton.
+ * Hereda de boton e implementa los métodos necesarios (update() y render() de game object y receivesEvents() de la interfaz InteractiveObject)
+ */
 public class TextButton extends Button {
+    // Fuente que va a tener el texto
     private Font _font;
-    String _text;
+
+    // Texto que se va a mostrar
+    private String _text;
 
     public TextButton(String text, ResourcesManager.FontsID id) {
         _font = ResourcesManager.Instance().getFont(id);
         _text = text;
 
+        // damos de alta en el input para recibir los eventos
         InputManager.Instance().addInteractObject(this);
     }
 

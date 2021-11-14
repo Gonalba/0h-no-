@@ -6,6 +6,9 @@ import es.ucm.vdm.engine.common.Engine;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Image;
 
+/**
+ * Clase encargada de crear todos los recursos del juego y permitir al resto de clases acceder a ellos
+ */
 public class ResourcesManager {
 
     private static ResourcesManager _instance;

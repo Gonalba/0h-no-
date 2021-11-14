@@ -31,9 +31,14 @@ public class TitleState implements State {
         _text = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_27);
 
 
-        _playButton = new TextButton("Jugar", ResourcesManager.FontsID.JOSEFINSANS_BOLD_80);
+        String title = "Jugar";
+        _playButton = new TextButton(title, ResourcesManager.FontsID.JOSEFINSANS_BOLD_80);
         _playButton.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
-        _playButton.setPosition(110, engine.getGraphics().getHeight() / 2);
+
+        engine.getGraphics().setFont(ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_80));
+        int x = (engine.getGraphics().getWidth() - engine.getGraphics().getWidthText(title)) / 2;
+        _playButton.setPosition(x, engine.getGraphics().getHeight() / 2);
+
         return true;
     }
 
@@ -49,21 +54,29 @@ public class TitleState implements State {
         g.setColor(0xFFFFFFFF);
         int w = _q42.getWidth() / 20;
         int h = _q42.getHeight() / 20;
-        g.drawImage(_q42, (g.getWidth() / 2) - (w / 2), g.getHeight() - (g.getHeight() / 5), w, h);
+        int y = g.getHeight() - (g.getHeight() / 5);
+        int x = (g.getWidth() / 2) - (w / 2);
+        g.drawImage(_q42, x, y, w, h);
 
 
         // getColor devuelve el color con el alpha actualizado
         g.setColor(0xFF000000);
         g.setFont(_title);
-        w = 10;
-        g.drawText("Oh no", w, g.getHeight() / 3);
+        String title = "Oh no";
+        w = (g.getWidth() - g.getWidthText(title)) / 2;
+        h = g.getHeight() / 3;
+        g.drawText(title, w, h);
 
         g.setColor(0xFFB5B5B5);
         g.setFont(_text);
-        w = 60;
+        String description = "Un juego copiado a Q42";
+        w = (g.getWidth() - g.getWidthText(description)) / 2;
         h = 0;
-        g.drawText("Un juego copiado a Q42", w, g.getHeight() - g.getHeight() / 3);
-        g.drawText("Creado por Martin Kool", w, g.getHeight() - g.getHeight() / 3 + 30);
+        g.drawText(description, w, g.getHeight() - g.getHeight() / 3);
+
+        description = "Creado por Martin Kool";
+        w = (g.getWidth() - g.getWidthText(description)) / 2;
+        g.drawText(description, w, g.getHeight() - g.getHeight() / 3 + 30);
 
         g.setColor(0x66000000);
         _playButton.render(g);

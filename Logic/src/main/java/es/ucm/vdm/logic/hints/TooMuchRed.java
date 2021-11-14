@@ -6,15 +6,19 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.engine.Position;
 
+// Pista 5
+// Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero necesita mas azules
+// si es correcta, devuelve la posicion pasada por parámetro, si no devuelve null
+
+/**
+ * Clase que hereda de la clase Hint e implementa la logica de la pista en el metodo executeHint()
+ */
 public class TooMuchRed extends Hint {
 
     public TooMuchRed(String text, Font font) {
         super(text, font);
     }
 
-    //5
-    // Una casilla ya tiene en las 4 direcciones paredes puestas a N distancia pero necesita mas azules
-    // si es correcta, devuelve la posicion pasada por parámetro, si no devuelve null
     @Override
     public Position executeHint(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());

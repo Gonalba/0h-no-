@@ -21,21 +21,15 @@ import es.ucm.vdm.logic.hints.TotalBlueTiles;
  * Clase que se encarga de gestionar las pistas
  */
 public class HintsManager {
-    // Usamos un objeto direction para guardar las coordenadas de las casillas.
-    // Este atributo de clase sirve para que cuando las pistas devuelvan una direccion, no tengan que hacer NEWs.
-    // Sobreescriben los valores en este atributo y lo devuelven. Otra forma de evitar hacer NEWs es usando el patron PULL sobre la clase DIRECTION
-
-    // dimension del tablero para poder acceder a las casillas [(dimension * y) + x]
-
-
+    // Array con todas las pistas
     private ArrayList<Hint> _hints;
-    // array con las pistas actuales del tablero (desde la ultima vez que se llamo al getHints())
-    private ArrayList<Hint> currentHints;
+    // Array con las pistas actuales del tablero (desde la ultima vez que se llamo al getHints())
+    private ArrayList<Hint> _currentHints;
 
-    // pista visible en este momento
-    private Hint currentVisibleHint;
+    // Pista visible en este momento
+    private Hint _currentVisibleHint;
 
-    enum HintsName {
+    private enum HintsName {
         FULLVISIONOPEN,
         TOOMUCHBLUE,
         FORCEBLUE,
@@ -54,7 +48,7 @@ public class HintsManager {
     }
 
     private void init() {
-        currentHints = new ArrayList<>();
+        _currentHints = new ArrayList<>();
 
         _hints = new ArrayList<>();
         _hints.add(new FullVisionOpen("Este número ve todos\nsus puntos",
@@ -82,9 +76,9 @@ public class HintsManager {
     }
 
     public void resetHint(Board board) {
-        if (currentVisibleHint != null) {
-            currentVisibleHint.showText(false);
-            board.getTile(currentVisibleHint.getIndexTileX(), currentVisibleHint.getIndexTileY()).showHintMark(false);
+        if (_currentVisibleHint != null) {
+            _currentVisibleHint.showText(false);
+            board.getTile(_currentVisibleHint.getIndexTileX(), _currentVisibleHint.getIndexTileY()).showHintMark(false);
         }
     }
 
@@ -95,7 +89,7 @@ public class HintsManager {
 
         int dimension = (int) Math.sqrt(board.getBoard().size());
 
-        if (currentVisibleHint != null) {
+        if (_currentVisibleHint != null) {
             for (Hint h : _hints) {
                 h.showText(false);
                 board.getBoard().get((dimension * h.getIndexTileY()) + h.getIndexTileX()).showHintMark(false);
@@ -107,10 +101,10 @@ public class HintsManager {
         ArrayList<Hint> hints = getCurrentHints(board.getBoard(), dimension);
 
         if (!hints.isEmpty()) {
-            currentVisibleHint = hints.get(r.nextInt(hints.size()));
+            _currentVisibleHint = hints.get(r.nextInt(hints.size()));
 
-            currentVisibleHint.showText(true);
-            board.getBoard().get((dimension * currentVisibleHint.getIndexTileY()) + currentVisibleHint.getIndexTileX()).showHintMark(true);
+            _currentVisibleHint.showText(true);
+            board.getBoard().get((dimension * _currentVisibleHint.getIndexTileY()) + _currentVisibleHint.getIndexTileX()).showHintMark(true);
         } else
             resetHint(board);
 
@@ -118,29 +112,29 @@ public class HintsManager {
     }
 
     private ArrayList<Hint> getCurrentHints(ArrayList<Tile> board, int dimension) {
-        currentHints.clear();
+        _currentHints.clear();
 
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
                 for (Hint h : _hints) {
                     if (h.executeHint(j, i, board) != null) {
                         h.setIndexTile(j, i);
-                        currentHints.add(h);
+                        _currentHints.add(h);
                     }
                 }
             }
         }
-        return currentHints;
+        return _currentHints;
     }
 
     public void update(double delta) {
-        if (currentVisibleHint != null)
-            currentVisibleHint.update(delta);
+        if (_currentVisibleHint != null)
+            _currentVisibleHint.update(delta);
     }
 
     public void render(Graphics g) {
-        if (currentVisibleHint != null)
-            currentVisibleHint.render(g);
+        if (_currentVisibleHint != null)
+            _currentVisibleHint.render(g);
     }
 
     private boolean ApplyHintsInPosition(int x, int y, ArrayList<Tile> board) {
@@ -206,8 +200,6 @@ public class HintsManager {
 
         return aux == 0;
     }
-
-    // METODOS AUXILIARES
 
     // devuelve el numero de casillas vacias del tablero
     private int countEmpty(ArrayList<Tile> board) {

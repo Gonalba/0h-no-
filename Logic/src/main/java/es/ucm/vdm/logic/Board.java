@@ -205,7 +205,6 @@ public class Board extends GameObject {
         initBoard();
     }
 
-    // TODO: No genera bien ni el tablero ni el puzzle, revisar todo
     // Generar un tablero se basa en la condicion de los valores maximos de las casillas
     private void initBoard() {
         Random rand = new Random();
@@ -271,13 +270,9 @@ public class Board extends GameObject {
             t.setState(lastState);
             t.setLocked(true);
         } while (!list.isEmpty());
-
-//        for (Tile tile : _board) {
-//            if (tile.getState() != Tile.State.EMPTY)
-//                tile.setLocked(true);
-//        }
     }
 
+    // Muestra los candados en las casillas pared
     public void showLockInTiles(boolean b) {
         for (Tile tile : _board) {
             tile.showLock(b);

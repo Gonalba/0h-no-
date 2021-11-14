@@ -6,10 +6,10 @@ import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.engine.InputManager;
 
 public class OhnoGame {
-    Engine _engine;
-    MenuState _menuState;
-    GameState _gameState;
-    TitleState _titleState;
+    private Engine _engine;
+    private MenuState _menuState;
+    private GameState _gameState;
+    private TitleState _titleState;
 
     public OhnoGame(Engine e) {
         _engine = e;
@@ -21,16 +21,8 @@ public class OhnoGame {
         ResourcesManager.initResourcesManager(_engine);
 
         _titleState = new TitleState(this);
-//        if (!_titleState.init(_engine))
-//            return false;
-
         _menuState = new MenuState(this);
-//        if (!_menuState.init(_engine))
-//            return false;
-
         _gameState = new GameState(this);
-//        if (!_gameState.init(_engine))
-//            return false;
 
         return true;
     }

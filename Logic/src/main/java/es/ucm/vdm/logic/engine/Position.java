@@ -1,5 +1,7 @@
 package es.ucm.vdm.logic.engine;
-
+/**
+ * Clase que define el tipo posicion
+ */
 public class Position {
     public Position() {
         x = 0;

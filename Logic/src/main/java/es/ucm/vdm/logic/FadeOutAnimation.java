@@ -2,6 +2,9 @@ package es.ucm.vdm.logic;
 
 import es.ucm.vdm.logic.engine.Animation;
 
+/**
+ * Clase que realiza la animacion fade out del alpha de un color
+ */
 public class FadeOutAnimation extends Animation {
 
     int _currentColor;

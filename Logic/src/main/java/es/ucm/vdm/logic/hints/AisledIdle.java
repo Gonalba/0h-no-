@@ -6,15 +6,19 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.engine.Position;
 
-public class AisledIdle extends Hint {
 
+// Pista 6
+// Una casilla IDLE está rodeada por PAREDES
+// Por lo tanto tiene que ser PARED
+
+/**
+ * Clase que hereda de la clase Hint e implementa la logica de la pista en el metodo executeHint()
+ */
+public class AisledIdle extends Hint {
     public AisledIdle(String text, Font font) {
         super(text, font);
     }
 
-    //6
-    // Una casilla IDLE está rodeada por PAREDES
-    // Por lo tanto tiene que ser PARED
     @Override
     public Position executeHint(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());

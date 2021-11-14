@@ -6,15 +6,19 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.engine.Position;
 
+// Pista 2
+// Si ponemos una casilla azul, por la disposicion de las demas casillas, se excede el numero de
+// azules visibles, por lo que tiene que ser rojo
+
+/**
+ * Clase que hereda de la clase Hint e implementa la logica de la pista en el metodo executeHint()
+ */
 public class TooMuchBlue extends Hint {
 
     public TooMuchBlue(String text, Font font) {
         super(text, font);
     }
 
-    //2
-    // Si ponemos una casilla azul, por la disposicion de las demas casillas, se excede el numero de
-    // azules visibles, por lo que tiene que ser rojo
     @Override
     public Position executeHint(int x, int y, ArrayList<Tile> board) {
         int dimension = (int) Math.sqrt(board.size());

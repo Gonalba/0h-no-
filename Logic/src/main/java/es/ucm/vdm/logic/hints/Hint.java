@@ -8,6 +8,10 @@ import es.ucm.vdm.logic.Tile;
 import es.ucm.vdm.logic.engine.GameObject;
 import es.ucm.vdm.logic.engine.Position;
 
+/**
+ * Clase es un gameObject y contiene la fuente con la que se va a pintar el texto,
+ * las coordenadas de la casilla donde se aplica la pista y se es visible o no
+ */
 public abstract class Hint extends GameObject {
 
     protected static final Position[] directions = new Position[]{
@@ -17,6 +21,7 @@ public abstract class Hint extends GameObject {
             new Position(-1, 0) //left
     };
 
+    // atributo que usarán las pistas para devolver la posicion en executeHint()
     protected static Position _pointToReturn = new Position(0, 0);
 
     public String _text;
@@ -77,6 +82,9 @@ public abstract class Hint extends GameObject {
         _visible = b;
     }
 
+    /**
+     * Asigna la casilla sobre la que se aplica la pista
+     */
     public void setIndexTile(int indexTileX, int indexTileY) {
         _indexTileX = indexTileX;
         _indexTileY = indexTileY;
@@ -89,6 +97,8 @@ public abstract class Hint extends GameObject {
     public int getIndexTileY() {
         return _indexTileY;
     }
+
+    // METODOS AUXILIARES COMUNES A ALGUNAS PISTAS Y QUE SON DE UTILIDAD
 
     // Devuelve FULL si una casilla azul ve las VALOR casillas que tiene que ver
     // Devuelve EXCEEDED si ves demasiadas casillas azules
