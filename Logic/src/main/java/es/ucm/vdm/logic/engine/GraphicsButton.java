@@ -5,8 +5,6 @@ import java.util.List;
 import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Input;
-import es.ucm.vdm.logic.engine.Button;
-import es.ucm.vdm.logic.engine.InputManager;
 /**
  * Boton grafico que hereda de Button y que tiene la forma de un circulo con un numero dentro
  * Los parametros que se le pasan al constructor son:

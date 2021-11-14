@@ -10,6 +10,8 @@ import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.engine.common.State;
 import es.ucm.vdm.logic.Board;
+import es.ucm.vdm.logic.FadeInAnimation;
+import es.ucm.vdm.logic.FadeOutAnimation;
 import es.ucm.vdm.logic.HintsManager;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.Tile;
@@ -51,7 +53,7 @@ public class GameState implements State, InteractiveObject {
 
     String stepback = "vacio";
     String winMessage;
-    String[] winMessages = new String[] {
+    String[] winMessages = new String[]{
             "¡Deslumbrante!",
             "¡Sin parangón!",
             "¡Brillante!",
@@ -78,6 +80,10 @@ public class GameState implements State, InteractiveObject {
     //region inferior que ocupa 1/5 (empieza en 4/5 y acaba en el alto)
     Position bottomRegion;
     HintsManager _hintsManager;
+
+    private FadeInAnimation _fadeInAnimation;
+    private FadeOutAnimation _fadeOutAnimation;
+    private boolean winRendered;
 
     public GameState(OhnoGame game) {
         _game = game;
@@ -140,6 +146,10 @@ public class GameState implements State, InteractiveObject {
         _visibleDimensionTitle = true;
         _setUndoText = false;
 
+        _fadeInAnimation = new FadeInAnimation(5, 0x00FFFFFF);
+        _fadeOutAnimation = new FadeOutAnimation(5, 0xFFFFFFFF);
+        winRendered = false;
+
         InputManager.Instance().addInteractObject(this);
 
         return true;
@@ -158,10 +168,19 @@ public class GameState implements State, InteractiveObject {
             press = false;
             showFinalHint = true;
             win = !showHint();
+            if (win) {
+                winRendered = true;
+                win = false;
+                exit();
+                board.win();
+            }
             _setUndoText = false;
             _visibleDimensionTitle = false;
         } else if (percentajeNum < 100 || (percentajeNum == 100 && press))
             showFinalHint = false;
+
+        if(board.boardAnimEnd())
+            _engine.setState(_game.getMenuState());
     }
 
     @Override
@@ -186,7 +205,7 @@ public class GameState implements State, InteractiveObject {
         } else
             _hintsManager.render(g);
 
-        if (win) {
+        if (winRendered) {
             g.setColor(0xFF000000);
             g.setFont(hintFont);
             int centPosX = (g.getWidth() - g.getWidthText(winMessage)) / 2;
@@ -207,11 +226,14 @@ public class GameState implements State, InteractiveObject {
         g.drawText(percentaje, centPosX, bottomRegion.y + 20);
 
         //Buttons
-        g.setColor(0x66FFFFFF);
-        close.render(g);
-        eye.render(g);
-        history.render(g);
+        if (!winRendered) {
+            g.setColor(0x66FFFFFF);
+            close.render(g);
+            eye.render(g);
+            history.render(g);
+        }
     }
+
 
     public boolean showHint() {
         _visibleDimensionTitle = false;
@@ -228,7 +250,6 @@ public class GameState implements State, InteractiveObject {
 
     @Override
     public void exit() {
-
         for (Tile t : board.getBoard())
             InputManager.Instance().removeInteractObject(t);
 

@@ -5,7 +5,6 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.State;
-import es.ucm.vdm.logic.ResizeAnimation;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.behaviours.ChangeStateBehaviour;
 import es.ucm.vdm.logic.engine.InputManager;
@@ -17,8 +16,6 @@ public class TitleState implements State {
     Font _title;
     Font _text;
     TextButton _playButton;
-
-    ResizeAnimation resizeAnimation;
 
     public TitleState(OhnoGame game) {
         _game = game;
@@ -33,7 +30,6 @@ public class TitleState implements State {
         _title = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.MOLLE_REGULAR_130);
         _text = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_27);
 
-        resizeAnimation = new ResizeAnimation(5, 2, (int) ((_q42.getWidth() / 20) * 0.5f), (_q42.getWidth() / 20));
 
         _playButton = new TextButton("Jugar", ResourcesManager.FontsID.JOSEFINSANS_BOLD_80);
         _playButton.setBehaviour(new ChangeStateBehaviour(_game, _game.getMenuState()));
@@ -44,18 +40,15 @@ public class TitleState implements State {
     @Override
     public void update(double deltaTime) {
         InputManager.Instance().checkEvents();
-
-        resizeAnimation.animate(deltaTime);
     }
 
     @Override
     public void render(Graphics g) {
         g.clear(0xFFFFFFFF);
 
-
         g.setColor(0xFFFFFFFF);
-        int w = resizeAnimation.getSize();
-        int h = resizeAnimation.getSize();
+        int w = _q42.getWidth() / 20;
+        int h = _q42.getHeight() / 20;
         g.drawImage(_q42, (g.getWidth() / 2) - (w / 2), g.getHeight() - (g.getHeight() / 5), w, h);
 
 

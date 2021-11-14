@@ -56,6 +56,12 @@ public class Tile extends GameObject implements InteractiveObject {
     private FadeOutAnimation _fadeOutAnimation;
     private ResizeAnimation _resizeAnimation;
 
+    boolean animResizing = false;
+    boolean animFading = false;
+    boolean animWinning = false;
+
+    int previousColor;
+
     public Tile(Font f, int radius, Board board) {
         _numFont = f;
         _board = board;
@@ -97,12 +103,6 @@ public class Tile extends GameObject implements InteractiveObject {
                 y > (_position.y - _radius) && y < (_position.y + _radius);
     }
 
-
-    boolean animResizing = false;
-    boolean animFading = false;
-
-    int previousColor;
-
     @Override
     public void update(double delta) {
 
@@ -111,12 +111,28 @@ public class Tile extends GameObject implements InteractiveObject {
         if (animFading) {
             animFading = _fadeInAnimation.animate(delta) && _fadeOutAnimation.animate(delta);
         }
+
+        if (animWinning) {
+            _board.endWin(!_fadeOutAnimation.animate(delta));
+        }
     }
 
     @Override
     public void render(Graphics g) {
         if (g.save()) {
             g.translate(_position.x, _position.y);
+            if (animWinning) {
+                _currentColor = _fadeOutAnimation.getColor();
+                g.setColor(_currentColor);
+                g.fillCircle(0, 0, _radius - GRID_OFFSET);
+
+                if (_currentState != State.WALL) {
+                    g.setFont(_numFont);
+                    g.drawText(String.valueOf(_number), -g.getWidthText(String.valueOf(_number)) / 2,
+                            g.getWidthText(String.valueOf(_number)) / 2);
+                }
+            }
+
             if (_showCircle) {
                 g.setColor(0xFF000000);
                 g.drawCircle(0, 0, _radius - GRID_OFFSET, 5);
@@ -145,7 +161,7 @@ public class Tile extends GameObject implements InteractiveObject {
                 g.setFont(_numFont);
                 g.drawText(String.valueOf(_number), -g.getWidthText(String.valueOf(_number)) / 2,
                         g.getWidthText(String.valueOf(_number)) / 2);
-            } else if (_currentState == State.WALL && _isLocked && _showLock) {
+            } else if (_currentState == State.WALL && _isLocked && _showLock && !animWinning) {
                 g.setColor(0x33FFFFFF);
                 int pos = _radius / 2;
 
@@ -261,5 +277,11 @@ public class Tile extends GameObject implements InteractiveObject {
 
     public void setLocked(boolean isLocked) {
         _isLocked = isLocked;
+    }
+
+    public void win() {
+        animWinning = true;
+        _isLocked = true;
+        _fadeOutAnimation.setAnimParams(2, _currentColor);
     }
 }

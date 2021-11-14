@@ -6,8 +6,6 @@ import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Image;
 import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.ResourcesManager;
-import es.ucm.vdm.logic.engine.Button;
-import es.ucm.vdm.logic.engine.InputManager;
 /**
  * Clase que hace boton a una imagen.
  * Hereda de Button y al constructor se le pasa una imagen

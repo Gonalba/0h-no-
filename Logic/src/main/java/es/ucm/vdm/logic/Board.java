@@ -33,6 +33,8 @@ public class Board extends GameObject {
     private Font _font1;
     private Font _font2;
 
+    private boolean _boardAnim;
+
     public Board(HintsManager h) {
 
         _font = ResourcesManager.Instance().getFont(ResourcesManager.FontsID.JOSEFINSANS_BOLD_36);
@@ -43,6 +45,7 @@ public class Board extends GameObject {
         _board = new ArrayList<>();
         _history = new Stack<Position>();
         _hintsManager = h;
+        _boardAnim = false;
         setPosition(0, 0);
     }
 
@@ -280,12 +283,27 @@ public class Board extends GameObject {
             tile.showLock(b);
         }
     }
-    public int emptys(){
-        int vacias=0;
-        for(Tile t: _board){
-            if(t.getState()== Tile.State.EMPTY)
-            vacias++;
+
+    public int emptys() {
+        int vacias = 0;
+        for (Tile t : _board) {
+            if (t.getState() == Tile.State.EMPTY)
+                vacias++;
         }
         return vacias;
+    }
+
+    public void win() {
+        for (Tile t : _board) {
+            t.win();
+        }
+    }
+
+    public boolean boardAnimEnd() {
+        return _boardAnim;
+    }
+
+    public void endWin(boolean b) {
+        _boardAnim = b;
     }
 }

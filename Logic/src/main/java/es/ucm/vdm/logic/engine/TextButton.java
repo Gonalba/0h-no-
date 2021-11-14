@@ -6,8 +6,6 @@ import es.ucm.vdm.engine.common.Font;
 import es.ucm.vdm.engine.common.Graphics;
 import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.ResourcesManager;
-import es.ucm.vdm.logic.engine.Button;
-import es.ucm.vdm.logic.engine.InputManager;
 
 public class TextButton extends Button {
     private Font _font;

@@ -3,7 +3,6 @@ package es.ucm.vdm.engine.pc;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Composite;
 import java.awt.geom.AffineTransform;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
