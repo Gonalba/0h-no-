@@ -4,25 +4,41 @@ import es.ucm.vdm.logic.engine.Animation;
 
 public class FadeOutAnimation extends Animation {
 
+    int _currentColor;
     int _color;
-    float _velocity;
+    double _velocity;
+    double alpha;
 
     public FadeOutAnimation(float duration, int color) {
         super(duration);
+        _currentColor = color;
         _color = color;
-        _velocity = 255 / duration;
+        alpha = getAlpha(color);
+        _velocity = alpha / duration;
     }
 
     @Override
-    public void animate() {
-        int alpha = getA(_color);
-
-        alpha -= _velocity;
-        _color |= alpha << 24;
-
+    public void animate(double deltaTime) {
+        alpha -= (_velocity * deltaTime);
+        if (alpha > 0) {
+            _currentColor = ((int) alpha) << 24;
+        }
     }
 
-    public static int getA(int argb) {
+    public int getColor() {
+        return mergeAlphaWithColor(_currentColor);
+    }
+
+    private int mergeAlphaWithColor(int _currentColor) {
+        int c = 0;
+        c |= _currentColor;
+        _color = _color & 0x00FFFFFF;
+        c|= _color;
+
+        return c;
+    }
+
+    private int getAlpha(int argb) {
         return (argb >> 24) & 0xFF;
     }
 }

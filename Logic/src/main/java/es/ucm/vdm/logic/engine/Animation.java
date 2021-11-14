@@ -8,5 +8,5 @@ public abstract class Animation {
         _duration = duration;
     }
 
-    public abstract void animate();
+    public abstract void animate(double deltaTime);
 }

@@ -14,7 +14,7 @@ public class FadeInAnimation extends Animation {
     }
 
     @Override
-    public void animate() {
+    public void animate(double deltaTime) {
         int alpha = getA(_color);
         alpha += _velocity;
         _color |= alpha << 24;

@@ -18,7 +18,7 @@ public class ResizeAnimation extends Animation {
     }
 
     @Override
-    public void animate() {
+    public void animate(double deltaTime) {
         int currentSize = 0;
         boolean oneTime = false;
         if(currentSize < _initSize + _offsetSize)
