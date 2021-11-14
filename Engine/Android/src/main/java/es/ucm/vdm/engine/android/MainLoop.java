@@ -1,9 +1,5 @@
 package es.ucm.vdm.engine.android;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import es.ucm.vdm.engine.common.State;
 
 public class MainLoop implements Runnable {
@@ -13,15 +9,9 @@ public class MainLoop implements Runnable {
     private State _state = null;
     private State _nextState = null;
 
-
     MainLoop(AndroidEngine engine) {
         _engine = engine;
     }
-
-
-    /* ---------------------------------------------------------------------------------------------- *
-     * -------------------------------------- MÉTODOS PÚBLICOS -------------------------------------- *
-     * ---------------------------------------------------------------------------------------------- */
 
     State getState() {
         return _state;
@@ -86,7 +76,6 @@ public class MainLoop implements Runnable {
      * ejecutado en otra hebra. Aunque sea público, NO debe ser llamado
      * desde el exterior.
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void run() {
         if (_renderThread != Thread.currentThread()) {
@@ -111,7 +100,7 @@ public class MainLoop implements Runnable {
         _engine.getGraphics().setScaleFactor(_engine.getSurfaceView().getWidth(), _engine.getSurfaceView().getHeight());
         _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
 
-        if(!_state.init(_engine)) {
+        if (!_state.init(_engine)) {
             System.err.println("Error al inicializar el estado");
             return;
         }

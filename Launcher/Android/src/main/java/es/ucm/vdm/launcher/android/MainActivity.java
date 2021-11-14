@@ -15,12 +15,11 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Método llamado por Android como parte del ciclo de vida de
      * la actividad. Se llama en el momento de lanzarla.
-     *
-     * @param savedInstanceState Información de estado de la actividad
-     *                           previamente serializada por ella misma
-     *                           para reconstruirse en el mismo estado
-     *                           tras un reinicio. Será null la primera
-     *                           vez.
+     * <p>
+     * El Bundle es la información de estado de la actividad
+     * previamente serializada por ella misma
+     * para reconstruirse en el mismo estado
+     * tras un reinicio. Será null la primera vez.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,6 +5,8 @@ package es.ucm.vdm.engine.common;
  */
 public interface Font {
 
+    /**
+     * Devuelve el tamaño de la fuente
+     */
     int getSize();
-    //void setSize(int size);
 }

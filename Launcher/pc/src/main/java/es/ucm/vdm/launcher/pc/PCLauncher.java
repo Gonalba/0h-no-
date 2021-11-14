@@ -13,7 +13,6 @@ public class PCLauncher {
         if (!ohnoGame.init())
             return;
         e.setState(ohnoGame.getTitleState());
-//        e.setState(ohnoGame.getMenuState());
         e.run();
 
     }
