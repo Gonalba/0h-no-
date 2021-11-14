@@ -35,17 +35,24 @@ public class ResizeAnimation extends Animation {
                 _currentSize = _initSize + _offsetSize;
                 _currentRepeats++;
             }
+        } else {
+            _currentSize = _initSize;
+            return false;
         }
-//        else if (_currentRepeats < _repeats * 4) {
-//            _currentSize += -_velocity * deltaTime;
-//            if (_currentSize == _initSize) {
-//                _currentRepeats++;
-//            }
-//        }
+
         return true;
     }
 
     public int getSize() {
         return (int) _currentSize;
+    }
+
+    public void setAnimParams(float duration, int repeats, int offsetSize, int initSize) {
+        _repeats = repeats;
+        _initSize = initSize;
+        _offsetSize = offsetSize;
+        _velocity = (offsetSize * 4 * repeats) / duration;
+        _currentSize = initSize;
+        _currentRepeats = 0;
     }
 }

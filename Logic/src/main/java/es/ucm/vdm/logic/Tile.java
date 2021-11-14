@@ -21,6 +21,8 @@ public class Tile extends GameObject implements InteractiveObject {
     private final int redColor = 0xFFFF384B;
     private final int grayColor = 0xFFEEEEEE;
 
+    private final int GRID_OFFSET = 2;
+
     /**
      * Diferentes estados en lo que puede estar una casilla
      */
@@ -64,7 +66,7 @@ public class Tile extends GameObject implements InteractiveObject {
 
         _fadeInAnimation = new FadeInAnimation(5, 0x00FFFFFF);
         _fadeOutAnimation = new FadeOutAnimation(5, 0xFFFFFFFF);
-        _resizeAnimation = new ResizeAnimation(1, 2, (int) (radius / 3), radius);
+        _resizeAnimation = new ResizeAnimation(1, 2, (int) (radius / 10), radius);
     }
 
     public Tile(Tile another) {
@@ -105,7 +107,7 @@ public class Tile extends GameObject implements InteractiveObject {
     public void update(double delta) {
 
         if (animResizing)
-            _resizeAnimation.animate(delta);
+            animResizing = _resizeAnimation.animate(delta);
         if (animFading) {
             animFading = _fadeInAnimation.animate(delta) && _fadeOutAnimation.animate(delta);
         }
@@ -117,20 +119,26 @@ public class Tile extends GameObject implements InteractiveObject {
             g.translate(_position.x, _position.y);
             if (_showCircle) {
                 g.setColor(0xFF000000);
-                g.drawCircle(0, 0, _radius - 2, 5);
+                g.drawCircle(0, 0, _radius - GRID_OFFSET, 5);
             }
 
             if (animFading) {
                 g.setColor(_fadeOutAnimation.getColor());
-                g.fillCircle(0, 0, _radius - 2);
+                g.fillCircle(0, 0, _radius - GRID_OFFSET);
 
                 g.setColor(_fadeInAnimation.getColor());
-                g.fillCircle(0, 0, _radius - 2);
+                g.fillCircle(0, 0, _radius - GRID_OFFSET);
 
             } else {
+                int radius = _radius;
+                if (animResizing) {
+                    radius = _resizeAnimation.getSize();
+                }
+
                 g.setColor(_currentColor);
-                g.fillCircle(0, 0, _radius - 2);
+                g.fillCircle(0, 0, radius - GRID_OFFSET);
             }
+
 
             if (_currentState == State.DOT && _isLocked) {
                 g.setColor(0xFFFFFFFF);
@@ -140,7 +148,13 @@ public class Tile extends GameObject implements InteractiveObject {
             } else if (_currentState == State.WALL && _isLocked && _showLock) {
                 g.setColor(0x33FFFFFF);
                 int pos = _radius / 2;
-                g.drawImage(_lockImage, -pos, -pos, _radius, _radius);
+
+                int radius = _radius;
+
+                if (animResizing) {
+                    radius = _resizeAnimation.getSize();
+                }
+                g.drawImage(_lockImage, -pos, -pos, radius, radius);
             }
         }
         g.restore();
@@ -185,15 +199,15 @@ public class Tile extends GameObject implements InteractiveObject {
             _fadeOutAnimation.setAnimParams(0.25f, previousColor);
 
             int c = 0;
-            int color;
-            c |= 0x00000000;
-            color = _currentColor & 0x00FFFFFF;
+            int color = _currentColor & 0x00FFFFFF;
             c |= color;
 
             _fadeInAnimation.setAnimParams(0.25f, c);
             animFading = true;
         } else {
             _board.showLockInTiles(!_showLock);
+
+            _resizeAnimation.setAnimParams(0.25f, 2, (int) (_radius / 25), _radius);
             animResizing = true;
         }
     } // fin change()
