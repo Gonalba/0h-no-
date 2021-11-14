@@ -111,9 +111,10 @@ public class MainLoop implements Runnable {
         _engine.getGraphics().setScaleFactor(_engine.getSurfaceView().getWidth(), _engine.getSurfaceView().getHeight());
         _engine.getSurfaceView().getHolder().unlockCanvasAndPost(_engine.getGraphics().getCanvas());
 
-        if(_state.init(_engine))
+        if(!_state.init(_engine)) {
             System.err.println("Error al inicializar el estado");
-
+            return;
+        }
         // Bucle principal.
         while (_running) {
 

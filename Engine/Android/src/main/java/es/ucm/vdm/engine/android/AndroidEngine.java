@@ -26,9 +26,9 @@ public class AndroidEngine implements Engine {
     public AndroidEngine(Context context) {
         _surfaceView = new SurfaceView(context);
         _assetManager = context.getAssets();
-        _mainLoop = new MainLoop(this);
         _graphics = new AndroidGraphics(_assetManager);
         _input = new AndroidInput(_surfaceView, _graphics);
+        _mainLoop = new MainLoop(this);
     } // Engine
 
     /* ---------------------------------------------------------------------------------------------- *

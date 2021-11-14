@@ -2,6 +2,9 @@ package es.ucm.vdm.logic.engine;
 
 import es.ucm.vdm.engine.common.Graphics;
 
+/**
+ * Clase base que contiene una posicion y los metodos update() y render() para actualizar y pintar  
+ */
 public abstract class GameObject {
     protected final Position _position;
 

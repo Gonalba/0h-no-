@@ -3,6 +3,9 @@ package es.ucm.vdm.logic.behaviours;
 import es.ucm.vdm.logic.engine.Behaviour;
 import es.ucm.vdm.logic.states.OhnoGame;
 
+/**
+ * Funcionalidad para cambiar al GameState (creando el tablero)
+ */
 public class CreateBoardBehaviour implements Behaviour {
 
     private OhnoGame _game;

@@ -8,10 +8,16 @@ import es.ucm.vdm.engine.common.Input;
 import es.ucm.vdm.logic.ResourcesManager;
 import es.ucm.vdm.logic.engine.Button;
 import es.ucm.vdm.logic.engine.InputManager;
-
+/**
+ * Clase que hace boton a una imagen.
+ * Hereda de Button y al constructor se le pasa una imagen
+ *
+ * Implementa el metodo recivesEvents() de la interfaz InteractiveObject donde recive una lista de eventos por parametro
+ * En el constructor se da de alta al objeto en el InputManager para que se llame dicho metodo de la interfaz
+ */
 public class ImageButton extends Button {
     private Image _image;
-    float _scale = 0.5f;
+    private float _scale = 0.5f;
 
     public ImageButton(ResourcesManager.ImagesID id) {
         _image = ResourcesManager.Instance().getImage(id);

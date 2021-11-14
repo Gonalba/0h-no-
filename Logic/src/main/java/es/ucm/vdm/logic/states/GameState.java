@@ -235,6 +235,7 @@ public class GameState implements State, InteractiveObject {
         InputManager.Instance().removeInteractObject(close);
         InputManager.Instance().removeInteractObject(eye);
         InputManager.Instance().removeInteractObject(history);
+        InputManager.Instance().removeInteractObject(this);
     }
 
     @Override
