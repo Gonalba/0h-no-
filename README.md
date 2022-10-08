@@ -1,1 +1,1 @@
-0h no!
+Copia del juego [0hno!](https://0hn0.com/) desarrollada en Android Studio para la asignatura de Programación para Dispositivos Móviles del Grado en Desarrollo de Videojuegos de la Universidad Complutense de Madird.
